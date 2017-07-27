@@ -7,7 +7,7 @@ function getDictByPair(dictId, pairs) {
         if (pairs[0] === '') {
             return getDictByTeuu(dictId, pairs[1]);
         } else {
-            return [getDictByUgmu(dictId, pairs[0]), getDictByYpmu(dictId, pairs[1])]
+            return [getDictByUgmu(dictId, pairs[0]), getDictByYpmu(dictId, pairs[1])];
         }
     }
 }
@@ -35,46 +35,45 @@ function getRandomPair() {
 
 function getRandomPairWithUgmu(ugmu) {
     if (!checkUgmu(ugmu)) {
-        return ''
+        return '';
     }
     var ypmu = allowPairs[ugmu][Math.floor(Math.random() * allowPairs[ugmu].length)];
-    return [ugmu, ypmu]
+    return [ugmu, ypmu];
 }
 
 function getRandomPairWithUgmuId(ugmuId) {
     if (!checkUgmuId(ugmuId)) {
-        return ''
+        return '';
     }
     var ugmu = allowUgmus[ugmuId];
     var ypmu = allowPairs[ugmu][Math.floor(Math.random() * allowPairs[ugmu].length)];
-    return [ugmu, ypmu]
+    return [ugmu, ypmu];
 }
 
 function getPairByYumuIdWithUgmu(ugmu, ypmuId) {
     if (!checkUgmu(ugmu) || allowPairs[ugmu][ypmuId] === undefined) {
-        return ''
+        return '';
     }
-    return [ugmu, allowPairs[ugmu][ypmuId]]
+    return [ugmu, allowPairs[ugmu][ypmuId]];
 }
 
 function getPairByIds(ugmuId, ypmuId) {
     if (!checkUgmuId(ugmuId) || allowPairs[allowUgmus[ugmuId]][ypmuId] === undefined) {
-        return ''
+        return '';
     }
-    return [allowUgmus[ugmuId], allowPairs[allowUgmus[ugmuId]][ypmuId]]
+    return [allowUgmus[ugmuId], allowPairs[allowUgmus[ugmuId]][ypmuId]];
 }
 
 function checkUgmu(ugmu) {
-    return allowPairs[ugmu] !== undefined
+    return allowPairs[ugmu] !== undefined;
 }
 
 function checkUgmuId(ugmuId) {
-    return allowUgmus[ugmuId] !== undefined
+    return allowUgmus[ugmuId] !== undefined;
 }
 
 function checkPairs(pairs) {
     return pairs !== undefined && pairs.length === 2;
-
 }
 
 function debug_showAllowPairs() {

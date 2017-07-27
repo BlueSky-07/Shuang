@@ -19,7 +19,7 @@ window.onload = function () {
     for (var dictId in dictsList) {
         var dictOption = document.createElement('option');
         dictOption.innerHTML = dictsList[dictId];
-        dictSelect.appendChild(dictOption)
+        dictSelect.appendChild(dictOption);
     }
     document.getElementById('a1').focus();
 };
@@ -34,21 +34,21 @@ document.onkeydown = function (event) {
             break;
         case 8:
             if (document.getElementById('a2').value === '') {
-                redo()
+                redo();
             }
             break;
         case 13: case 32:
             if (check()) {
-                next()
+                next();
             } else {
-                redo()
+                redo();
             }
-            break
+            break;
     }
 };
 
 window.onresize = function () {
-    document.body.style.height = window.innerHeight + 'px'
+    document.body.style.height = window.innerHeight + 'px';
 };
 
 function doAction(x) {
@@ -58,13 +58,13 @@ function doAction(x) {
             x.value = x.value.toUpperCase();
             if (actionFlag) {
                 document.getElementById('a2').focus();
-                actionFlag = false
+                actionFlag = false;
             }
         } else if (x.id === 'a2') {
-            x.value = x.value.toLowerCase()
+            x.value = x.value.toLowerCase();
         }
     }
-    check()
+    check();
 }
 
 function check() {
@@ -72,15 +72,15 @@ function check() {
         if (document.getElementById('a1').value === nowDictUgmu && document.getElementById('a2').value === nowDictYpmu) {
             document.getElementById('btn_next').style.display = 'block';
             document.getElementById('btn_redo').style.display = 'none';
-            return true
+            return true;
         }
     }
     document.getElementById('btn_next').style.display = 'none';
     document.getElementById('btn_redo').style.display = 'block';
     if (document.getElementById('a1').value.length === 0) {
-        actionFlag = true
+        actionFlag = true;
     }
-    return false
+    return false;
 }
 
 function next() {
@@ -89,9 +89,9 @@ function next() {
         case(MODES.SVJI):
             nowPair = getRandomPair();
             nowDict = getDictByPair(nowId, nowPair);
-            nowUgmu = getCaptialUpperCase(nowPair[0]);
+            nowUgmu = getCapitalUpperCase(nowPair[0]);
             nowYpmu = nowPair[1];
-            nowDictUgmu = getCaptialUpperCase(nowDict[0]);
+            nowDictUgmu = getCapitalUpperCase(nowDict[0]);
             nowDictYpmu = nowDict[1];
             document.getElementById('q1').innerHTML = nowUgmu;
             document.getElementById('q2').innerHTML = nowYpmu;
@@ -101,24 +101,24 @@ function next() {
             if (nowPair === '') {
                 if (nowYpmuId === 0) {
                     nowUgmuId = 0;
-                    nowYpmuId = 0
+                    nowYpmuId = 0;
                 } else {
                     nowUgmuId++;
-                    nowYpmuId = 0
+                    nowYpmuId = 0;
                 }
                 next();
-                return
+                return;
             } else {
                 nowYpmuId++;
             }
             nowDict = getDictByPair(nowId, nowPair);
-            nowUgmu = getCaptialUpperCase(nowPair[0]);
+            nowUgmu = getCapitalUpperCase(nowPair[0]);
             nowYpmu = nowPair[1];
-            nowDictUgmu = getCaptialUpperCase(nowDict[0]);
+            nowDictUgmu = getCapitalUpperCase(nowDict[0]);
             nowDictYpmu = nowDict[1];
             document.getElementById('q1').innerHTML = nowUgmu;
             document.getElementById('q2').innerHTML = nowYpmu;
-            break
+            break;
     }
 }
 
@@ -128,29 +128,29 @@ function redo() {
     document.getElementById('a2').value = '';
     document.getElementById('a1').focus();
     document.getElementById('btn_next').style.display = 'none';
-    document.getElementById('btn_redo').style.display = 'block'
+    document.getElementById('btn_redo').style.display = 'block';
 }
 
 function changeDict(x) {
     var id = dictsList.indexOf(x);
     if (id === -1) {
         alert('参数错误');
-        document.getElementById('dict').value = dictsList[0]
+        document.getElementById('dict').value = dictsList[0];
     } else {
         nowId = id;
     }
-    next()
+    next();
 }
 
 function changeMode(x) {
     if (x === '随机') {
-        nowMode = MODES.SVJI
+        nowMode = MODES.SVJI;
     } else if (x === '顺序') {
-        nowMode = MODES.UPXU
+        nowMode = MODES.UPXU;
     }
-    next()
+    next();
 }
 
-function getCaptialUpperCase(x) {
+function getCapitalUpperCase(x) {
     return x.substr(0, 1).toUpperCase().concat(x.substr(1, x.length).toLowerCase());
 }
