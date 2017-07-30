@@ -32,6 +32,8 @@ body {
     width: 120px;
     overflow: hidden;
     display: inline-block;
+    line-height: 25px;
+    height: 25px;
 }
 
 .container {

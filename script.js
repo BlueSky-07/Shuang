@@ -9,7 +9,7 @@ var actionFlag = true;
 var nowUgmu = 'sh';
 var nowYpmu = 'uang';
 var nowPair = [nowUgmu, nowYpmu];
-var nowDictUgmu = 'U';
+var nowDictUgmu = 'U'
 var nowDictYpmu = 'd';
 var nowDict = [nowDictUgmu, nowDictYpmu];
 var nowUgmuId = -1;
@@ -68,17 +68,30 @@ function doAction(x) {
 }
 
 function check() {
-    if (document.getElementById('a1').value.length === 1 && document.getElementById('a2').value.length === 1) {
-        if (document.getElementById('a1').value === nowDictUgmu && document.getElementById('a2').value === nowDictYpmu) {
-            document.getElementById('btn_next').style.display = 'block';
-            document.getElementById('btn_redo').style.display = 'none';
-            return true;
-        }
+    if (isRight(document.getElementById('a1').value, nowDictUgmu) && isRight(document.getElementById('a2').value, nowDictYpmu)) {
+        document.getElementById('btn_next').style.display = 'block';
+        document.getElementById('btn_redo').style.display = 'none';
+        return true;
     }
     document.getElementById('btn_next').style.display = 'none';
     document.getElementById('btn_redo').style.display = 'block';
     if (document.getElementById('a1').value.length === 0) {
         actionFlag = true;
+    }
+    return false;
+}
+
+function isRight(x, xDict) {
+    if (x.length === 1) {
+        if (Array.isArray(xDict)) {
+            for (var i in xDict) {
+                if (x === xDict[i]) {
+                    return true;
+                }
+            }
+        } else {
+            return x === xDict;
+        }
     }
     return false;
 }
@@ -152,5 +165,13 @@ function changeMode(x) {
 }
 
 function getCapitalUpperCase(x) {
-    return x.substr(0, 1).toUpperCase().concat(x.substr(1, x.length).toLowerCase());
+	if (Array.isArray(x)) {
+		var result = [];
+        for (var i in x) {
+            result.push(x[i].substr(0, 1).toUpperCase().concat(x[i].substr(1, x[i].length).toLowerCase()));
+        }
+        return result;
+    } else {
+        return x.substr(0, 1).toUpperCase().concat(x.substr(1, x.length).toLowerCase());
+    }
 }
