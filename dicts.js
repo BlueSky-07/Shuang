@@ -606,7 +606,7 @@ const dicts = {
             'uai': 'g',
             'uan': ['j', 'z'],
             'uang': 'x',
-            'ue': 'h',
+            'ue': ['h', 'x'],
             'ui': ['n', 'v'],
             'un': ['w', 'y'],
             'uo': 'o',
