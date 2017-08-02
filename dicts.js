@@ -306,7 +306,7 @@ const dicts = {
             'ui': 'v',
             'un': 'y',
             'uo': 'o',
-            'v': 'y',
+            'v': 'v',
             've': 't'
         },
         'teuu': {
