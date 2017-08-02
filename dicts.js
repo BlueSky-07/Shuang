@@ -150,12 +150,12 @@ const dicts = {
             'uai': 'y',
             'uan': 'r',
             'uang': 'd',
-            'ue': 't',
+            'ue': ['t', 'v'],
             'ui': 'v',
             'un': 'p',
             'uo': 'o',
             'v': 'y',
-            've': 'v'
+            've': 't'
         },
         'teuu': {
             'a': 'oa',
@@ -378,7 +378,7 @@ const dicts = {
             'uai': 'c',
             'uan': 'p',
             'uang': 't',
-            'ue': 'm',
+            'ue': ['m', 'v'],
             'ui': 'm',
             'un': 'n',
             'uo': 'o',
