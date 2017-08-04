@@ -40,7 +40,14 @@ body {
     height: 200px;
     width: 48%;
     position: relative;
-    top: 20%;
+    top:10%;
+}
+
+.example {
+    margin: auto;
+    height: 100px;
+    font-size: 64px;
+    color: #000;
 }
 
 .left {

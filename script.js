@@ -1,25 +1,27 @@
 'use strict';
+
 const MODES = {
     "SVJI": 0,
     "UPXU": 1
 };
-var nowId = 0;
-var nowMode = MODES.SVJI;
 var actionFlag = true;
+var nowSchemeId = 0;
+var nowMode = MODES.SVJI;
 var nowUgmu = 'sh';
 var nowYpmu = 'uang';
 var nowPair = [nowUgmu, nowYpmu];
-var nowDictUgmu = 'U'
-var nowDictYpmu = 'd';
-var nowDict = [nowDictUgmu, nowDictYpmu];
+var nowSchemeUgmu = 'U';
+var nowSchemeYpmu = 'd';
+var nowScheme = [nowSchemeUgmu, nowSchemeYpmu];
 var nowUgmuId = -1;
 var nowYpmuId = 0;
+var nowExample = '双';
 window.onload = function () {
-    var dictSelect = document.getElementById('dictSelect');
-    for (var dictId in dictsList) {
-        var dictOption = document.createElement('option');
-        dictOption.innerHTML = dictsList[dictId];
-        dictSelect.appendChild(dictOption);
+    var schemeSelect = document.getElementById('schemeSelect');
+    for (var schemeId in schemesList) {
+        var schemeOption = document.createElement('option');
+        schemeOption.innerHTML = schemesList[schemeId];
+        schemeSelect.appendChild(schemeOption);
     }
     document.getElementById('a1').focus();
 };
@@ -37,7 +39,8 @@ document.onkeydown = function (event) {
                 redo();
             }
             break;
-        case 13: case 32:
+        case 13:
+        case 32:
             if (check()) {
                 next();
             } else {
@@ -68,7 +71,7 @@ function doAction(x) {
 }
 
 function check() {
-    if (isRight(document.getElementById('a1').value, nowDictUgmu) && isRight(document.getElementById('a2').value, nowDictYpmu)) {
+    if (isRight(document.getElementById('a1').value, nowSchemeUgmu) && isRight(document.getElementById('a2').value, nowSchemeYpmu)) {
         document.getElementById('btn_next').style.display = 'block';
         document.getElementById('btn_redo').style.display = 'none';
         return true;
@@ -81,16 +84,16 @@ function check() {
     return false;
 }
 
-function isRight(x, xDict) {
+function isRight(x, xScheme) {
     if (x.length === 1) {
-        if (Array.isArray(xDict)) {
-            for (var i in xDict) {
-                if (x === xDict[i]) {
+        if (Array.isArray(xScheme)) {
+            for (var i in xScheme) {
+                if (x === xScheme[i]) {
                     return true;
                 }
             }
         } else {
-            return x === xDict;
+            return x === xScheme;
         }
     }
     return false;
@@ -101,13 +104,15 @@ function next() {
     switch (nowMode) {
         case(MODES.SVJI):
             nowPair = getRandomPair();
-            nowDict = getDictByPair(nowId, nowPair);
+            nowScheme = getSchemeByPair(nowSchemeId, nowPair);
             nowUgmu = getCapitalUpperCase(nowPair[0]);
             nowYpmu = nowPair[1];
-            nowDictUgmu = getCapitalUpperCase(nowDict[0]);
-            nowDictYpmu = nowDict[1];
+            nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
+            nowSchemeYpmu = nowScheme[1];
+            nowExample = getExampleByPair(nowPair);
             document.getElementById('q1').innerHTML = nowUgmu;
             document.getElementById('q2').innerHTML = nowYpmu;
+            document.getElementById('example').innerHTML = nowExample;
             break;
         case (MODES.UPXU):
             nowPair = getPairByIds(nowUgmuId, nowYpmuId);
@@ -124,13 +129,15 @@ function next() {
             } else {
                 nowYpmuId++;
             }
-            nowDict = getDictByPair(nowId, nowPair);
+            nowScheme = getSchemeByPair(nowSchemeId, nowPair);
             nowUgmu = getCapitalUpperCase(nowPair[0]);
             nowYpmu = nowPair[1];
-            nowDictUgmu = getCapitalUpperCase(nowDict[0]);
-            nowDictYpmu = nowDict[1];
+            nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
+            nowSchemeYpmu = nowScheme[1];
+            nowExample = getExampleByPair(nowPair);
             document.getElementById('q1').innerHTML = nowUgmu;
             document.getElementById('q2').innerHTML = nowYpmu;
+            document.getElementById('example').innerHTML = nowExample;
             break;
     }
 }
@@ -144,13 +151,13 @@ function redo() {
     document.getElementById('btn_redo').style.display = 'block';
 }
 
-function changeDict(x) {
-    var id = dictsList.indexOf(x);
+function changeScheme(x) {
+    var id = schemesList.indexOf(x);
     if (id === -1) {
         alert('参数错误');
-        document.getElementById('dict').value = dictsList[0];
+        document.getElementById('scheme').value = schemesList[0];
     } else {
-        nowId = id;
+        nowSchemeId = id;
     }
     next();
 }
@@ -165,8 +172,8 @@ function changeMode(x) {
 }
 
 function getCapitalUpperCase(x) {
-	if (Array.isArray(x)) {
-		var result = [];
+    if (Array.isArray(x)) {
+        var result = [];
         for (var i in x) {
             result.push(x[i].substr(0, 1).toUpperCase().concat(x[i].substr(1, x[i].length).toLowerCase()));
         }

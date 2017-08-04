@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
-    <script src="dicts.js"></script>
-    <script src="dictsFunctions.js"></script>
-    <script src="statistics.js"></script>
+    <script src="schemes.js"></script>
+    <script src="pairs.js"></script>
+    <script src="functions.js"></script>
 </head>
 <body>
 <div class="header">
     <span>双拼方案：</span>
-    <select id="dictSelect" onchange="changeDict(this.value)"></select>
+    <select id="schemeSelect" onchange="changeScheme(this.value)"></select>
     <span>练习模式：</span>
     <select id="modeSelect" onchange="changeMode(this.value)">
         <option>随机</option>
@@ -21,6 +21,7 @@
     </select>
 
 </div>
+<div class="container example" id="example">双</div>
 <div class="container left">
     <p id="q1">Sh</p>
     <input id="a1" maxlength="1" onkeyup="doAction(this)" onclick="this.select()">

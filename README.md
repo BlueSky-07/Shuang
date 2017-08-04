@@ -5,7 +5,7 @@ Shuang | 双拼练习
 
 [https://api.ihint.me/shuang](https://api.ihint.me/shuang)
 
-![demo](https://i.loli.net/2017/07/27/597a0d12540e2.png)
+![demo](https://ooo.0o0.ooo/2017/08/04/598490e763367.png)
 
 ### 功能介绍
 
@@ -21,13 +21,13 @@ Shuang | 双拼练习
 
 ### 高级扩展功能
 
-添加自定义双拼方案，先下载项目的所有文件，再按以下步骤编辑 *dicts.js* ：
+添加自定义双拼方案，先下载项目的所有文件，再按以下步骤编辑 *schemes.js* ：
 
-1. *dictsList* 数组里加入双拼方案名称
+1. *schemesList* 数组里加入双拼方案名称
 
-2. *getDictsById* 数组里加入双拼方案在 dictsList 里的索引，及该方案的字母表达
+2. *getSchemesById* 数组里加入双拼方案在 dictsList 里的索引，及该方案的字母表达
 
-3. *dicts* 对象里加入上述字母表达，及该双拼方案的具体内容，其中 *ugmu* 表示声母，*ypmu* 表示韵母，*teuu* 表示以韵母为首字母的拼音组合
+3. *schemes* 对象里加入上述字母表达，及该双拼方案的具体内容，其中 *ugmu* 表示声母，*ypmu* 表示韵母，*teuu* 表示以韵母为首字母的拼音组合
 
 *若无 Javascript 编程基础可参考代码中已有的自带方案，或在 issues 中留言
 

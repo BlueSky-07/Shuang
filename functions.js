@@ -1,29 +1,43 @@
 'use strict';
 
-function getDictByPair(dictId, pairs) {
+function getExampleByPair(pairs) {
+    if (!checkPairs(pairs)) {
+        return ''
+    } else {
+        var req = '';
+        if (pairs[0] === '') {
+            req = pairs[1];
+        } else {
+            req = pairs[0] + pairs[1];
+        }
+        return examples[req];
+    }
+}
+
+function getSchemeByPair(schemeId, pairs) {
     if (!checkPairs(pairs)) {
         return ''
     } else {
         if (pairs[0] === '') {
-            return getDictByTeuu(dictId, pairs[1]);
+            return getSchemeByTeuu(schemeId, pairs[1]);
         } else {
-            return [getDictByUgmu(dictId, pairs[0]), getDictByYpmu(dictId, pairs[1])];
+            return [getSchemeByUgmu(schemeId, pairs[0]), getSchemeByYpmu(schemeId, pairs[1])];
         }
     }
 }
 
-function getDictByUgmu(dictId, key) {
-    var val = dicts[getDictsById[dictId]]['ugmu'][key];
+function getSchemeByUgmu(schemeId, key) {
+    var val = schemes[getSchemesById[schemeId]]['ugmu'][key];
     return val === undefined ? '' : val;
 }
 
-function getDictByYpmu(dictId, key) {
-    var val = dicts[getDictsById[dictId]]['ypmu'][key];
+function getSchemeByYpmu(schemeId, key) {
+    var val = schemes[getSchemesById[schemeId]]['ypmu'][key];
     return val === undefined ? '' : val;
 }
 
-function getDictByTeuu(dictId, key) {
-    var val = dicts[getDictsById[dictId]]['teuu'][key];
+function getSchemeByTeuu(schemeId, key) {
+    var val = schemes[getSchemesById[schemeId]]['teuu'][key];
     return val === undefined ? '' : val.split('');
 }
 
@@ -93,7 +107,7 @@ function debug_showAllowPairs() {
     }
 }
 
-function debug_showDictOfAllowPairsByDictId(dictId) {
+function debug_showSchemeOfAllowPairsBySchemeId(schemeId) {
     var x = 0, y = 0;
     while (true) {
         if (getPairByIds(x, y) === '') {
@@ -105,7 +119,7 @@ function debug_showDictOfAllowPairsByDictId(dictId) {
             }
         } else {
             var pairs = getPairByIds(x, y);
-            console.log(pairs.concat(getDictByPair(dictId, pairs)));
+            console.log(pairs.concat(getSchemeByPair(schemeId, pairs)));
             y++;
         }
     }
