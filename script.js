@@ -1,9 +1,9 @@
 'use strict';
 
 const MODES = {
-    "SVJI": 0,
-    "UPXU": 1,
-    "KPNJ": 2
+    'SVJI': 0,
+    'UPXU': 1,
+    'KPNJ': 2
 };
 var actionFlag = true;
 var nowSchemeId = 0;
@@ -25,6 +25,21 @@ window.onload = function () {
         schemeSelect.appendChild(schemeOption);
     }
     document.getElementById('a1').focus();
+    if (getCookie('mode') !== '') {
+        var mode = Number(getCookie('mode'));
+        document.getElementById('modeSelect')[mode].selected = true;
+        nowMode = mode;
+    }
+    if (getCookie('schemeId') !== '') {
+        var schemeId = getCookie('schemeId');
+        if (schemesList[schemeId] !== undefined) {
+            nowSchemeId = getCookie('schemeId');
+            document.getElementById('schemeSelect')[schemeId].selected = true;
+        }
+    }
+    nowScheme = getSchemeByPair(nowSchemeId, nowPair);
+    nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
+    nowSchemeYpmu = nowScheme[1];
 };
 
 document.onkeydown = function (event) {
@@ -182,12 +197,8 @@ function redo() {
 
 function changeScheme(x) {
     var id = schemesList.indexOf(x);
-    if (id === -1) {
-        alert('参数错误');
-        document.getElementById('scheme').value = schemesList[0];
-    } else {
-        nowSchemeId = id;
-    }
+    nowSchemeId = id;
+    setCookie('schemeId', nowSchemeId);
     next();
 }
 
@@ -202,6 +213,7 @@ function changeMode(x) {
         nowMode = MODES.KPNJ;
         document.getElementById('description').innerHTML = '模式介绍：韵母需转换';
     }
+    setCookie('mode', nowMode);
     next();
 }
 
@@ -215,4 +227,19 @@ function getCapitalUpperCase(x) {
     } else {
         return x.substr(0, 1).toUpperCase().concat(x.substr(1, x.length).toLowerCase());
     }
+}
+
+function getCookie(name) {
+    name = name + '=';
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.indexOf(name) === 0)
+            return cookie.substring(name.length, cookie.length);
+    }
+    return '';
+}
+
+function setCookie(name, value) {
+    document.cookie = name + '=' + value;
 }
