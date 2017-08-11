@@ -2,7 +2,8 @@
 
 const MODES = {
     "SVJI": 0,
-    "UPXU": 1
+    "UPXU": 1,
+    "KPNJ": 2
 };
 var actionFlag = true;
 var nowSchemeId = 0;
@@ -102,8 +103,14 @@ function isRight(x, xScheme) {
 function next() {
     redo();
     switch (nowMode) {
-        case(MODES.SVJI):
-            nowPair = getRandomPair();
+        case MODES.SVJI:
+            var tempPair = getRandomPair();
+            if (tempPair === nowPair) {
+                next();
+                return;
+            } else {
+                nowPair = tempPair;
+            }
             nowScheme = getSchemeByPair(nowSchemeId, nowPair);
             nowUgmu = getCapitalUpperCase(nowPair[0]);
             nowYpmu = nowPair[1];
@@ -114,7 +121,7 @@ function next() {
             document.getElementById('q2').innerHTML = nowYpmu;
             document.getElementById('example').innerHTML = nowExample;
             break;
-        case (MODES.UPXU):
+        case MODES.UPXU:
             nowPair = getPairByIds(nowUgmuId, nowYpmuId);
             if (nowPair === '') {
                 if (nowYpmuId === 0) {
@@ -134,6 +141,28 @@ function next() {
             nowYpmu = nowPair[1];
             nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
             nowSchemeYpmu = nowScheme[1];
+            nowExample = getExampleByPair(nowPair);
+            document.getElementById('q1').innerHTML = nowUgmu;
+            document.getElementById('q2').innerHTML = nowYpmu;
+            document.getElementById('example').innerHTML = nowExample;
+            break;
+        case MODES.KPNJ:
+            var tempPair = getRandomPair();
+            if (tempPair === nowPair) {
+                next();
+                return;
+            } else {
+                nowPair = tempPair;
+            }
+            nowScheme = getSchemeByPair(nowSchemeId, nowPair);
+            nowUgmu = getCapitalUpperCase(nowPair[0]);
+            nowYpmu = nowPair[1];
+            nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
+            nowSchemeYpmu = nowScheme[1];
+            if (nowYpmu === nowSchemeYpmu || nowUgmu === '') {
+                next();
+                return;
+            }
             nowExample = getExampleByPair(nowPair);
             document.getElementById('q1').innerHTML = nowUgmu;
             document.getElementById('q2').innerHTML = nowYpmu;
@@ -163,10 +192,15 @@ function changeScheme(x) {
 }
 
 function changeMode(x) {
-    if (x === '随机') {
+    if (x === '全部随机') {
         nowMode = MODES.SVJI;
-    } else if (x === '顺序') {
+        document.getElementById('description').innerHTML = '模式介绍：全部拼音组合';
+    } else if (x === '全部顺序') {
         nowMode = MODES.UPXU;
+        document.getElementById('description').innerHTML = '模式介绍：全部拼音组合';
+    } else if (x === '困难随机') {
+        nowMode = MODES.KPNJ;
+        document.getElementById('description').innerHTML = '模式介绍：韵母需转换';
     }
     next();
 }
