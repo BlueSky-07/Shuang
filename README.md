@@ -36,3 +36,11 @@ Shuang | 双拼练习
 如果有任何疑问或建议，或发现了错误或BUG，也可与我邮件联系：admin@ihint.me
 
 更多介绍：[https://sspai.com/post/40185](https://sspai.com/post/40185)
+
+### 微信小程序版
+
+可以使用微信扫描下面的二维码，或在微信小程序中搜索 双拼练习 即可添加。
+
+更多介绍：[https://sspai.com/post/40624](https://sspai.com/post/40624)
+
+![qr](https://i.loli.net/2017/08/28/59a3da4f5f49e.jpg)
