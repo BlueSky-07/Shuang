@@ -5,9 +5,14 @@ const MODES = {
     'UPXU': 1,
     'KPNJ': 2
 };
+const PINYINDISPLAY = {
+    'show': 0,
+    'hide': 1
+};
 var actionFlag = true;
 var nowSchemeId = 0;
 var nowMode = MODES.SVJI;
+var nowPinyinDisplay = PINYINDISPLAY.show;
 var nowUgmu = 'sh';
 var nowYpmu = 'uang';
 var nowPair = [nowUgmu, nowYpmu];
@@ -36,6 +41,11 @@ window.onload = function () {
             nowSchemeId = getCookie('schemeId');
             document.getElementById('schemeSelect')[schemeId].selected = true;
         }
+    }
+    if (getCookie('pinyinDisplay') !== '') {
+        var pinyinDisplay = Number(getCookie('pinyinDisplay'));
+        nowPinyinDisplay = pinyinDisplay;
+        document.getElementById('pinyinDisplaySelect')[pinyinDisplay].selected = true;
     }
     nowScheme = getSchemeByPair(nowSchemeId, nowPair);
     nowSchemeUgmu = getCapitalUpperCase(nowScheme[0]);
@@ -215,6 +225,19 @@ function changeMode(x) {
     }
     setCookie('mode', nowMode);
     next();
+}
+
+function changePinyinDisplay(x) {
+    if (x === '显示') {
+        nowPinyinDisplay = PINYINDISPLAY.show;
+        document.getElementById('q1').hidden = false;
+        document.getElementById('q2').hidden = false;
+    } else if (x === '不显示') {
+        nowPinyinDisplay = PINYINDISPLAY.hide;
+        document.getElementById('q1').hidden = true;
+        document.getElementById('q2').hidden = true;
+    }
+    setCookie('pinyinDisplay', nowPinyinDisplay);
 }
 
 function getCapitalUpperCase(x) {
