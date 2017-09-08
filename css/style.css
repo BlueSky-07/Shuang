@@ -1,0 +1,253 @@
+body {
+    margin: 0 auto;
+    width: 100%;
+    min-width: 320px;
+    background-color: #eee;
+    user-select: none;
+    cursor: default;
+    font-family: 'Consolas', 'Monaco', 'Arial';
+}
+
+/* header */
+.header {
+    width: 90%;
+}
+
+.header .menu {
+    width: 240px;
+    height: 33px;
+    display: inline-block;
+}
+
+.menu .title {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.menu span {
+    float: left;
+    font-size: 16px;
+    margin: 5px;
+    display: inline-block;
+}
+
+.menu select {
+    margin: 3px 0;
+    float: left;
+    font-size: 16px;
+    background-color: #eee;
+    border: dashed #000 1px;
+    width: 120px;
+    display: inline-block;
+    line-height: 25px;
+    height: 25px;
+}
+
+.menu input {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    margin-top: 15px;
+    position: relative;
+    bottom: 25%;
+}
+
+/* workspace */
+.workspace {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+}
+
+.workspace .show {
+    width: 72px;
+    display: inline-block;
+}
+
+.workspace .show .example {
+    width: 72px;
+    height: 100px;
+    font-size: 64px;
+    color: #000;
+    display: inline-block;
+}
+
+.workspace .show .btns {
+    width: 72px;
+}
+
+.workspace .show .btns .btn {
+    margin: auto;
+    width: 70px;
+    height: 70px;
+    font-size: 48px;
+    background-color: #ccc;
+    border: dashed #000 1px;
+    display: block;
+    line-height: 100px;
+}
+
+.workspace .show .btns .btn:hover {
+    background-color: #ddd;
+    border: solid #000 1px;
+}
+
+.workspace .show .btns .btn span {
+    position: relative;
+    bottom: 25%;
+}
+
+.workspace .show .btns #btn_redo {
+    color: #777;
+}
+
+.workspace .show .btns #btn_next {
+    display: none;
+    color: #fff;
+    background-color: #86ff6c;
+}
+
+.workspace .box {
+    display: inline-block;
+    position: relative;
+    bottom: 15px;
+}
+
+.workspace .left {
+    width: 80px;
+    text-align: right;
+}
+
+.workspace .right {
+    width: 140px;
+    text-align: left;
+}
+
+.workspace .box p {
+    height: 100px;
+    font-size: 64px;
+    margin: 0;
+}
+
+.workspace .box input {
+    width: 60px;
+    height: 70px;
+    font-size: 54px;
+    text-align: center;
+    border: solid #eee;
+    border-bottom: dashed #000;
+    background-color: #eee;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+.workspace .box input:focus {
+    border: solid #181878;
+    background-color: #fff;
+}
+
+.workspace .box input:hover {
+    border: solid #111;
+}
+
+/* tips */
+.tips {
+    width: 95%;
+    text-align: center;
+    margin: auto;
+}
+
+.tips img {
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
+}
+
+.tips .special {
+    width: 300px;
+    margin: auto;
+    font-size: 12px;
+    color: #777;
+}
+
+.tips .special .box {
+    width: 60px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+    display: inline-block;
+}
+
+.tips .special .box .title {
+    width: 20px;
+    margin-right: 5px;
+    color: #555;
+    font-style: italic;
+    display: inline-block;
+}
+
+.tips .special .box .content {
+    margin-left: 5px;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* footer */
+.footer {
+    width: 100%;
+    height: 100px;
+}
+
+/* wx */
+#wx {
+    min-width: 160px;
+    position: relative;
+    float: right;
+    top: 10px;
+    right: 25px;
+}
+
+#wx #wx_title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 14px;
+    color: #777777;
+}
+
+#wx #wx_name {
+    font-weight: bold;
+    color: #319A31;
+    margin-left: 0;
+}
+
+#wx #wx_qr {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 258px;
+    height: 294px;
+    border: dashed #777777 1px;
+    z-index: 1;
+}
+
+/* copyright */
+.copyright {
+    min-width: 250px;
+    position: relative;
+    float: left;
+    top: 20px;
+    left: 25px;
+    text-align: left;
+}
+
+.copyright span {
+    font-size: 14px;
+    color: #777777;
+}
+
+.copyright a {
+    font-size: 12px;
+    color: #888888;
+    font-style: italic;
+}

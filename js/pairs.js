@@ -1,6 +1,6 @@
 'use strict';
 
-const examples = {
+var examples = {
     'a': '啊',
     'ai': '爱',
     'an': '安',
@@ -435,7 +435,7 @@ const examples = {
     'zhun': '准',
     'zhuo': '捉'
 };
-const allowPairs = {
+var allowPairs = {
     '': [
         'a',
         'ai',
@@ -895,7 +895,7 @@ const allowPairs = {
         'uo'
     ]
 };
-const allowUgmus = [];
+var allowUgmus = [];
 for (var ugmu in allowPairs) {
     allowUgmus.push(ugmu)
 }

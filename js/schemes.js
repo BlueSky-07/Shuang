@@ -1,6 +1,6 @@
 'use strict';
 
-const schemesList = [
+var schemesList = [
 	'自然码',
 	'微软双拼',
 	'搜狗双拼',
@@ -11,7 +11,7 @@ const schemesList = [
 	'大牛双拼',
 	'键道3'
 ];
-const getSchemesById = {
+var getSchemesById = {
 	0: 'zirjma',
 	1: 'wzrrudpn',
 	2: 'sbgbudpn',
@@ -22,7 +22,7 @@ const getSchemesById = {
 	7: 'danqudpn',
 	8: 'jmdk3'
 };
-const schemes = {
+var schemes = {
 	'zirjma': {
 		'ugmu': {
 			'b': 'b',
