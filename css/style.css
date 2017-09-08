@@ -142,12 +142,11 @@ body {
 }
 
 .workspace .box input:focus {
-    border: solid #181878;
-    background-color: #fff;
+    border-bottom: dotted #181878;
 }
 
 .workspace .box input:hover {
-    border: solid #111;
+    border-bottom: solid #111;
 }
 
 /* tips */
