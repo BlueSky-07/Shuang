@@ -63,7 +63,7 @@ window.onload = function () {
 };
 
 /** listen keyboard */
-document.onkeydown = function (event) {
+var keyAction = function (event) {
 	switch (event.keyCode) {
 		case 37:
 			document.getElementById('a1').focus();
