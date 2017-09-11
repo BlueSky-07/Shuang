@@ -6,26 +6,27 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/style.css">
-	<script src="js/schemes.js"></script>
-	<script src="js/modes.js"></script>
-	<script src="js/pairs.js"></script>
-	<script src="js/functions.js"></script>
-	<script src="js/statistics.js"></script>
-	<script src="js/script.js"></script>
+	<script src="js/data/schemes.js"></script>
+	<script src="js/data/pairs.js"></script>
+	<script src="js/model/model.js"></script>
+	<script src="js/model/setting.js"></script>
+	<script src="js/view/modes.js"></script>
+	<script src="js/util/statistics.js"></script>
+	<script src="js/view/core.js"></script>
 </head>
 <body onkeyup="keyAction(event)">
 <div class="header">
 	<div class="menu">
 		<span class="title">双拼方案：</span>
-		<select id="schemeSelect" onchange="changeScheme(this.value)"></select>
+		<select id="schemesMenu" onchange="changeScheme(this.value)"></select>
 	</div>
 	<div class="menu">
 		<span class="title">练习模式：</span>
-		<select id="modeSelect" onchange="changeMode(this.value)"></select>
+		<select id="modesMenu" onchange="changeMode(this.value)"></select>
 	</div>
 	<div class="menu">
 		<span class="title">模式介绍：</span>
-		<span id="description"></span>
+		<span id="mode_detail"></span>
 	</div>
 	<div class="menu">
 		<span class="title">显示键位图：</span>
@@ -51,8 +52,8 @@
 
 </div>
 <div class="tips" id="tips">
-	<img id="pic_url">
-	<div class="special" id="special"></div>
+	<img id="tips_pic">
+	<div class="special" id="tips_special"></div>
 </div>
 <div class="tip">
 	<p>1.切换至系统自带的英文输入法</p>

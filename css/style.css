@@ -1,3 +1,5 @@
+/** last changed: 2017.09.11 */
+
 body {
     margin: 0 auto;
     width: 100%;
@@ -163,14 +165,17 @@ body {
 }
 
 .tips .special {
-    width: 300px;
+    width: 60%;
+    max-width: 700px;
+    min-width: 300px;
     margin: auto;
     font-size: 12px;
     color: #777;
 }
 
 .tips .special .box {
-    width: 60px;
+    width: 20%;
+    min-width: 60px;
     margin-right: 5px;
     margin-bottom: 5px;
     text-align: left;
@@ -178,7 +183,9 @@ body {
 }
 
 .tips .special .box .title {
-    width: 20px;
+    width: 33%;
+    min-width: 20px;
+    max-width: 25px;
     margin-right: 5px;
     color: #555;
     font-style: italic;

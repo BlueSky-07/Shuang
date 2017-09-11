@@ -1,5 +1,17 @@
 'use strict';
 
+/** last changed: 2017.09.11 */
+
+/***
+ *
+ * schemesList: 方案名称
+ *
+ * getSchemesById: 方案字母表达，通过 {方案在schemesList中的索引} 获取该方案的字母表达
+ *
+ * schemesData: 方案内容，通过 {字母表达}.{声母/韵母/零声母}.{要查询的字符} 获取该字符的双拼码
+ *
+ */
+
 var schemesList = [
 	'自然码',
 	'微软双拼',
@@ -10,8 +22,9 @@ var schemesList = [
 	'紫光双拼',
 	'大牛双拼',
 	'键道3',
-	'开源双拼·小鹳'
+	'开源小鹳'
 ];
+
 var getSchemesById = {
 	0: 'zirjma',
 	1: 'wzrrudpn',
@@ -22,9 +35,10 @@ var getSchemesById = {
 	6: 'zigdudpn',
 	7: 'danqudpn',
 	8: 'jmdk3',
-	9: 'xcgd'
+	9: 'klyrxcgr'
 };
-var schemes = {
+
+var schemesData = {
 	'zirjma': {
 		'ugmu': {
 			'b': 'b',
@@ -682,7 +696,7 @@ var schemes = {
 			'o': 'l',
 			'ong': 'y',
 			'ou': 's',
-			'u': ['l','m'],
+			'u': ['l', 'm'],
 			'ua': 'c',
 			'uai': 'd',
 			'uan': 'r',
@@ -691,7 +705,7 @@ var schemes = {
 			'ui': 'b',
 			'un': 'w',
 			'uo': 'l',
-			'v':  'm',
+			'v': 'm',
 			've': 'f'
 		},
 		'teuu': {
@@ -709,7 +723,7 @@ var schemes = {
 			'ou': 'xs'
 		}
 	},
-	'xcgd': {
+	'klyrxcgr': {
 		'ugmu': {
 			'b': 'b',
 			'c': 'c',
@@ -763,7 +777,7 @@ var schemes = {
 			'uai': 'd',
 			'uan': 'r',
 			'uang': 'l',
-			'ue': ['k','t'],
+			'ue': ['k', 't'],
 			'ui': 'v',
 			'un': 'y',
 			'uo': 'o',
@@ -771,18 +785,18 @@ var schemes = {
 			've': 't'
 		},
 		'teuu': {
-			'a': ['aa','oa'],
-			'ai': ['ai','ok'],
-			'an': ['an','oj'],
-			'ang': ['ah','oh'],
-			'ao': ['ao','oc'],
-			'e': ['ee','oe'],
-			'ei': ['ei','ow'],
-			'en': ['en','of'],
-			'eng': ['eg','og'],
-			'er': ['er','or'],
+			'a': ['aa', 'oa'],
+			'ai': ['ai', 'ok'],
+			'an': ['an', 'oj'],
+			'ang': ['ah', 'oh'],
+			'ao': ['ao', 'oc'],
+			'e': ['ee', 'oe'],
+			'ei': ['ei', 'ow'],
+			'en': ['en', 'of'],
+			'eng': ['eg', 'og'],
+			'er': ['er', 'or'],
 			'o': 'oo',
-			'ou': ['ou','oz']
+			'ou': ['ou', 'oz']
 		}
-	},
+	}
 };
