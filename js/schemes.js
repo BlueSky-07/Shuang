@@ -9,7 +9,8 @@ var schemesList = [
 	'拼音加加',
 	'紫光双拼',
 	'大牛双拼',
-	'键道3'
+	'键道3',
+	'开源双拼·小鹳'
 ];
 var getSchemesById = {
 	0: 'zirjma',
@@ -20,7 +21,8 @@ var getSchemesById = {
 	5: 'pnynjwjw',
 	6: 'zigdudpn',
 	7: 'danqudpn',
-	8: 'jmdk3'
+	8: 'jmdk3',
+	9: 'xcgd'
 };
 var schemes = {
 	'zirjma': {
@@ -680,7 +682,7 @@ var schemes = {
 			'o': 'l',
 			'ong': 'y',
 			'ou': 's',
-			'u': 'm',
+			'u': ['l','m'],
 			'ua': 'c',
 			'uai': 'd',
 			'uan': 'r',
@@ -689,7 +691,7 @@ var schemes = {
 			'ui': 'b',
 			'un': 'w',
 			'uo': 'l',
-			'v': 'l',
+			'v':  'm',
 			've': 'f'
 		},
 		'teuu': {
@@ -706,5 +708,81 @@ var schemes = {
 			'o': 'xl',
 			'ou': 'xs'
 		}
-	}
+	},
+	'xcgd': {
+		'ugmu': {
+			'b': 'b',
+			'c': 'c',
+			'd': 'd',
+			'f': 'f',
+			'g': 'g',
+			'h': 'h',
+			'j': 'j',
+			'k': 'k',
+			'l': 'l',
+			'm': 'm',
+			'n': 'n',
+			'p': 'p',
+			'q': 'q',
+			'r': 'r',
+			's': 's',
+			't': 't',
+			'w': 'w',
+			'x': 'x',
+			'y': 'y',
+			'z': 'z',
+			'ch': 'i',
+			'sh': 'u',
+			'zh': 'v'
+		},
+		'ypmu': {
+			'a': 'a',
+			'ai': 'k',
+			'an': 'j',
+			'ang': 'h',
+			'ao': 'c',
+			'e': 'e',
+			'ei': 'w',
+			'en': 'f',
+			'eng': 'g',
+			'i': 'i',
+			'ia': 'x',
+			'ian': 'm',
+			'iang': 'l',
+			'iao': 'n',
+			'ie': 'p',
+			'iong': 's',
+			'in': 'b',
+			'ing': 'd',
+			'iu': 'q',
+			'o': 'o',
+			'ong': 's',
+			'ou': 'z',
+			'u': 'u',
+			'ua': 'x',
+			'uai': 'd',
+			'uan': 'r',
+			'uang': 'l',
+			'ue': ['k','t'],
+			'ui': 'v',
+			'un': 'y',
+			'uo': 'o',
+			'v': 'v',
+			've': 't'
+		},
+		'teuu': {
+			'a': ['aa','oa'],
+			'ai': ['ai','ok'],
+			'an': ['an','oj'],
+			'ang': ['ah','oh'],
+			'ao': ['ao','oc'],
+			'e': ['ee','oe'],
+			'ei': ['ei','ow'],
+			'en': ['en','of'],
+			'eng': ['eg','og'],
+			'er': ['er','or'],
+			'o': 'oo',
+			'ou': ['ou','oz']
+		}
+	},
 };
