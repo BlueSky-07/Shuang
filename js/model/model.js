@@ -1,14 +1,12 @@
 "use strict";
 
-/** last changed: 2017.09.11 */
+/** last changed: 2017.09.12 */
 
 var model = function () {
 	return {
 		ugmu: '',
 		ypmu: '',
 		isTeuu: false,
-		ugmuId: -1,
-		ypmuId: -1,
 		scheme_ugmu: [],
 		scheme_ypmu: [],
 		scheme_teuu: [],
@@ -20,8 +18,6 @@ var model = function () {
 			this.ugmu = '';
 			this.ypmu = '';
 			this.isTeuu = false;
-			this.ugmuId = -1;
-			this.ypmuId = -1;
 			this.scheme_ugmu = [];
 			this.scheme_ypmu = [];
 			this.scheme_teuu = [];
@@ -31,10 +27,8 @@ var model = function () {
 			this.schemeId = -1;
 		},
 		initRandom: function () {
-			this.ugmuId = Math.floor(Math.random() * allowUgmus.length);
-			this.ugmu = allowUgmus[this.ugmuId];
-			this.ypmuId = Math.floor(Math.random() * allowPairs[this.ugmu].length);
-			this.ypmu = allowPairs[this.ugmu][this.ypmuId];
+			this.ugmu = dict.list[Math.floor(Math.random() * dict.list.length)];
+			this.ypmu = dict[this.ugmu].list[Math.floor(Math.random() * dict[this.ugmu].list.length)];
 		},
 		initHardRandom: function () {
 			while (this.ugmu === '' || this.ypmu.length === 1) {
@@ -42,13 +36,11 @@ var model = function () {
 			}
 		},
 		initByIds: function (ugmuId, ypmuId) {
-			this.ugmuId = ugmuId;
-			this.ypmuId = ypmuId;
-			if (!checkUgmuId(ugmuId) || !checkYpmuId(ugmuId, ypmuId)) {
+			if (!checkIds(ugmuId, ypmuId)) {
 				return false;
 			} else {
-				this.ugmu = allowUgmus[ugmuId];
-				this.ypmu = allowPairs[this.ugmu][ypmuId];
+				this.ugmu = dict.list[ugmuId];
+				this.ypmu = dict[this.ugmu].list[ypmuId];
 				return true;
 			}
 		},
@@ -65,14 +57,52 @@ var model = function () {
 			}
 		},
 		initExample: function () {
-			this.example = getExampleByPair(this.ugmu, this.ypmu);
+			this.example = getExampleByPnyn(this.ugmu, this.ypmu);
 		},
 		beReady: function (schemeId) {
 			this.schemeId = schemeId;
 			this.initScheme(schemeId);
 			this.initExample();
 		},
+		beforeCheck: function () {
+			if (this.isTeuu) {
+				return;
+			}
+			// special check
+			if (this.scheme_ypmu === 'u') {
+				if ('jqxy'.indexOf(this.ugmu) !== -1) {
+					this.isTeuu = true;
+					this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v')];
+				}
+			}
+			if (this.schemeId === schemes.getIdByName.danqudpn) {
+				if (this.ypmu === 'uan') {
+					if ('jqxy'.indexOf(this.ugmu) !== -1) {
+						this.isTeuu = true;
+						this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + 'j'];
+					}
+				} else if (this.ypmu === 'un') {
+					if ('jqxy'.indexOf(this.ugmu) !== -1) {
+						this.isTeuu = true;
+						this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + 'w'];
+					}
+				} else if (this.scheme_ypmu === 'u') {
+					if ('jqxy'.indexOf(this.ugmu) !== -1) {
+						this.isTeuu = true;
+						this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v')];
+					}
+				}
+			} else if (this.schemeId === schemes.getIdByName.jmdk3) {
+				if (this.ypmu === 'u') {
+					if ('jqxy'.indexOf(this.ugmu) !== -1) {
+						this.isTeuu = true;
+						this.scheme_teuu = this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v');
+					}
+				}
+			}
+		},
 		check: function () {
+			this.beforeCheck();
 			if (this.isTeuu) {
 				if (Array.isArray(this.scheme_teuu)) {
 					for (var item in this.scheme_teuu) {
@@ -111,32 +141,33 @@ var model = function () {
 	};
 };
 
-function checkUgmuId(ugmuId) {
-	return allowUgmus[ugmuId] !== undefined;
-}
-
-function checkYpmuId(ugmuId, ypmuId) {
-	return allowPairs[allowUgmus[ugmuId]][ypmuId] !== undefined;
+function checkIds(ugmuId, ypmuId) {
+	if (ugmuId >= 0 && ugmuId < dict.list.length) {
+		if (ypmuId >= 0 && ypmuId < dict[dict.list[ugmuId]].list.length) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function getSchemeByUgmu(schemeId, ugmu) {
-	var val = schemesData[getSchemesById[schemeId]]['ugmu'][ugmu];
+	var val = schemes.data[schemes.getNameById[schemeId]].ugmu[ugmu];
 	return val === undefined ? '' : val;
 }
 
 function getSchemeByYpmu(schemeId, ypmu) {
-	var val = schemesData[getSchemesById[schemeId]]['ypmu'][ypmu];
+	var val = schemes.data[schemes.getNameById[schemeId]].ypmu[ypmu];
 	return val === undefined ? '' : val;
 }
 
 function getSchemeByTeuu(schemeId, ypmu) {
-	var val = schemesData[getSchemesById[schemeId]]['teuu'][ypmu];
+	var val = schemes.data[schemes.getNameById[schemeId]].teuu[ypmu];
 	if (val === undefined) {
 		return '';
 	} else if (Array.isArray(val)) {
 		var result = [];
 		for (var item in val) {
-			result.push(val[item].split(''));
+			result.push(val[item]);
 		}
 		return result;
 	} else {
@@ -144,21 +175,21 @@ function getSchemeByTeuu(schemeId, ypmu) {
 	}
 }
 
-function getExampleByPair(ugmu, ypmu) {
-	return examples[ugmu + ypmu];
+function getExampleByPnyn(ugmu, ypmu) {
+	return dict[ugmu][ypmu];
 }
 
-function isRight(x, xScheme) {
+function isRight(x, scheme_x) {
 	if (x.length === 1) {
-		if (Array.isArray(xScheme)) {
-			for (var i in xScheme) {
-				if (x === xScheme[i]) {
+		if (Array.isArray(scheme_x)) {
+			for (var i in scheme_x) {
+				if (x === scheme_x[i]) {
 					return true;
 				}
 			}
 		}
 		else {
-			return x === xScheme;
+			return x === scheme_x;
 		}
 	}
 	return false;

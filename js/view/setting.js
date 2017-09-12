@@ -1,29 +1,29 @@
 "use strict";
 
-/** last changed: 2017.09.11 */
+/** last changed: 2017.09.12 */
 
 var setting = {
 	schemeId: 0,
 	modeId: 0,
-	tipsFlag: '',
+	tipsFlag: 'true',
 	reload: function () {
 		this.schemeId = Number(getCookie('schemeId')) < 0 ? 0 : Number(getCookie('schemeId'));
 		this.modeId = Number(getCookie('modeId')) < 0 ? 0 : Number(getCookie('modeId'));
-		this.tipsFlag = getCookie('tipsFlag');
+		this.tipsFlag = getCookie('tipsFlag') === '' ? 'true' : getCookie('tipsFlag');
 		document.getElementById('schemesMenu')[this.schemeId].selected = true;
 		document.getElementById('modesMenu')[this.modeId].selected = true;
 		document.getElementById('tipsSwitcher').checked = this.tipsFlag === 'true';
-		this.setSchemeId(schemesList[this.schemeId]);
-		this.setModeId(modes.modesList[this.modeId]);
+		this.setSchemeId(schemes.list[this.schemeId]);
+		this.setModeId(modes.list[this.modeId]);
 		this.setTipsFlag(this.tipsFlag);
 	},
 	setSchemeId: function (schemeName) {
-		this.schemeId = schemesList.indexOf(schemeName);
+		this.schemeId = schemes.list.indexOf(schemeName);
 		updateTips();
 		setCookie('schemeId', this.schemeId);
 	},
 	setModeId: function (modeName) {
-		this.modeId = modes.modesList.indexOf(modeName);
+		this.modeId = modes.list.indexOf(modeName);
 		document.getElementById('mode_detail').innerHTML = modes.details[this.modeId];
 		setCookie('modeId', this.modeId);
 	},
@@ -40,8 +40,7 @@ var setting = {
 
 // View
 function updateTips() {
-	var obj = schemesData[getSchemesById[setting.schemeId]].teuu;
-	var special = [];
+	var obj = schemes.data[schemes.getNameById[setting.schemeId]].teuu;
 	document.getElementById('tips_special').innerHTML = '';
 	for (var x in obj) {
 		var newBox = document.createElement('div');
@@ -67,7 +66,23 @@ function updateTips() {
 		newBox.appendChild(newContent);
 		document.getElementById('tips_special').appendChild(newBox);
 	}
-	document.getElementById('tips_pic').src = 'img/' + getSchemesById[setting.schemeId] + '.jpg';
+	if (schemes.tips[schemes.getNameById[setting.schemeId]] !== undefined) {
+		var scheme_tip = schemes.tips[schemes.getNameById[setting.schemeId]];
+		if (Array.isArray(scheme_tip)) {
+			for (var line in scheme_tip) {
+				var newLine = document.createElement('div');
+				newLine.className = 'line';
+				newLine.innerHTML = scheme_tip[line];
+				document.getElementById('tips_special').appendChild(newLine);
+			}
+		} else {
+			var newLine = document.createElement('div');
+			newLine.className = 'line';
+			newLine.innerHTML = scheme_tip;
+			document.getElementById('tips_special').appendChild(newLine);
+		}
+	}
+	document.getElementById('tips_pic').src = 'img/' + schemes.getNameById[setting.schemeId] + '.jpg';
 }
 
 // Cookie

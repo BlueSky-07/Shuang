@@ -1,6 +1,6 @@
 'use strict';
 
-/** last changed: 2017.09.11 */
+/** last changed: 2017.09.12 */
 
 function ajax(obj) {
 	var ajaxData = {
@@ -10,8 +10,6 @@ function ajax(obj) {
 		data: obj.data || null,
 		dataType: obj.dataType || "text",
 		contentType: obj.contentType || "application/x-www-form-urlencoded",
-		beforeSend: obj.beforeSend || function () {
-		},
 		success: obj.success || function () {
 		},
 		error: obj.error || function () {

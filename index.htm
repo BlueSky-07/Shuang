@@ -1,3 +1,4 @@
+<!-- last changed: 2017.09.12 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +8,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/style.css">
 	<script src="js/data/schemes.js"></script>
-	<script src="js/data/pairs.js"></script>
+	<script src="js/data/dict.js"></script>
 	<script src="js/model/model.js"></script>
-	<script src="js/model/setting.js"></script>
 	<script src="js/view/modes.js"></script>
+	<script src="js/view/setting.js"></script>
 	<script src="js/util/statistics.js"></script>
 	<script src="js/view/core.js"></script>
 </head>
-<body onkeyup="keyAction(event)">
+<body onkeydown="keyAction(event)">
 <div class="header">
 	<div class="menu">
 		<span class="title">双拼方案：</span>
@@ -35,18 +36,18 @@
 </div>
 <div class="workspace">
 	<div class="show">
-		<div class="example" id="example">双</div>
+		<div class="example" id="example"></div>
 		<div class="btns">
 			<div class="btn" id="btn_redo" onclick="redo()"><span>X</span></div>
 			<div class="btn" id="btn_next" onclick="next()"><span>&gt;</span></div>
 		</div>
 	</div>
 	<div class="box left">
-		<p id="q1">Sh</p>
+		<p id="q1"></p>
 		<input id="a1" maxlength="1" onkeyup="doAction(this)" onclick="this.select()">
 	</div>
 	<div class="box right">
-		<p id="q2">uang</p>
+		<p id="q2"></p>
 		<input id="a2" maxlength="1" onkeyup="doAction(this)" onclick="this.select()">
 	</div>
 

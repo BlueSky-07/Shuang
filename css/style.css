@@ -1,4 +1,4 @@
-/** last changed: 2017.09.11 */
+/** last changed: 2017.09.12 */
 
 body {
     margin: 0 auto;
@@ -83,15 +83,13 @@ body {
     width: 70px;
     height: 70px;
     font-size: 48px;
-    background-color: #ccc;
-    border: dashed #000 1px;
+    border: dashed #fff 1px;
     display: block;
     line-height: 100px;
 }
 
 .workspace .show .btns .btn:hover {
-    background-color: #ddd;
-    border: solid #000 1px;
+    border: solid #777 1px;
 }
 
 .workspace .show .btns .btn span {
@@ -100,13 +98,14 @@ body {
 }
 
 .workspace .show .btns #btn_redo {
-    color: #777;
+    color: #fff;
+    background-color: #459df5;
 }
 
 .workspace .show .btns #btn_next {
     display: none;
     color: #fff;
-    background-color: #86ff6c;
+    background-color: #49c64f;
 }
 
 .workspace .box {
@@ -141,10 +140,6 @@ body {
     background-color: #eee;
     -webkit-appearance: none;
     border-radius: 0;
-}
-
-.workspace .box input:focus {
-    border-bottom: dotted #181878;
 }
 
 .workspace .box input:hover {
@@ -197,6 +192,14 @@ body {
     color: #333;
     font-weight: bold;
     display: inline-block;
+}
+
+.tips .special .line {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    margin: 5px;
 }
 
 /* tip */
