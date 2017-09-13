@@ -105,6 +105,7 @@ var next = function () {
 				newModel.initRandom();
 				newModel.initExample();
 			} while (Array.isArray(newModel.getExample()));
+			break;
 	}
 	if (model().isSame(nowModel, newModel)) {
 		next();
