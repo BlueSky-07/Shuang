@@ -74,6 +74,11 @@ body {
     display: inline-block;
 }
 
+.workspace .show .wupnyn {
+    position: relative;
+    left: 125px;
+}
+
 .workspace .show .btns {
     width: 72px;
 }

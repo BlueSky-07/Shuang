@@ -818,6 +818,9 @@ var schemes = {
 		}
 	},
 	tips: {
+		sbgbudpn: [
+			'iOS 11 自带方案'
+		],
 		danqudpn: [
 			xcvsTip
 		],

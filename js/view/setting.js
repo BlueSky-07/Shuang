@@ -26,6 +26,11 @@ var setting = {
 		this.modeId = modes.list.indexOf(modeName);
 		document.getElementById('mode_detail').innerHTML = modes.details[this.modeId];
 		setCookie('modeId', this.modeId);
+		if (this.modeId === modes.getIdByName.WUPNYN) {
+			document.getElementById('example').className = 'example wupnyn';
+		} else {
+			document.getElementById('example').className = 'example';
+		}
 	},
 	setTipsFlag: function (bool) {
 		this.tipsFlag = bool.toString();
