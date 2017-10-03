@@ -48,3 +48,11 @@ Shuang | 双拼练习
 更多介绍：[https://sspai.com/post/40624](https://sspai.com/post/40624)
 
 ![qr](https://i.loli.net/2017/08/28/59a3da4f5f49e.jpg)
+
+### 键位图来源
+
+[维基百科 - 双拼](https://zh.wikipedia.org/wiki/%E5%8F%8C%E6%8B%BC)
+
+[百度贴吧](https://tieba.baidu.com/)
+
+邮件
