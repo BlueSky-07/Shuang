@@ -163,17 +163,24 @@ var keyAction = function (event) {
 	}
 };
 
-var doAction = function (x) {
-	x.value = x.value.replace(/[^a-zA-Z;]/g, '');
-	if (x.value.length === 1) {
-		if (x.id === 'a1') {
-			x.value = x.value.toUpperCase();
-			if (switchInputFlag) {
-				document.getElementById('a2').click();
-				switchInputFlag = false;
+var doAction = function (event, element) {
+	var keyCode = event.keyCode;
+	if (
+		(keyCode >= 48 && keyCode <= 57) ||
+		(keyCode >= 65 && keyCode <= 90) ||
+		(keyCode >= 96 && keyCode <= 105)
+	) {
+		event.preventDefault();
+		if (!element.value.length || element.value === ' ') {
+			var value = event.key.replace(/[^a-zA-Z;]/g, '');
+			if (value.length) {
+				if (element.id === 'a1') {
+					document.getElementById('a2').focus();
+					element.value = value.toUpperCase();
+				} else if (element.id === 'a2') {
+					element.value = value.toLowerCase();
+				}
 			}
-		} else if (x.id === 'a2') {
-			x.value = x.value.toLowerCase();
 		}
 	}
 	check();
