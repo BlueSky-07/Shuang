@@ -1,12 +1,11 @@
 "use strict";
 
-/** last changed: 2017.09.12 */
+/** last changed: 2017.10.4 */
 
 // core
 var nowModel = model();
 var step1 = -1;
 var step2 = 0;
-var switchInputFlag = true;
 
 // init
 window.onload = function () {
@@ -57,16 +56,12 @@ var check = function () {
 	} else {
 		document.getElementById('btn_next').style.display = 'none';
 		document.getElementById('btn_redo').style.display = 'block';
-		if (document.getElementById('a1').value.length === 0) {
-			switchInputFlag = true;
-		}
 		return false;
 	}
 };
 
 // redo
 var redo = function () {
-	switchInputFlag = true;
 	document.getElementById('a1').value = '';
 	document.getElementById('a2').value = '';
 	document.getElementById('a1').click();
