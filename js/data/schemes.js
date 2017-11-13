@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2017.09.12 */
+/** last changed: 2017.11.13 */
 
 /**
  *
@@ -191,7 +191,7 @@ var schemes = {
 				un: 'p',
 				uo: 'o',
 				v: 'y',
-				ve: 't'
+				ve: 'v'
 			},
 			teuu: {
 				a: 'oa',
