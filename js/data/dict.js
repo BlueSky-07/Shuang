@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2017.09.12 */
+/** last changed: 2017.11.26 */
 
 /**
  *
@@ -189,7 +189,7 @@ var dict = {
 		ei: '累',
 		eng: '冷',
 		i: '里',
-		ia: '俩',
+		ia: ['俩'],
 		ian: '连',
 		iang: '凉',
 		iao: '聊',
