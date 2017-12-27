@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2017.11.13 */
+/** last changed: 2017.12.27 */
 
 /**
  *
@@ -29,7 +29,8 @@ var schemes = {
 		'紫光双拼',
 		'大牛双拼',
 		'键道3',
-		'开源小鹳'
+		'开源小鹳',
+		'小浪双拼'
 	],
 	getIdByName: {
 		zirjma: 0,
@@ -41,7 +42,8 @@ var schemes = {
 		zigdudpn: 6,
 		danqudpn: 7,
 		jmdk3: 8,
-		klyrxcgr: 9
+		klyrxcgr: 9,
+		xclhudpn: 10
 	},
 	getNameById: [
 		'zirjma',
@@ -53,7 +55,8 @@ var schemes = {
 		'zigdudpn',
 		'danqudpn',
 		'jmdk3',
-		'klyrxcgr'
+		'klyrxcgr',
+		'xclhudpn'
 	],
 	data: {
 		zirjma: {
@@ -815,6 +818,82 @@ var schemes = {
 				o: 'oo',
 				ou: ['ou', 'oz']
 			}
+		},
+		xclhudpn: {
+			ugmu: {
+				b: 'b',
+				c: 'c',
+				d: 'd',
+				f: 'f',
+				g: 'g',
+				h: 'h',
+				j: 'j',
+				k: 'k',
+				l: 'l',
+				m: 'm',
+				n: 'n',
+				p: 'p',
+				q: 'q',
+				r: 'r',
+				s: 's',
+				t: 't',
+				w: 'w',
+				x: 'x',
+				y: 'y',
+				z: 'z',
+				ch: 'i',
+				sh: 'v',
+				zh: 'e'
+			},
+			ypmu: {
+				a: 'a',
+				ai: 'k',
+				an: 'j',
+				ang: 'h',
+				ao: 's',
+				e: 'e',
+				ei: 'w',
+				en: 'm',
+				eng: 'n',
+				i: 'i',
+				ia: 'k',
+				ian: 'f',
+				iang: 'm',
+				iao: 'c',
+				ie: 'p',
+				iong: 'j',
+				in: 'd',
+				ing: 'v',
+				iu: 't',
+				o: 'o',
+				ong: 'l',
+				ou: 'r',
+				u: 'u',
+				ua: 'f',
+				uai: 'v',
+				uan: 'g',
+				uang: 'z',
+				ue: 'b',
+				ui: 'd',
+				un: 'y',
+				uo: 'o',
+				v: 'x',
+				ve: 'b'
+			},
+			teuu: {
+				a: 'aa',
+				ai: 'ai',
+				an: 'an',
+				ang: 'ah',
+				ao: 'ao',
+				e: 'uu',
+				ei: 'ui',
+				en: 'un',
+				eng: 'un',
+				er: 'ur',
+				o: 'oo',
+				ou: 'ou'
+			}
 		}
 	},
 	tips: {
@@ -829,6 +908,9 @@ var schemes = {
 			xcvsTip
 		],
 		klyrxcgr: [
+			xcvsTip
+		],
+		xclhudpn: [
 			xcvsTip
 		]
 	}
