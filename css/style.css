@@ -1,4 +1,4 @@
-/** last changed: 2017.10.04 */
+/** last changed: 2017.12.27 */
 
 body {
     margin: 0 auto;
@@ -263,4 +263,37 @@ body {
     font-size: 12px;
     color: #888888;
     font-style: italic;
+}
+
+/* pay */
+#pay {
+    clear: both;
+}
+
+#pay #pay_title {
+    margin-left: 25px;
+    font-weight: bold;
+    color: #777;
+}
+
+#pay #alipay {
+    color: #0087ff;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#pay #wxpay {
+    color: #319A31;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#pay img {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 250px;
+    height: 250px;
+    border: dashed #777 1px;
+    z-index: 1;
 }
