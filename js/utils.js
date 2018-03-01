@@ -1,6 +1,8 @@
 'use strict';
 
-/** last changed: 2017.09.12 */
+/** last changed: 2018.3.1 */
+
+var $ = document.querySelector.bind(document);
 
 function ajax(obj) {
 	var ajaxData = {
@@ -60,7 +62,7 @@ function convertData(data) {
 	}
 }
 
-function statistics() {
+function update_statistic() {
 	ajax({
 		type: "GET",
 		url: "https://api.ihint.me/statistics.php",
@@ -69,13 +71,44 @@ function statistics() {
 		},
 		success: function (response) {
 			if (response === '-1') {
-				console.log('update statistics not ok');
+				console.log('update statistic not ok');
 			} else if (response === '1') {
-				console.log('update statistics ok');
+				console.log('update statistic ok');
 			}
 		},
 		error: function () {
-			console.log('cannot get statistics data');
+			console.log('cannot get statistic data');
 		}
 	});
+}
+
+
+// Cookie
+function getCookie(name) {
+	name = name + '=';
+	var cookies = document.cookie.split(';');
+	for (var i = 0; i < cookies.length; i++) {
+		var cookie = cookies[i].trim();
+		if (cookie.indexOf(name) === 0)
+			return cookie.substring(name.length, cookie.length);
+	}
+	return '';
+}
+
+function setCookie(name, value) {
+	var date = new Date();
+	date.setDate(date.getTime() + 15 * 24 * 60 * 60 * 1000);
+	document.cookie = name + '=' + value + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+}
+
+// addJS
+function addJS(id, src, callback) {
+	if ($('#' + id) !== null) {
+		$('#' + id).remove();
+	}
+	var newScript = document.createElement("script");
+	newScript.src = src;
+	newScript.id = id;
+	newScript.onload = callback;
+	document.body.appendChild(newScript);
 }

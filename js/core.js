@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2017.09.12 */
+/** last changed: 2018.3.1 */
 
 var model = function () {
 	return {
@@ -99,6 +99,13 @@ var model = function () {
 						this.scheme_teuu = this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v');
 					}
 				}
+			} else if (this.schemeId === schemes.getIdByName.jmdk6) {
+				if (this.ypmu === 'u') {
+					if ('jqxy'.indexOf(this.ugmu) !== -1) {
+						this.isTeuu = true;
+						this.scheme_teuu = this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v');
+					}
+				}
 			}
 		},
 		check: function () {
@@ -110,12 +117,10 @@ var model = function () {
 							return true;
 						}
 					}
-				}
-				else {
+				} else {
 					return this.input_ugmu === this.scheme_teuu[0] && this.input_ypmu === this.scheme_teuu[1];
 				}
-			}
-			else {
+			} else {
 				return isRight(this.input_ugmu, this.scheme_ugmu) && isRight(this.input_ypmu, this.scheme_ypmu);
 			}
 			return false;
@@ -151,17 +156,17 @@ function checkIds(ugmuId, ypmuId) {
 }
 
 function getSchemeByUgmu(schemeId, ugmu) {
-	var val = schemes.data[schemes.getNameById[schemeId]].ugmu[ugmu];
+	var val = schemes.data.ugmu[ugmu];
 	return val === undefined ? '' : val;
 }
 
 function getSchemeByYpmu(schemeId, ypmu) {
-	var val = schemes.data[schemes.getNameById[schemeId]].ypmu[ypmu];
+	var val = schemes.data.ypmu[ypmu];
 	return val === undefined ? '' : val;
 }
 
 function getSchemeByTeuu(schemeId, ypmu) {
-	var val = schemes.data[schemes.getNameById[schemeId]].teuu[ypmu];
+	var val = schemes.data.teuu[ypmu];
 	if (val === undefined) {
 		return '';
 	} else if (Array.isArray(val)) {

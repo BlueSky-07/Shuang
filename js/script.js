@@ -1,70 +1,93 @@
 "use strict";
 
-/** last changed: 2017.10.04 */
+/** last changed: 2018.3.1 */
 
 // core
 var nowModel = model();
 var step1 = -1;
 var step2 = 0;
+var modes = {
+	list: [
+		"全部随机"
+		, "全部顺序"
+		, "困难随机"
+		, "无拼音"
+	],
+	details: [
+		"全部拼音组合"
+		, "全部拼音组合"
+		, "韵母需转换"
+		, "无拼音提示"
+	],
+	getIdByName: {
+		"QRBUSVJI": 0
+		, "QRBUUPXU": 1
+		, "KPNJSVJI": 2
+		, "WUPNYN": 3
+	}
+};
 
 // init
 window.onload = function () {
-	/** menu init*/
-	var schemesMenu = document.getElementById('schemesMenu');
+	/** menu init */
+	var schemesMenu = $('#schemesMenu');
 	for (var schemeId in schemes.list) {
 		var schemeOption = document.createElement('option');
 		schemeOption.innerHTML = schemes.list[schemeId];
 		schemesMenu.appendChild(schemeOption);
 	}
-	var modesMenu = document.getElementById('modesMenu');
+	var modesMenu = $('#modesMenu');
 	for (var modeId in modes.list) {
 		var modeOption = document.createElement('option');
 		modeOption.innerHTML = modes.list[modeId];
 		modesMenu.appendChild(modeOption);
 	}
+	/** update statistic */
+	update_statistic();
 	/** reload settings */
-	setting.reload();
+	settings.reload();
+};
+
+var init = function () {
 	/** init model */
 	nowModel.getReady();
 	nowModel.ugmu = 'sh';
 	nowModel.ypmu = 'uang';
-	nowModel.beReady(setting.schemeId);
+	nowModel.beReady(settings.schemeId);
 	/** view */
-	document.getElementById('a').click();
-	if (setting.modeId === modes.getIdByName.WUPNYN) {
-		document.getElementById('q').innerHTML = '&nbsp';
+	if (settings.modeId === modes.getIdByName.WUPNYN) {
+		$('#q').innerHTML = '&nbsp';
 	} else {
-		document.getElementById('q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
+		$('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
 	}
-	document.getElementById('example').innerHTML = nowModel.getExample();
-	/** other things */
-	statistics();
+	$('#example').innerHTML = nowModel.getExample();
+	isInit = false;
 };
 
 // check
 var check = function () {
-	var inputUgmu = document.getElementById('a').value[0];
-	var inputYpmu = document.getElementById('a').value[1];
+	var inputUgmu = $('#a').value[0];
+	var inputYpmu = $('#a').value[1];
 	if (inputYpmu !== undefined) {
 		nowModel.setInputUgmu(inputUgmu);
 		nowModel.setInputYpmu(inputYpmu);
 		if (nowModel.check()) {
-			document.getElementById('btn_next').style.display = 'block';
-			document.getElementById('btn_redo').style.display = 'none';
+			$('#btn_next').style.display = 'block';
+			$('#btn_redo').style.display = 'none';
 			return true;
 		}
 	}
-	document.getElementById('btn_next').style.display = 'none';
-	document.getElementById('btn_redo').style.display = 'block';
+	$('#btn_next').style.display = 'none';
+	$('#btn_redo').style.display = 'block';
 	return false;
 };
 
 // redo
 var redo = function () {
-	document.getElementById('a').value = '';
-	document.getElementById('a').click();
-	document.getElementById('btn_next').style.display = 'none';
-	document.getElementById('btn_redo').style.display = 'block';
+	$('#a').value = '';
+	$('#a').focus();
+	$('#btn_next').style.display = 'none';
+	$('#btn_redo').style.display = 'block';
 };
 
 // next
@@ -72,7 +95,7 @@ var next = function () {
 	redo();
 	var newModel = model();
 	newModel.getReady();
-	switch (setting.modeId) {
+	switch (settings.modeId) {
 		case modes.getIdByName.QRBUSVJI:
 			newModel.initRandom();
 			break;
@@ -103,30 +126,31 @@ var next = function () {
 	if (model().isSame(nowModel, newModel)) {
 		next();
 	} else {
-		newModel.beReady(setting.schemeId);
+		newModel.beReady(settings.schemeId);
 		nowModel = newModel;
-		if (setting.modeId === modes.getIdByName.WUPNYN) {
-			document.getElementById('q').innerHTML = '&nbsp';
+		if (settings.modeId === modes.getIdByName.WUPNYN) {
+			$('#q').innerHTML = '&nbsp';
 		} else {
-			document.getElementById('q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
+			$('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
 		}
-		document.getElementById('example').innerHTML = nowModel.getExample();
+		$('#example').innerHTML = nowModel.getExample();
 	}
 };
 
 // settings
 var changeScheme = function (x) {
-	setting.setSchemeId(x);
-	next();
+	settings.setSchemeId(x);
+	// addJS callback = init()
+	// next();
 };
 
 var changeMode = function (x) {
-	setting.setModeId(x);
+	settings.setModeId(x);
 	next();
 };
 
 var switchTips = function (x) {
-	setting.setTipsFlag(x);
+	settings.setTipsFlag(x);
 };
 
 // actions
@@ -150,10 +174,10 @@ var doAction = function (x) {
 	check();
 };
 
-function qrShow() {
-	document.getElementById('wx_qr').hidden = false;
+function qrShow(target_id) {
+	$('#' + target_id).hidden = false;
 }
 
-function qrHide() {
-	document.getElementById('wx_qr').hidden = true;
+function qrHide(target) {
+	target.hidden = true;
 }

@@ -1,8 +1,10 @@
 "use strict";
 
-/** last changed: 2017.09.12 */
+/** last changed: 2018.3.1 */
 
-var setting = {
+var isInit = true;
+
+var settings = {
 	schemeId: 0,
 	modeId: 0,
 	tipsFlag: 'true',
@@ -10,9 +12,9 @@ var setting = {
 		this.schemeId = Number(getCookie('schemeId')) < 0 ? 0 : Number(getCookie('schemeId'));
 		this.modeId = Number(getCookie('modeId')) < 0 ? 0 : Number(getCookie('modeId'));
 		this.tipsFlag = getCookie('tipsFlag') === '' ? 'true' : getCookie('tipsFlag');
-		document.getElementById('schemesMenu')[this.schemeId].selected = true;
-		document.getElementById('modesMenu')[this.modeId].selected = true;
-		document.getElementById('tipsSwitcher').checked = this.tipsFlag === 'true';
+		$('#schemesMenu')[this.schemeId].selected = true;
+		$('#modesMenu')[this.modeId].selected = true;
+		$('#tipsSwitcher').checked = this.tipsFlag === 'true';
 		this.setSchemeId(schemes.list[this.schemeId]);
 		this.setModeId(modes.list[this.modeId]);
 		this.setTipsFlag(this.tipsFlag);
@@ -21,32 +23,33 @@ var setting = {
 		this.schemeId = schemes.list.indexOf(schemeName);
 		updateTips();
 		setCookie('schemeId', this.schemeId);
+		var callback = isInit ? init : next;
+		addJS('scheme_data', 'js/schemes/' + schemes.getNameById[this.schemeId] + '.js?v=3.6', callback);
 	},
 	setModeId: function (modeName) {
 		this.modeId = modes.list.indexOf(modeName);
-		document.getElementById('mode_detail').innerHTML = modes.details[this.modeId];
+		$('#mode_detail').innerHTML = modes.details[this.modeId];
 		setCookie('modeId', this.modeId);
 		if (this.modeId === modes.getIdByName.WUPNYN) {
-			document.getElementById('example').className = 'example wupnyn';
+			$('#example').className = 'example wupnyn';
 		} else {
-			document.getElementById('example').className = 'example';
+			$('#example').className = 'example';
 		}
 	},
 	setTipsFlag: function (bool) {
 		this.tipsFlag = bool.toString();
 		if (this.tipsFlag === 'false') {
-			document.getElementById('tips').style.display = 'none';
+			$('#tips').style.display = 'none';
 		} else if (this.tipsFlag === 'true') {
-			document.getElementById('tips').style.display = 'block';
+			$('#tips').style.display = 'block';
 		}
 		setCookie('tipsFlag', this.tipsFlag);
 	}
 };
 
-// View
 function updateTips() {
-	var obj = schemes.data[schemes.getNameById[setting.schemeId]].teuu;
-	document.getElementById('tips_special').innerHTML = '';
+	var obj = schemes.data.teuu;
+	$('#tips_special').innerHTML = '';
 	for (var x in obj) {
 		var newBox = document.createElement('div');
 		newBox.className = 'box';
@@ -69,41 +72,23 @@ function updateTips() {
 		newBox.appendChild(newTitle);
 		newBox.appendChild(document.createTextNode(':'));
 		newBox.appendChild(newContent);
-		document.getElementById('tips_special').appendChild(newBox);
+		$('#tips_special').appendChild(newBox);
 	}
-	if (schemes.tips[schemes.getNameById[setting.schemeId]] !== undefined) {
-		var scheme_tip = schemes.tips[schemes.getNameById[setting.schemeId]];
+	if (schemes.tips[schemes.getNameById[settings.schemeId]] !== undefined) {
+		var scheme_tip = schemes.tips[schemes.getNameById[settings.schemeId]];
 		if (Array.isArray(scheme_tip)) {
 			for (var line in scheme_tip) {
 				var newLine = document.createElement('div');
 				newLine.className = 'line';
 				newLine.innerHTML = scheme_tip[line];
-				document.getElementById('tips_special').appendChild(newLine);
+				$('#tips_special').appendChild(newLine);
 			}
 		} else {
 			var newLine = document.createElement('div');
 			newLine.className = 'line';
 			newLine.innerHTML = scheme_tip;
-			document.getElementById('tips_special').appendChild(newLine);
+			$('#tips_special').appendChild(newLine);
 		}
 	}
-	document.getElementById('tips_pic').src = 'img/' + schemes.getNameById[setting.schemeId] + '.jpg';
-}
-
-// Cookie
-function getCookie(name) {
-	name = name + '=';
-	var cookies = document.cookie.split(';');
-	for (var i = 0; i < cookies.length; i++) {
-		var cookie = cookies[i].trim();
-		if (cookie.indexOf(name) === 0)
-			return cookie.substring(name.length, cookie.length);
-	}
-	return '';
-}
-
-function setCookie(name, value) {
-	var date = new Date();
-	date.setDate(date.getTime() + 15 * 24 * 60 * 60 * 1000);
-	document.cookie = name + '=' + value + '; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+	$('#tips_pic').src = 'img/' + schemes.getNameById[settings.schemeId] + '.jpg';
 }

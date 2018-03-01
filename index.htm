@@ -1,4 +1,4 @@
-<!-- last changed: 2017.12.27 -->
+<!-- last changed: 2018.3.1 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,14 +6,7 @@
 	<title>双拼练习</title>
 	<meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/style.css?v=3.5">
-	<script src="js/data/schemes.js?v=3.5"></script>
-	<script src="js/data/dict.js?v=3.5"></script>
-	<script src="js/model/model.js?v=3.5"></script>
-	<script src="js/view/modes.js?v=3.5"></script>
-	<script src="js/view/setting.js?v=3.5"></script>
-	<script src="js/util/statistics.js?v=3.5"></script>
-	<script src="js/view/core.js?v=3.5"></script>
+	<link rel="stylesheet" href="css/style.css?v=3.6">
 </head>
 <body onkeydown="keyAction(event)">
 <div class="header">
@@ -51,7 +44,7 @@
 			<div class="q" id="q"></div>
 		</div>
 		<div class="row">
-			<input id="a" maxlength="2" onkeyup="doAction(this)">
+			<input id="a" maxlength="2" onkeyup="doAction(this)" autofocus="autofocus">
 		</div>
 	</div>
 </div>
@@ -67,22 +60,28 @@
 <div class="footer">
 	<div id="wx">
 		<span id="wx_title">微信小程序：</span>
-		<span id="wx_name" onmouseover="qrShow()">双拼练习</span>
-		<img id="wx_qr" src="img/qr.jpg" hidden="true" onclick="qrHide()">
+		<span id="wx_name" onmouseover="qrShow('wx_qr')">双拼练习</span>
+		<img id="wx_qr" src="img/qr.jpg" hidden="true" onclick="qrHide(this)">
 	</div>
 	<div class="copyright">
-		<span>@ BlueSky | 2017</span><br>
+		<span>@ BlueSky | 2018.3.1 更新</span><br>
 		<a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang" target="_blank">
 			https://github.com/BlueSky-07/Shuang
 		</a>
 	</div>
 	<div id="pay">
 		<span id="pay_title">打赏：</span>
-		<span id="alipay" onmouseover="document.getElementById('alipay_qr').hidden=false">支付宝</span>
-		<img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="this.hidden=true" hidden>
-		<span id="wxpay" onmouseover="document.getElementById('wxpay_qr').hidden=false">微信</span>
-		<img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="this.hidden=true" hidden>
+		<span id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
+		<img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="qrHide(this)" hidden>
+		<span id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
+		<img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="qrHide(this)" hidden>
 	</div>
 </div>
+<script src="js/schemes.js?v=3.6"></script>
+<script src="js/dict.js?v=3.6"></script>
+<script src="js/utils.js?v=3.6"></script>
+<script src="js/core.js?v=3.6"></script>
+<script src="js/settings.js?v=3.6"></script>
+<script src="js/script.js?v=3.6"></script>
 </body>
 </html>
