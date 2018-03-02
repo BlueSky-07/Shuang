@@ -1,87 +1,87 @@
-<!-- last changed: 2018.3.1 -->
+<!-- last changed: 2018.3.2 -->
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>双拼练习</title>
-	<meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/style.css?v=3.6">
+  <meta charset="UTF-8">
+  <title>双拼练习</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css?v=3.7">
 </head>
 <body onkeydown="keyAction(event)">
 <div class="header">
-	<div class="menu">
-		<span class="title">双拼方案：</span>
-		<select id="schemesMenu" onchange="changeScheme(this.value)"></select>
-	</div>
-	<div class="menu">
-		<span class="title">练习模式：</span>
-		<select id="modesMenu" onchange="changeMode(this.value)"></select>
-	</div>
-	<div class="menu">
-		<span class="title">模式介绍：</span>
-		<span id="mode_detail"></span>
-	</div>
-	<div class="menu">
-		<span class="title">显示键位图：</span>
-		<input type="checkbox" id="tipsSwitcher" onclick="switchTips(this.checked)">
-	</div>
+  <div class="menu">
+    <span class="title">双拼方案：</span>
+    <select id="schemesMenu" onchange="changeScheme(this.value)"></select>
+  </div>
+  <div class="menu">
+    <span class="title">练习模式：</span>
+    <select id="modesMenu" onchange="changeMode(this.value)"></select>
+  </div>
+  <div class="menu">
+    <span class="title">模式介绍：</span>
+    <span id="mode_detail"></span>
+  </div>
+  <div class="menu">
+    <span class="title">显示键位图：</span>
+    <input type="checkbox" id="tipsSwitcher" onclick="switchTips(this.checked)">
+  </div>
 </div>
 <div class="workspace">
-	<div class="col">
-		<div class="row">
-			<div class="example" id="example"></div>
-		</div>
-		<div class="row">
-			<div class="btns">
-				<div class="btn" id="btn_redo" onclick="redo()"><span>X</span></div>
-				<div class="btn" id="btn_next" onclick="next()"><span>&gt;</span></div>
-			</div>
-		</div>
-	</div>
-	<div class="col ">
-		<div class="row">
-			<div class="q" id="q"></div>
-		</div>
-		<div class="row">
-			<input id="a" maxlength="2" onkeyup="doAction(this)" autofocus="autofocus">
-		</div>
-	</div>
+  <div class="col">
+    <div class="row">
+      <div class="example" id="example"></div>
+    </div>
+    <div class="row">
+      <div class="btns">
+        <div class="btn" id="btn_redo" onclick="redo()"><span>X</span></div>
+        <div class="btn" id="btn_next" onclick="next()"><span>&gt;</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="col ">
+    <div class="row">
+      <div class="q" id="q"></div>
+    </div>
+    <div class="row">
+      <input id="a" maxlength="2" onkeyup="doAction(this)" autofocus="autofocus">
+    </div>
+  </div>
 </div>
 <div class="tips" id="tips">
-	<img id="tips_pic">
-	<div class="special" id="tips_special"></div>
+  <img id="tips_pic">
+  <div class="special" id="tips_special"></div>
 </div>
 <div class="tip">
-	<p>1.切换至系统自带的英文输入法</p>
-	<p>2.空格键 / 回车键 切换或清空</p>
-	<p>3.手机练习推荐使用微信小程序</p>
+  <p>1.切换至系统自带的英文输入法</p>
+  <p>2.空格键 / 回车键 切换或清空</p>
+  <p>3.手机练习推荐使用微信小程序</p>
 </div>
 <div class="footer">
-	<div id="wx">
-		<span id="wx_title">微信小程序：</span>
-		<span id="wx_name" onmouseover="qrShow('wx_qr')">双拼练习</span>
-		<img id="wx_qr" src="img/qr.jpg" hidden="true" onclick="qrHide(this)">
-	</div>
-	<div class="copyright">
-		<span>@ BlueSky | 2018.3.1 更新</span><br>
-		<a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang" target="_blank">
-			https://github.com/BlueSky-07/Shuang
-		</a>
-	</div>
-	<div id="pay">
-		<span id="pay_title">打赏：</span>
-		<span id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
-		<img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="qrHide(this)" hidden>
-		<span id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
-		<img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="qrHide(this)" hidden>
-	</div>
+  <div id="wx">
+    <span id="wx_title">微信小程序：</span>
+    <span id="wx_name" onmouseover="qrShow('wx_qr')">双拼练习</span>
+    <img id="wx_qr" src="img/qr.jpg" hidden="true" onclick="qrHide(this)">
+  </div>
+  <div class="copyright">
+    <span>@ BlueSky | 2018.3.2 更新</span><br>
+    <a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang" target="_blank">
+      https://github.com/BlueSky-07/Shuang
+    </a>
+  </div>
+  <div id="pay">
+    <span id="pay_title">打赏：</span>
+    <span id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
+    <img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="qrHide(this)" hidden>
+    <span id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
+    <img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="qrHide(this)" hidden>
+  </div>
 </div>
-<script src="js/schemes.js?v=3.6"></script>
-<script src="js/dict.js?v=3.6"></script>
-<script src="js/utils.js?v=3.6"></script>
-<script src="js/core.js?v=3.6"></script>
-<script src="js/settings.js?v=3.6"></script>
-<script src="js/script.js?v=3.6"></script>
+<script src="js/schemes.js?v=3.7"></script>
+<script src="js/dict.js?v=3.7"></script>
+<script src="js/utils.js?v=3.7"></script>
+<script src="js/core.js?v=3.7"></script>
+<script src="js/settings.js?v=3.7"></script>
+<script src="js/script.js?v=3.7"></script>
 </body>
 </html>

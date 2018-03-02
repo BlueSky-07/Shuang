@@ -19,69 +19,69 @@
 var xcvsTip = "<i>小众方案 - 常用输入法可能不内置</i>";
 
 var schemes = {
-	list: [
-		'自然码'
-		, '微软双拼'
-		, '搜狗双拼'
-		, '小鹤双拼'
-		, '智能ABC'
-		, '拼音加加'
-		, '紫光双拼'
-		, '大牛双拼'
-		, '键道3'
-		, '开源小鹳'
-		, '小浪双拼'
-		, '键道6'
-	],
-	getIdByName: {
-		zirjma: 0
-		, wzrrudpn: 1
-		, sbgbudpn: 2
-		, xcheudpn: 3
-		, vingabc: 4
-		, pnynjwjw: 5
-		, zigdudpn: 6
-		, danqudpn: 7
-		, jmdk3: 8
-		, klyrxcgr: 9
-		, xclhudpn: 10
-		, jmdk6: 11
-	},
-	getNameById: [
-		'zirjma'
-		, 'wzrrudpn'
-		, 'sbgbudpn'
-		, 'xcheudpn'
-		, 'vingabc'
-		, 'pnynjwjw'
-		, 'zigdudpn'
-		, 'danqudpn'
-		, 'jmdk3'
-		, 'klyrxcgr'
-		, 'xclhudpn'
-		, 'jmdk6'
-	],
-	data: {},
-	tips: {
-		sbgbudpn: [
-			'iOS 11 自带方案'
-		]
-		, danqudpn: [
-			xcvsTip
-		]
-		, jmdk3: [
-			'jqxy 遇 u 以 v 替代'
-			, xcvsTip
-		]
-		, klyrxcgr: [
-			xcvsTip
-		]
-		, xclhudpn: [
-			xcvsTip
-		]
-		, jmdk6: [
-			'jqxy 遇 u 以 v 替代'
-			, xcvsTip
-		]
-	}
+  list: [
+    '自然码'
+    , '微软双拼'
+    , '搜狗双拼'
+    , '小鹤双拼'
+    , '智能ABC'
+    , '拼音加加'
+    , '紫光双拼'
+    , '大牛双拼'
+    , '键道3'
+    , '开源小鹳'
+    , '小浪双拼'
+    , '键道6'
+  ],
+  getIdByName: {
+    zirjma: 0
+    , wzrrudpn: 1
+    , sbgbudpn: 2
+    , xcheudpn: 3
+    , vingabc: 4
+    , pnynjwjw: 5
+    , zigdudpn: 6
+    , danqudpn: 7
+    , jmdk3: 8
+    , klyrxcgr: 9
+    , xclhudpn: 10
+    , jmdk6: 11
+  },
+  getNameById: [
+    'zirjma'
+    , 'wzrrudpn'
+    , 'sbgbudpn'
+    , 'xcheudpn'
+    , 'vingabc'
+    , 'pnynjwjw'
+    , 'zigdudpn'
+    , 'danqudpn'
+    , 'jmdk3'
+    , 'klyrxcgr'
+    , 'xclhudpn'
+    , 'jmdk6'
+  ],
+  data: {},
+  tips: {
+    sbgbudpn: [
+      'iOS 11 自带方案'
+    ]
+    , danqudpn: [
+      xcvsTip
+    ]
+    , jmdk3: [
+      'jqxy 遇 u 以 v 替代'
+      , xcvsTip
+    ]
+    , klyrxcgr: [
+      xcvsTip
+    ]
+    , xclhudpn: [
+      xcvsTip
+    ]
+    , jmdk6: [
+      'jqxy 遇 u 以 v 替代'
+      , xcvsTip
+    ]
+  }
 };
