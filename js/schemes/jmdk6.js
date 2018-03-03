@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.1 */
+/** last changed: 2018.3.3 */
 
 /**
  *
@@ -82,5 +82,44 @@ schemes.data = {
     , er: 'xj'
     , o: 'xl'
     , ou: 'xd'
+  }
+  , fzjm: {
+    cha: 'ws'
+    , chai: 'jh'
+    , chan: 'jf'
+    , chang: 'jp'
+    , chen: 'jn'
+    , cheng: 'jr'
+    , chi: 'wk'
+    , chong: 'wy'
+    , chou: 'wd'
+    , chu: 'jj'
+    , chua: 'wq'
+    , chuai: 'wg'
+    , chuan: 'wt'
+    , chuang: 'wx'
+    , chui: 'wb'
+    , chun: 'jw'
+    , chuo: 'wl'
+    , ju: 'jl'
+    , qu: 'ql'
+    , xu: 'xl'
+    , yu: 'yl'
+    , zha: 'fs'
+    , zhan: 'qf'
+    , zhang: 'qp'
+    , zhen: 'qn'
+    , zheng: 'qr'
+    , zhi: 'fk'
+    , zhong: 'fy'
+    , zhou: 'fd'
+    , zhu: 'qj'
+    , zhua: 'fq'
+    , zhuai: 'fg'
+    , zhuan: 'ft'
+    , zhuang: 'fx'
+    , zhui: 'fb'
+    , zhun: 'qw'
+    , zhuo: 'fl'
   }
 };

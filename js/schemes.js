@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.1 */
+/** last changed: 2018.3.3 */
 
 /**
  *
@@ -15,8 +15,6 @@
  * tips: 方案特殊说明，通过 {字母表达} 获取
  *
  */
-
-var xcvsTip = "<i>小众方案 - 常用输入法可能不内置</i>";
 
 var schemes = {
   list: [
@@ -67,21 +65,22 @@ var schemes = {
       'iOS 11 自带方案'
     ]
     , danqudpn: [
-      xcvsTip
+      '<i>小众方案 - 常用输入法可能不内置</i>'
     ]
     , jmdk3: [
       'jqxy 遇 u 以 v 替代'
-      , xcvsTip
+      ,'<i>极小众方案 - 常用输入法不内置</i>'
     ]
     , klyrxcgr: [
-      xcvsTip
+      '<i>极小众方案 - 常用输入法不内置</i>'
     ]
     , xclhudpn: [
-      xcvsTip
+      '<i>小众方案 - 常用输入法可能不内置</i>'
     ]
     , jmdk6: [
       'jqxy 遇 u 以 v 替代'
-      , xcvsTip
+      , '飞键限制：若不了解，不推荐学习'
+      ,'<i>极小众方案 - 常用输入法不内置</i>'
     ]
   }
 };

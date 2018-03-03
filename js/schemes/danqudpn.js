@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.1 */
+/** last changed: 2018.3.3 */
 
 /**
  *
@@ -82,5 +82,15 @@ schemes.data = {
     , er: 'eu'
     , o: 'eo'
     , ou: 'er'
+  }
+  , fzjm: {
+    juan: ['jz', 'jj']
+    , jun: ['jy', 'jw']
+    , quan: ['qz', 'qj']
+    , qun: ['qy', 'qw']
+    , xuan: ['xz', 'xj']
+    , xun: ['xy', 'xw']
+    , yuan: ['yz', 'yj']
+    , yun: ['yy', 'yw']
   }
 };

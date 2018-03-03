@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.1 */
+/** last changed: 2018.3.3 */
 
 /**
  *
@@ -82,5 +82,11 @@ schemes.data = {
     , er: 'xm'
     , o: 'xl'
     , ou: 'xs'
+  }
+  , fzjm: {
+    ju: 'jl'
+    , qu: 'ql'
+    , xu: 'xl'
+    , yu: 'yl'
   }
 };

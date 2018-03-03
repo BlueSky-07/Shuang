@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.1 */
+/** last changed: 2018.3.3 */
 
 var model = function () {
   return {
@@ -75,37 +75,10 @@ var model = function () {
           this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v')];
         }
       }
-      if (this.schemeId === schemes.getIdByName.danqudpn) {
-        if (this.ypmu === 'uan') {
-          if ('jqxy'.indexOf(this.ugmu) !== -1) {
-            this.isTeuu = true;
-            this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + 'j'];
-          }
-        } else if (this.ypmu === 'un') {
-          if ('jqxy'.indexOf(this.ugmu) !== -1) {
-            this.isTeuu = true;
-            this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + 'w'];
-          }
-        } else if (this.scheme_ypmu === 'u') {
-          if ('jqxy'.indexOf(this.ugmu) !== -1) {
-            this.isTeuu = true;
-            this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v')];
-          }
-        }
-      } else if (this.schemeId === schemes.getIdByName.jmdk3) {
-        if (this.ypmu === 'u') {
-          if ('jqxy'.indexOf(this.ugmu) !== -1) {
-            this.isTeuu = true;
-            this.scheme_teuu = this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v');
-          }
-        }
-      } else if (this.schemeId === schemes.getIdByName.jmdk6) {
-        if (this.ypmu === 'u') {
-          if ('jqxy'.indexOf(this.ugmu) !== -1) {
-            this.isTeuu = true;
-            this.scheme_teuu = this.scheme_ugmu + getSchemeByYpmu(this.schemeId, 'v');
-          }
-        }
+      // danqudpn, jmdk3, jmdk6
+      if (schemes.data.fzjm !== undefined && schemes.data.fzjm[this.ugmu + this.ypmu] !== undefined) {
+        this.isTeuu = true;
+        this.scheme_teuu = schemes.data.fzjm[this.ugmu + this.ypmu];
       }
     },
     check: function () {
