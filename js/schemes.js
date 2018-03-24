@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.3 */
+/** last changed: 2018.3.24 */
 
 /**
  *
@@ -30,6 +30,7 @@ var schemes = {
     , '开源小鹳'
     , '小浪双拼'
     , '键道6'
+    , '标准双拼'
   ],
   getIdByName: {
     zirjma: 0
@@ -44,6 +45,7 @@ var schemes = {
     , klyrxcgr: 9
     , xclhudpn: 10
     , jmdk6: 11
+    , bcvpudpn: 12
   },
   getNameById: [
     'zirjma'
@@ -58,6 +60,7 @@ var schemes = {
     , 'klyrxcgr'
     , 'xclhudpn'
     , 'jmdk6'
+    , 'bcvpudpn'
   ],
   data: {},
   tips: {
@@ -69,7 +72,7 @@ var schemes = {
     ]
     , jmdk3: [
       'jqxy 遇 u 以 v 替代'
-      ,'<i>极小众方案 - 常用输入法不内置</i>'
+      , '<i>极小众方案 - 常用输入法不内置</i>'
     ]
     , klyrxcgr: [
       '<i>极小众方案 - 常用输入法不内置</i>'
@@ -80,7 +83,11 @@ var schemes = {
     , jmdk6: [
       'jqxy 遇 u 以 v 替代'
       , '飞键限制：若不了解，不推荐学习'
-      ,'<i>极小众方案 - 常用输入法不内置</i>'
+      , '<i>极小众方案 - 常用输入法不内置</i>'
+    ]
+    , bcvpudpn: [
+      '推荐性国家标准 : GB/T 34947-2017'
+      , '<i>极小众方案 - 常用输入法不内置</i>'
     ]
   }
 };

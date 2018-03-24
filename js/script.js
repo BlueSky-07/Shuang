@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.2 */
+/** last changed: 2018.3.24 */
 
 // core
 var nowModel = model();
@@ -177,9 +177,9 @@ var doAction = function (x) {
 };
 
 function qrShow(target_id) {
-  $('#' + target_id).hidden = false;
+  $('#' + target_id).hidden = '';
 }
 
 function qrHide(target) {
-  target.hidden = true;
+  target.hidden = 'hidden';
 }
