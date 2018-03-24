@@ -29,7 +29,7 @@ var settings = {
       next();
       updateTips();
     };
-    addJS('scheme_data', 'js/schemes/' + schemes.getNameById[this.schemeId] + '.js?v=3.9', callback);
+    addJS('scheme_data', 'js/schemes/' + schemes.getNameById[this.schemeId] + '.js?v=3.10', callback);
   },
   setModeId: function (modeName) {
     this.modeId = modes.list.indexOf(modeName);

@@ -30,7 +30,7 @@ var schemes = {
     , '开源小鹳'
     , '小浪双拼'
     , '键道6'
-    , '标准双拼'
+    , '国标双拼'
   ],
   getIdByName: {
     zirjma: 0
@@ -45,7 +45,7 @@ var schemes = {
     , klyrxcgr: 9
     , xclhudpn: 10
     , jmdk6: 11
-    , bcvpudpn: 12
+    , gobcudpn: 12
   },
   getNameById: [
     'zirjma'
@@ -60,7 +60,7 @@ var schemes = {
     , 'klyrxcgr'
     , 'xclhudpn'
     , 'jmdk6'
-    , 'bcvpudpn'
+    , 'gobcudpn'
   ],
   data: {},
   tips: {
@@ -85,7 +85,7 @@ var schemes = {
       , '飞键限制：若不了解，不推荐学习'
       , '<i>极小众方案 - 常用输入法不内置</i>'
     ]
-    , bcvpudpn: [
+    , gobcudpn: [
       '推荐性国家标准 : GB/T 34947-2017'
       , '<i>极小众方案 - 常用输入法不内置</i>'
     ]
