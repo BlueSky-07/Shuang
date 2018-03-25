@@ -1,4 +1,4 @@
-<!-- last changed: 2018.3.24 -->
+<!-- last changed: 2018.3.25 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +6,7 @@
   <title>双拼练习</title>
   <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css?v=3.10">
+  <link rel="stylesheet" href="css/style.css?v=4.0">
 </head>
 <body onkeydown="keyAction(event)">
 <div class="header">
@@ -20,68 +20,59 @@
   </div>
   <div class="menu">
     <span class="title">模式介绍：</span>
-    <span id="mode_detail"></span>
+    <span id="mode_desc"></span>
   </div>
   <div class="menu">
     <span class="title">显示键位图：</span>
-    <input type="checkbox" id="tipsSwitcher" onclick="switchTips(this.checked)">
+    <input type="checkbox" id="picSwitcher" onclick="setPicVisable(this.checked)">
   </div>
 </div>
 <div class="workspace">
-  <div class="col">
-    <div class="row">
-      <div class="example" id="example"></div>
-    </div>
-    <div class="row">
-      <div class="btns">
-        <div class="btn" id="btn_redo" onclick="redo()"><span>X</span></div>
-        <div class="btn" id="btn_next" onclick="next()"><span>&gt;</span></div>
-      </div>
-    </div>
+  <div class="row">
+    <span class="example" id="example"></span>
+    <span class="q" id="q"></span>
   </div>
-  <div class="col ">
-    <div class="row">
-      <div class="q" id="q"></div>
-    </div>
-    <div class="row">
-      <input id="a" maxlength="2" onkeyup="doAction(this)" autofocus="autofocus">
-    </div>
+  <div class="row">
+    <div class="btn" id="btn" onclick="redo()">X</div>
+    <input id="a" maxlength="2" onkeyup="inputAction(this)" autofocus="autofocus">
   </div>
 </div>
-<div class="tips" id="tips">
-  <img id="tips_pic">
-  <div class="special" id="tips_special"></div>
+<div class="keyboard" id="keyboard">
+  <img class="pic" id="pic">
+  <div class="tips" id="tips"></div>
 </div>
-<div class="tip">
+<div class="tips">
   <p>1.切换至系统自带的英文输入法</p>
   <p>2.空格键 / 回车键 切换或清空</p>
   <p>3.手机练习推荐使用微信小程序</p>
+  <p>4.使用 Chorme 浏览器体验最佳</p>
 </div>
 <div class="footer">
-  <div id="wx">
+  <div class="wx" id="wx">
     <span id="wx_title">微信小程序：</span>
     <span id="wx_name" onmouseover="qrShow('wx_qr')">双拼练习</span>
-    <img id="wx_qr" src="img/qr.jpg" hidden="hidden" onclick="qrHide(this)">
+    <img id="wx_qr" src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~" hidden="hidden" onclick="qrHide(this)">
   </div>
   <div class="copyright">
-    <span>@ BlueSky | 2018.3.24 更新</span><br>
+    <span>@ BlueSky | v4.0 2018.3.25 更新</span><br>
     <a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang" target="_blank">
       https://github.com/BlueSky-07/Shuang
     </a>
   </div>
-  <div id="pay">
-    <span id="pay_title">打赏：</span>
-    <span id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
+  <div class="pays" id="pay">
+    <span class="pay_title">打赏：</span>
+    <span class="pay_name" id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
     <img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="qrHide(this)" hidden>
-    <span id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
+    <span class="pay_name" id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
     <img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="qrHide(this)" hidden>
   </div>
 </div>
-<script src="js/schemes.js?v=3.10"></script>
-<script src="js/dict.js?v=3.10"></script>
-<script src="js/utils.js?v=3.10"></script>
-<script src="js/core.js?v=3.10"></script>
-<script src="js/settings.js?v=3.10"></script>
-<script src="js/script.js?v=3.10"></script>
+<script src="js/schemes.js?v=4.0"></script>
+<script src="js/modes.js?v=4.0"></script>
+<script src="js/dict.js?v=4.0"></script>
+<script src="js/utils.js?v=4.0"></script>
+<script src="js/core.js?v=4.0"></script>
+<script src="js/settings.js?v=4.0"></script>
+<script src="js/script.js?v=4.0"></script>
 </body>
 </html>

@@ -1,45 +1,25 @@
 "use strict";
 
-/** last changed: 2018.3.24 */
+/** last changed: 2018.3.25 */
 
 // core
-var nowModel = model();
+var nowModel = getNewModel();
 var step1 = -1;
 var step2 = 0;
-var modes = {
-  list: [
-    "全部随机"
-    , "全部顺序"
-    , "困难随机"
-    , "无拼音"
-  ],
-  details: [
-    "全部拼音组合"
-    , "全部拼音组合"
-    , "韵母需转换"
-    , "无拼音提示"
-  ],
-  getIdByName: {
-    "QRBUSVJI": 0
-    , "QRBUUPXU": 1
-    , "KPNJSVJI": 2
-    , "WUPNYN": 3
-  }
-};
 
 // init
 window.onload = function () {
   /** menu init */
   var schemesMenu = $('#schemesMenu');
-  for (var schemeId in schemes.list) {
+  for (var s in schemes) {
     var schemeOption = document.createElement('option');
-    schemeOption.innerHTML = schemes.list[schemeId];
+    schemeOption.innerHTML = schemes[s];
     schemesMenu.appendChild(schemeOption);
   }
   var modesMenu = $('#modesMenu');
-  for (var modeId in modes.list) {
+  for (var m in modes) {
     var modeOption = document.createElement('option');
-    modeOption.innerHTML = modes.list[modeId];
+    modeOption.innerHTML = modes[m].name;
     modesMenu.appendChild(modeOption);
   }
   /** update statistic */
@@ -53,13 +33,9 @@ var init = function () {
   nowModel.getReady();
   nowModel.ugmu = 'sh';
   nowModel.ypmu = 'uang';
-  nowModel.beReady(settings.schemeId);
+  nowModel.beReady();
   /** view */
-  if (settings.modeId === modes.getIdByName.WUPNYN) {
-    $('#q').innerHTML = '&nbsp';
-  } else {
-    $('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
-  }
+  $('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
   $('#example').innerHTML = nowModel.getExample();
   isInit = false;
 };
@@ -73,13 +49,15 @@ var check = function () {
     nowModel.setInputUgmu(inputUgmu);
     nowModel.setInputYpmu(inputYpmu);
     if (nowModel.check()) {
-      $('#btn_next').style.display = 'block';
-      $('#btn_redo').style.display = 'none';
+      $('#btn').onclick = next;
+      $('#btn').innerText = '>';
+      $('#btn').style.backgroundColor = '#49c64f';
       return true;
     }
   }
-  $('#btn_next').style.display = 'none';
-  $('#btn_redo').style.display = 'block';
+  $('#btn').onclick = redo;
+  $('#btn').innerText = 'X';
+  $('#btn').style.backgroundColor = '#459df5';
   return false;
 };
 
@@ -88,20 +66,21 @@ var redo = function () {
   var input = $('#a');
   input.value = '';
   input.focus();
-  $('#btn_next').style.display = 'none';
-  $('#btn_redo').style.display = 'block';
+  $('#btn').onclick = redo;
+  $('#btn').innerText = 'X';
+  $('#btn').style.backgroundColor = '#459df5';
 };
 
 // next
 var next = function () {
   redo();
-  var newModel = model();
+  var newModel = getNewModel();
   newModel.getReady();
-  switch (settings.modeId) {
-    case modes.getIdByName.QRBUSVJI:
+  switch (settings.mode) {
+    case "qrbusvji":
       newModel.initRandom();
       break;
-    case modes.getIdByName.QRBUUPXU:
+    case "qrbuupxu":
       while (newModel.initByIds(step1, step2) === false) {
         newModel.getReady();
         if (step2 === 0) {
@@ -114,10 +93,10 @@ var next = function () {
       }
       step2++;
       break;
-    case modes.getIdByName.KPNJSVJI:
+    case "kpnjsvji":
       newModel.initHardRandom();
       break;
-    case modes.getIdByName.WUPNYN:
+    case "wupnyn":
       do {
         newModel.getReady();
         newModel.initRandom();
@@ -125,34 +104,28 @@ var next = function () {
       } while (Array.isArray(newModel.getExample()));
       break;
   }
-  if (model().isSame(nowModel, newModel)) {
+  if (nowModel.isSame(nowModel, newModel)) {
     next();
   } else {
-    newModel.beReady(settings.schemeId);
+    newModel.beReady();
     nowModel = newModel;
-    if (settings.modeId === modes.getIdByName.WUPNYN) {
-      $('#q').innerHTML = '&nbsp';
-    } else {
-      $('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
-    }
+    $('#q').innerHTML = nowModel.getUgmu() + nowModel.getYpmu();
     $('#example').innerHTML = nowModel.getExample();
   }
 };
 
 // settings
-var changeScheme = function (x) {
-  settings.setSchemeId(x);
-  // 因为使用了 addjs 所以将方法放在callback里调用
-  // next();
+var changeScheme = function (schemeName) {
+  settings.setScheme(schemeName);
 };
 
-var changeMode = function (x) {
-  settings.setModeId(x);
+var changeMode = function (modeName) {
+  settings.setMode(modeName);
   next();
 };
 
-var switchTips = function (x) {
-  settings.setTipsFlag(x);
+var setPicVisable = function (bool) {
+  settings.setPicVisable(bool);
 };
 
 // actions
@@ -169,10 +142,8 @@ var keyAction = function (event) {
   }
 };
 
-var doAction = function (x) {
-  x.value = x.value.substr(0, 2);
-  x.value = x.value.replace(/[^a-zA-Z;]/g, '');
-  x.value = x.value.substr(0, 1).toUpperCase().concat(x.value.substr(1, x.value.length).toLowerCase());
+var inputAction = function (input) {
+  input.value = input.value.substr(0, 2).replace(/[^a-zA-Z;]/g, '');
   check();
 };
 
