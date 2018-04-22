@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.25 */
+/** last changed: 2018.4.22 */
 
 var isInit = true;
 
@@ -29,7 +29,7 @@ var settings = {
       next();
       updateTips();
     };
-    addJS('scheme_data', 'js/schemes/' + this.scheme + '.js?v=4.0', callback);
+    addJS('scheme_data', 'js/schemes/' + this.scheme + '.js?v=4.1', callback);
   },
   setMode: function (modeName) {
     for (var m in modes) {

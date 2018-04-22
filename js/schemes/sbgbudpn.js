@@ -6,7 +6,7 @@ var scheme = {
   id: 'sbgbudpn',
   name: '搜狗双拼',
   tips: [
-    'iOS 11 自带方案'
+    'iOS 11.3 自带方案'
   ],
   detail: {
     ugmu: {

@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.24 */
+/** last changed: 2018.4.22 */
 
 var scheme = {
   id: 'gobcudpn',
@@ -62,7 +62,7 @@ var scheme = {
       , uai: 'y'
       , uan: 'w'
       , uang: 'n'
-      , ue: 't'
+      , ue: 'x'
       , ui: 'v'
       , un: 'z'
       , uo: 'o'

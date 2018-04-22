@@ -5,6 +5,9 @@
 var scheme = {
   id: 'wzrrudpn',
   name: '微软双拼',
+  tips: [
+    'iOS 11.3 自带方案'
+  ],
   detail: {
     ugmu: {
       b: 'b'

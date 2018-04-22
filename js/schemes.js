@@ -17,16 +17,3 @@ var schemes = {
   , jmdkudpn3: '键道双拼3'
   , jmdkudpn6: '键道双拼6'
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
