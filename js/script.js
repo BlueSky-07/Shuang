@@ -131,6 +131,9 @@ var setPicVisable = function (bool) {
 // actions
 var keyAction = function (event) {
   switch (event.keyCode) {
+    case 27: // ESC
+      redo();
+      break;
     case 13: // Enter
     case 32: // Space
       if (check()) {
