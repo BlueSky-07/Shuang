@@ -1,6 +1,6 @@
 "use strict";
 
-/** last changed: 2018.3.25 */
+/** last changed: 2018.10.24 */
 
 // core
 var nowModel = getNewModel();
@@ -26,6 +26,8 @@ window.onload = function () {
   update_statistic();
   /** reload settings */
   settings.reload();
+  /** register keyAction */
+  document.addEventListener('keydown', keyAction)
 };
 
 var init = function () {
