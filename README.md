@@ -35,6 +35,16 @@ v4.5 2018.10.24 更新
 
 更多介绍：[https://sspai.com/post/40185](https://sspai.com/post/40185)
 
+### 键位图
+
+1. `resources/双拼键位图.xlsx` ：可编辑的 Excel 键位图表格
+
+2. `img/*.png`：从上述表格中导出的 png 图片
+
+3. 也可在此查看包含 Dvorak 键盘布局的键位图：[https://api.ihint.me/keyboard](https://api.ihint.me/keyboard)
+
+*Web 版键位图如果不能正常显示，如内容排版错乱或重叠，请尝试更新使用最新版 Chrome 浏览器，或换用更高分辨率的屏幕*
+
 ### 微信小程序版
 
 可以使用微信扫描下面的二维码，或在微信小程序中搜索 双拼练习 即可添加。
