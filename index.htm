@@ -1,40 +1,46 @@
-<!-- last changed: 2018.11.1 -->
+<!-- last changed: 2018.11.10 -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>双拼练习</title>
+  <title>双拼练习 @ BlueSky</title>
   <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css?v=4.5">
+  <link rel="stylesheet" href="css/style.css?v=5.0">
+  <meta name="keywords" content="双拼,双拼输入,双拼练习,双拼入门,双拼教程,自然码,小鹤双拼"/>
+  <meta name="description" content="帮助你快速上手双拼输入法，也可在微信小程序中搜索”双拼练习“使用。"/>
 </head>
 <body>
 <div class="header">
   <div class="menu">
-    <span class="title">双拼方案：</span>
-    <select id="schemesMenu" onchange="changeScheme(this.value)"></select>
+    <label for="scheme-select" class="title">双拼方案：</label>
+    <select id="scheme-select"></select>
   </div>
   <div class="menu">
-    <span class="title">练习模式：</span>
-    <select id="modesMenu" onchange="changeMode(this.value)"></select>
+    <label for="mode-select" class="title">练习模式：</label>
+    <select id="mode-select"></select>
   </div>
   <div class="menu">
-    <span class="title">模式介绍：</span>
-    <span id="mode_desc"></span>
+    <span class="title">模式说明：</span>
+    <span id="mode-desc"></span>
   </div>
   <div class="menu">
     <span class="title">显示键位图：</span>
-    <input type="checkbox" id="picSwitcher" onclick="setPicVisable(this.checked)">
+    <input type="checkbox" id="pic-switcher">
   </div>
 </div>
 <div class="workspace">
-  <div class="row">
-    <span class="example" id="example"></span>
-    <span class="q" id="q"></span>
+  <div class="col">
+    <span class="dict" id="dict"></span>
   </div>
-  <div class="row">
-    <div class="btn" id="btn" onclick="redo()">X</div>
-    <input id="a" maxlength="2" onkeyup="inputAction(this)" autofocus="autofocus" autocomplete="off">
+  <div class="col">
+    <div class="row">
+      <span class="q" id="q"></span>
+    </div>
+    <div class="row">
+      <input id="a" maxlength="2" autofocus="autofocus" autocomplete="off">
+      <div class="btn" id="btn">❌</div>
+    </div>
   </div>
 </div>
 <div class="keyboard" id="keyboard">
@@ -42,38 +48,44 @@
   <div class="tips" id="tips"></div>
 </div>
 <div class="tips">
-  <p>1.切换至系统自带的英文输入法</p>
-  <p>2.空格键 / 回车键 切换或清空</p>
-  <p>3.手机练习推荐使用微信小程序</p>
-  <p>4.使用 Chrome 浏览器体验最佳</p>
+  <p>1. 切换至系统自带的英文输入法</p>
+  <p>2. 空格键 / 回车键 切换或清空</p>
+  <p>3. Tab 键 显示答案（可能不唯一）</p>
+  <p>4. 手机练习推荐使用微信小程序</p>
+  <p>5. 使用 Chrome 浏览器体验最佳</p>
 </div>
 <div class="footer">
   <div class="wx" id="wx">
-    <span id="wx_title">微信小程序：</span>
-    <span id="wx_name" onmouseover="qrShow('wx_qr')">双拼练习</span>
-    <img id="wx_qr" src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~" hidden="hidden" onclick="qrHide(this)">
+    <span id="wx-title">微信小程序：</span>
+    <span id="wx-name" onmouseover="Shuang.app.action.qrShow('wx-qr')">双拼练习</span>
+    <img id="wx-qr" onclick="Shuang.app.action.qrHide(this)" hidden="hidden"
+         src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~">
   </div>
   <div class="copyright">
-    <span>@ BlueSky | v4.5 2018.10.24 更新</span>
+    <span>@ BlueSky | v5.0 2018.11.10 更新</span>
     <br>
-    <a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang" target="_blank">https://github.com/BlueSky-07/Shuang</a>
+    <a
+        title="在 Github 上查看该项目源码"
+        href="https://github.com/BlueSky-07/Shuang"
+        target="_blank"
+    >https://github.com/BlueSky-07/Shuang</a>
     <br>
-    <span>键位图 <a title="查看包含 Dvorak 键盘布局的键位图" href="https://api.ihint.me/keyboard" target="_blank">https://api.ihint.me/keyboard</a></span>
+    <span>键位图 <a title="查看包含 Dvorak 键盘布局的键位图"
+                 href="https://api.ihint.me/keyboard"
+                 target="_blank"
+    >https://api.ihint.me/keyboard</a></span>
   </div>
   <div class="pays" id="pay">
-    <span class="pay_title">打赏：</span>
-    <span class="pay_name" id="alipay" onmouseover="qrShow('alipay_qr')">支付宝</span>
-    <img id="alipay_qr" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35" onclick="qrHide(this)" hidden>
-    <span class="pay_name" id="wxpay" onmouseover="qrShow('wxpay_qr')">微信</span>
-    <img id="wxpay_qr" src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk" onclick="qrHide(this)" hidden>
+    <span class="pay-title">打赏：</span>
+    <span class="pay-name" id="alipay" onmouseover="Shuang.app.action.qrShow('alipay-qr')">支付宝</span>
+    <img id="alipay-qr" onclick="Shuang.app.action.qrHide(this)" hidden="hidden"
+         src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35">
+    <span class="pay-name" id="wxpay" onmouseover="Shuang.app.action.qrShow('wxpay-qr')">微信</span>
+    <img id="wxpay-qr" onclick="Shuang.app.action.qrHide(this)" hidden="hidden"
+         src="https://api.ihint.me/qr.php?wxp://f2f0upVZDeiNOEKSu8a-SgK7Jgy-oDkxhADk">
   </div>
 </div>
-<script src="js/schemes.js?v=4.5"></script>
-<script src="js/modes.js?v=4.5"></script>
-<script src="js/dict.js?v=4.5"></script>
-<script src="js/utils.js?v=4.5"></script>
-<script src="js/core.js?v=4.5"></script>
-<script src="js/settings.js?v=4.5"></script>
-<script src="js/script.js?v=4.5"></script>
+<img src="https://api.ihint.me/statistics.php?site=shuang" hidden="hidden">
+<script src="js/app.js?v=5.0"></script>
 </body>
 </html>

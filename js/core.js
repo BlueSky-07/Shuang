@@ -1,133 +1,87 @@
-"use strict";
+/** last changed: 2018.11.10 */
 
-/** last changed: 2018.3.25 */
-
-var getNewModel = function () {
-  return {
-    ugmu: ''
-    , ypmu: ''
-    , isTeuu: false
-    , scheme_ugmu: []
-    , scheme_ypmu: []
-    , scheme_teuu: []
-    , example: ''
-    , input_ugmu: ''
-    , input_ypmu: ''
-    , getReady: function () {
-      this.ugmu = '';
-      this.ypmu = '';
-      this.isTeuu = false;
-      this.scheme_ugmu = [];
-      this.scheme_ypmu = [];
-      this.scheme_teuu = [];
-      this.example = '';
-      this.input_ugmu = '';
-      this.input_ypmu = '';
-    }
-    , initRandom: function () {
-      this.ugmu = dict.list[Math.floor(Math.random() * dict.list.length)];
-      this.ypmu = dict[this.ugmu].list[Math.floor(Math.random() * dict[this.ugmu].list.length)];
-    }
-    , initHardRandom: function () {
-      while (this.ugmu === '' || this.ypmu.length === 1) {
-        this.initRandom();
-      }
-    }
-    , initByIds: function (ugmuId, ypmuId) {
-      if (ugmuId >= 0 && ugmuId < dict.list.length) {
-        if (ypmuId >= 0 && ypmuId < dict[dict.list[ugmuId]].list.length) {
-          this.ugmu = dict.list[ugmuId];
-          this.ypmu = dict[this.ugmu].list[ypmuId];
-          return true;
-        }
-      }
-      return false;
-    }
-    , initScheme: function () {
-      if (this.ugmu === '') {
-        this.isTeuu = true;
-      }
-      if (this.isTeuu) {
-        this.scheme_teuu = scheme.detail.teuu[this.ypmu];
-      } else {
-        this.scheme_ugmu = scheme.detail.ugmu[this.ugmu];
-        this.scheme_ypmu = scheme.detail.ypmu[this.ypmu];
-      }
-    }
-    , initExample: function () {
-      this.example = dict[this.ugmu][this.ypmu];
-    }
-    , beReady: function () {
-      this.initScheme();
-      this.initExample();
-    }
-    , beforeCheck: function () {
-      if (this.isTeuu) {
-        return;
-      }
-      // special check
-      if (this.scheme_ypmu === 'u') {
-        if ('jqxy'.indexOf(this.ugmu) !== -1) {
-          this.isTeuu = true;
-          this.scheme_teuu = [this.scheme_ugmu + this.scheme_ypmu, this.scheme_ugmu + scheme.detail.ypmu.v];
-        }
-      }
-      // danqudpn, jmdkudpn3, jmdkudpn6
-      if (scheme.detail.fzjm !== undefined && scheme.detail.fzjm[this.ugmu + this.ypmu] !== undefined) {
-        this.isTeuu = true;
-        this.scheme_teuu = scheme.detail.fzjm[this.ugmu + this.ypmu];
-      }
-    }
-    , check: function () {
-      this.beforeCheck();
-      if (this.isTeuu) {
-        if (Array.isArray(this.scheme_teuu)) {
-          for (var item in this.scheme_teuu) {
-            if (this.input_ugmu === this.scheme_teuu[item][0] && this.input_ypmu === this.scheme_teuu[item][1]) {
-              return true;
-            }
-          }
-        } else {
-          return this.input_ugmu === this.scheme_teuu[0] && this.input_ypmu === this.scheme_teuu[1];
-        }
-      } else {
-        return isRight(this.input_ugmu, this.scheme_ugmu) && isRight(this.input_ypmu, this.scheme_ypmu);
-      }
-      return false;
-    }
-    , getUgmu: function () {
-      return this.ugmu.substr(0, 1).toUpperCase().concat(this.ugmu.substr(1, this.ugmu.length).toLowerCase());
-    }
-    , getYpmu: function () {
-      return this.ypmu;
-    }
-    , getExample: function () {
-      return this.example;
-    }
-    , setInputUgmu: function (input_ugmu) {
-      this.input_ugmu = input_ugmu === '' ? '' : input_ugmu.toLowerCase();
-    }
-    , setInputYpmu: function (input_ypmu) {
-      this.input_ypmu = input_ypmu === '' ? '' : input_ypmu.toLowerCase();
-    }
-    , isSame: function (a, b) {
-      return a.ugmu === b.ugmu && a.ypmu === b.ypmu;
-    }
-  };
-};
-
-function isRight(x, scheme_x) {
-  if (x.length === 1) {
-    if (Array.isArray(scheme_x)) {
-      for (var i in scheme_x) {
-        if (x === scheme_x[i]) {
-          return true;
-        }
-      }
-    }
-    else {
-      return x === scheme_x;
+Shuang.core.model = class {
+  constructor(sheng = '', yun = '') {
+    this.sheng = sheng.toLowerCase()
+    this.yun = yun.toLowerCase()
+    this.dict = Shuang.resource.dict[this.sheng][this.yun]
+    this.scheme = new Set()
+    this.view = {
+      sheng: this.sheng ? this.sheng[0].toUpperCase() + this.sheng.slice(1) : '',
+      yun: this.yun
     }
   }
-  return false;
+  
+  beforeJudge() {
+    this.scheme.clear()
+    const schemeName = Shuang.app.setting.config.scheme
+    const schemeDetail = Shuang.resource.scheme[schemeName].detail
+    if (schemeDetail.other[this.sheng + this.yun]) {
+      if (Array.isArray(schemeDetail.other[this.sheng + this.yun])) {
+        for (const other of schemeDetail.other[this.sheng + this.yun]) {
+          this.scheme.add(other)
+        }
+      } else {
+        this.scheme.add(schemeDetail.other[this.sheng + this.yun])
+      }
+    } else {
+      for (const s of schemeDetail.sheng[this.sheng]) {
+        for (const y of schemeDetail.yun[this.yun]) {
+          this.scheme.add(s + y)
+        }
+      }
+      if (this.yun === 'u' && 'jqxy'.includes(this.sheng)) {
+        for (const s of schemeDetail.sheng[this.sheng]) {
+          for (const y of schemeDetail.yun.v) {
+            this.scheme.add(s + y)
+          }
+        }
+      }
+    }
+  }
+  
+  judge(_sheng = '', _yun = '') {
+    this.beforeJudge()
+    _sheng = _sheng.toLowerCase()
+    _yun = _yun.toLowerCase()
+    return this.scheme.has(_sheng + _yun)
+  }
+  
+  static getRandom() {
+    const sheng = Shuang.resource.dict.list[Math.floor(Math.random() * Shuang.resource.dict.list.length)]
+    const yun = Shuang.resource.dict[sheng].list[Math.floor(Math.random() * Shuang.resource.dict[sheng].list.length)]
+    const model = new Shuang.core.model(sheng, yun)
+    return Shuang.core.model.isSame(model, Shuang.core.current) ? Shuang.core.model.getRandom() : model
+  }
+  
+  static getHardRandom() {
+    let model = Shuang.core.model.getRandom()
+    while (model.sheng === '' || model.yun.length === 1) {
+      model = Shuang.core.model.getRandom()
+    }
+    return model
+  }
+  
+  static getByOrder() {
+    while (true) {
+      const sheng = Shuang.resource.dict.list[Shuang.core.order.shengIndex]
+      if (sheng !== undefined) {
+        const yun = Shuang.resource.dict[sheng].list[Shuang.core.order.yunIndex]
+        if (yun) {
+          Shuang.core.order.yunIndex++
+          return new Shuang.core.model(sheng, yun)
+        }
+      }
+      if (Shuang.core.order.yunIndex === 0) {
+        Shuang.core.order.shengIndex = 0
+      } else {
+        Shuang.core.order.shengIndex++
+        Shuang.core.order.yunIndex = 0
+      }
+    }
+  }
+  
+  static isSame(a, b) {
+    return a.sheng === b.sheng && a.yun === b.yun
+  }
 }
