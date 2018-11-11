@@ -1,10 +1,10 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.11.11 */
 
 Shuang.resource.scheme.xiaoguan = {
   id: 'xiaoguan',
   name: '开源小鹳',
   tips: [
-    '极小众方案 - 常用输入法不内置'
+    '常用输入法不内置'
   ],
   detail: {
     sheng: {

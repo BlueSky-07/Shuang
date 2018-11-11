@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.11.11 */
 
 body {
   margin: 0 auto;
@@ -21,10 +21,12 @@ body {
   justify-content: center;
   -webkit-align-items: center;
   align-items: center;
+  text-align: center;
 }
 
 .header .menu {
-  padding: 5px 20px;
+  padding: 5px 10px;
+  display: inline-block;
 }
 
 .menu .title {
@@ -50,7 +52,7 @@ body {
 /* workspace */
 .workspace {
   margin: auto;
-  width: 280px;
+  width: 300px;
   height: 150px;
   display: -webkit-flex;
   display: flex;
@@ -64,6 +66,7 @@ body {
 
 .workspace .col {
   margin: 10px;
+  display: inline-block;
 }
 
 .workspace .col .dict {
@@ -79,19 +82,8 @@ body {
 }
 
 .workspace .col .row .btn {
-  display: -webkit-inline-flex;
-  display: inline-flex;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+  display: inline-block;
   font-size: 32px;
-  line-height: 40px;
-  color: #fff;
 }
 
 .workspace .col .row input {

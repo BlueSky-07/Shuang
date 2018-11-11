@@ -1,0 +1,29 @@
+{
+  "name": "shuang",
+  "version": "5.1.0",
+  "description": "帮助你快速上手双拼输入法",
+  "scripts": {
+    "build": "del /Q build\\*.js && npx babel src -d build && ren .\\build\\*.js *.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlueSky-07/Shuang.git"
+  },
+  "keywords": [
+    "双拼",
+    "练习"
+  ],
+  "author": "BlueSky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BlueSky-07/Shuang/issues"
+  },
+  "homepage": "https://github.com/BlueSky-07/Shuang#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "babel-preset-minify": "^0.5.0"
+  },
+  "dependencies": {}
+}

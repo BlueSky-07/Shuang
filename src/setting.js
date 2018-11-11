@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.11.11 */
 
 Shuang.app.setting = {
   config: {
@@ -24,7 +24,7 @@ Shuang.app.setting = {
       if (next) Shuang.app.action.next()
       this.updateTips()
     }
-    importJS('js/scheme/' + this.config.scheme + '.js', callback)
+    importJS('build/scheme/' + this.config.scheme + '.js', callback)
   },
   setMode(modeName) {
     Shuang.core.history = []
