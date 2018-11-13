@@ -59,6 +59,7 @@ Shuang.core.model = class {
     while (model.sheng === '' || model.yun.length === 1) {
       model = Shuang.core.model.getRandom()
     }
+    // babel compile bug
     return model
   }
   
