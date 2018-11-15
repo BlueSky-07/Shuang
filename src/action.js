@@ -1,7 +1,18 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.11.15 */
 
 Shuang.app.action = {
   init() {
+    // better emoji for windows users
+    if (navigator && navigator.userAgent) {
+      const ua = navigator.userAgent
+      if (/Windows/.test(ua)) {
+        // Windows
+        Shuang.resource.emoji = {
+          right: '✔️', wrong: '❌'
+        }
+      }
+    }
+    
     // render
     function renderSelect(target, options, callback) {
       options.forEach(option => {
@@ -37,9 +48,47 @@ Shuang.app.action = {
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
     })
-    $('#pic-switcher').onchange = e => {
+    $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
-    }
+    })
+    $('#dark-mode-switcher').addEventListener('change', e => {
+      Shuang.app.setting.setDarkMode(e.target.checked)
+    })
+    $('.pay-name#alipay').addEventListener('mouseover', () => {
+      Shuang.app.action.qrShow('alipay-qr')
+    })
+    $('#alipay-qr').addEventListener('click', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('#alipay-qr').addEventListener('mouseout', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('.pay-name#wxpay').addEventListener('mouseover', () => {
+      Shuang.app.action.qrShow('wxpay-qr')
+    })
+    $('#wxpay-qr').addEventListener('click', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('#wxpay-qr').addEventListener('mouseout', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('#wx-name').addEventListener('mouseover', () => {
+      Shuang.app.action.qrShow('wx-qr')
+    })
+    $('#wx-qr').addEventListener('click', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('#wx-qr').addEventListener('mouseout', e => {
+      Shuang.app.action.qrHide(e.target)
+    })
+    $('#dict').addEventListener('click', () => {
+      Shuang.core.current.beforeJudge()
+      $('#a').value = Shuang.core.current.scheme.values().next().value
+      this.judge()
+    })
+    
+    // focus input
+    this.redo()
   },
   keyPressed(e) {
     const a = $('#a')
@@ -75,14 +124,14 @@ Shuang.app.action = {
         btn.onclick = () => {
           this.next()
         }
-        btn.innerText = '✔️'
+        btn.innerText = Shuang.resource.emoji.right
         return true
       }
     }
     btn.onclick = () => {
       this.redo()
     }
-    btn.innerText = '❌'
+    btn.innerText = Shuang.resource.emoji.wrong
     return false
   },
   redo() {
@@ -93,7 +142,7 @@ Shuang.app.action = {
     btn.onclick = () => {
       this.redo()
     }
-    btn.innerText = '❌'
+    btn.innerText = Shuang.resource.emoji.wrong
   },
   next() {
     this.redo()
@@ -119,9 +168,9 @@ Shuang.app.action = {
     $('#dict').innerHTML = Shuang.core.current.dict
   },
   qrShow(targetId) {
-    $('#' + targetId).hidden = ''
+    $('#' + targetId).style.display = 'block'
   },
   qrHide(target) {
-    target.hidden = 'hidden'
+    target.style.display = 'none'
   }
 }

@@ -4,7 +4,10 @@ const Shuang = {
   resource: {
     dict: {},
     schemeList: {},
-    scheme: {}
+    scheme: {},
+    emoji: {
+      right: '✅', wrong: '❎'
+    }
   },
   core: {
     model: {},

@@ -1,21 +1,25 @@
-/** last changed: 2018.11.11 */
+/** last changed: 2018.11.15 */
 
 Shuang.app.setting = {
   config: {
     scheme: 'guobiao',
     mode: 'all-random',
-    showPic: 'true'
+    showPic: 'true',
+    darkMode: 'false'
   },
   reload() {
     if (localStorage.getItem('scheme')) this.config.scheme = localStorage.getItem('scheme')
     if (localStorage.getItem('mode')) this.config.mode = localStorage.getItem('mode')
     if (localStorage.getItem('showPic')) this.config.showPic = localStorage.getItem('showPic')
+    if (localStorage.getItem('darkMode')) this.config.darkMode = localStorage.getItem('darkMode')
     $('#scheme-select')[Object.keys(Shuang.resource.schemeList).indexOf(this.config.scheme)].selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(this.config.mode)].selected = true
     $('#pic-switcher').checked = this.config.showPic === 'true'
+    $('#dark-mode-switcher').checked = this.config.darkMode === 'true'
     this.setScheme(Shuang.resource.schemeList[this.config.scheme], false)
     this.setMode(Shuang.app.modeList[this.config.mode].name)
     this.setPicVisible(this.config.showPic)
+    this.setDarkMode(this.config.darkMode)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[Object.values(Shuang.resource.schemeList).indexOf(schemeName)]
@@ -37,18 +41,27 @@ Shuang.app.setting = {
     localStorage.setItem('mode', this.config.mode)
     $('#mode-desc').innerHTML = Shuang.app.modeList[this.config.mode].desc
     if (this.config.mode === 'hard-random-without-pinyin') {
-      $('#q').hidden = 'hidden'
+      $('#q').style.display = 'none'
     } else {
-      $('#q').hidden = ''
+      $('#q').style.display = 'block'
     }
   },
   setPicVisible(bool) {
     this.config.showPic = bool.toString()
     localStorage.setItem('showPic', this.config.showPic)
     if (this.config.showPic === 'false') {
-      $('#keyboard').hidden = 'hidden'
+      $('#keyboard').style.display = 'none'
     } else if (this.config.showPic === 'true') {
-      $('#keyboard').hidden = ''
+      $('#keyboard').style.display = 'block'
+    }
+  },
+  setDarkMode(bool) {
+    this.config.darkMode = bool.toString()
+    localStorage.setItem('darkMode', this.config.darkMode)
+    if (this.config.darkMode === 'true') {
+      $('body').setAttribute('class', 'dark-mode')
+    } else if (this.config.darkMode === 'false') {
+      $('body').setAttribute('class', '')
     }
   },
   updateTips() {

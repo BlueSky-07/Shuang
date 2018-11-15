@@ -1,4 +1,4 @@
-/** last changed: 2018.11.11 */
+/** last changed: 2018.11.15 */
 
 body {
   margin: 0 auto;
@@ -58,8 +58,8 @@ body {
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
   -webkit-align-items: center;
   align-items: center;
 }
@@ -96,6 +96,7 @@ body {
   border-radius: 0;
   display: inline;
   text-transform: capitalize;
+  padding: 0;
 }
 
 .workspace .col .row input:hover {
@@ -113,6 +114,15 @@ body {
   width: 100%;
   max-width: 700px;
   z-index: 1;
+  filter: invert(0.07);
+}
+
+@media screen and (min-width: 0\0
+) and (min-resolution: +72dpi) {
+  /* IE */
+  .keyboard .pic {
+    filter: none;
+  }
 }
 
 .keyboard .tips {
@@ -236,4 +246,32 @@ body {
   height: 250px;
   border: dashed #777 1px;
   z-index: 1;
+}
+
+/* dark mode */
+.dark-mode {
+  background-color: #333;
+}
+
+.dark-mode * {
+  background-color: #333 !important;
+  color: #ccc !important;
+}
+
+.dark-mode .workspace .col .row input {
+  border: solid #333;
+  border-bottom: dashed #ccc;
+}
+
+.dark-mode .keyboard .pic {
+  filter: invert(0.8);
+}
+
+@media not all and (min-resolution: .001dpcm) {
+  @media {
+    /* Safari 10.1+ */
+    .dark-mode .menu select {
+      color: #000 !important;
+    }
+  }
 }
