@@ -1,10 +1,11 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.12.7 */
 
 Shuang.resource.scheme.xiaoyue = {
   id: 'xiaoyue',
   name: '小月双拼',
   tips: [
-    '常用输入法不内置(方案改自小浪双拼)'
+    '方案改自小浪双拼',
+    '常用输入法不内置'
   ],
   detail: {
     sheng: {

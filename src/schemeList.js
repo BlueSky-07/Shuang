@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.12.7 */
 
 Shuang.resource.schemeList = {
   guobiao: '国标双拼',
