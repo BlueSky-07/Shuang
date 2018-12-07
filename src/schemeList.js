@@ -13,5 +13,6 @@ Shuang.resource.schemeList = {
   xiaoguan: '开源小鹳',
   daniu: '大牛双拼',
   jiandao3: '键道双拼3',
-  jiandao6: '键道双拼6'
+  jiandao6: '键道双拼6',
+  xiaoyue: '小月双拼'
 }
