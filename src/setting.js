@@ -1,4 +1,4 @@
-/** last changed: 2018.11.15 */
+/** last changed: 2018.12.13 */
 
 Shuang.app.setting = {
   config: {
@@ -12,7 +12,10 @@ Shuang.app.setting = {
     if (localStorage.getItem('mode')) this.config.mode = localStorage.getItem('mode')
     if (localStorage.getItem('showPic')) this.config.showPic = localStorage.getItem('showPic')
     if (localStorage.getItem('darkMode')) this.config.darkMode = localStorage.getItem('darkMode')
-    $('#scheme-select')[Object.keys(Shuang.resource.schemeList).indexOf(this.config.scheme)].selected = true
+    ;[].find.call(
+        $('#scheme-select').children,
+            schemeOption => Shuang.resource.schemeList[Shuang.app.setting.config.scheme].startsWith(schemeOption.innerText)
+    ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(this.config.mode)].selected = true
     $('#pic-switcher').checked = this.config.showPic === 'true'
     $('#dark-mode-switcher').checked = this.config.darkMode === 'true'
@@ -22,7 +25,10 @@ Shuang.app.setting = {
     this.setDarkMode(this.config.darkMode)
   },
   setScheme(schemeName, next = true) {
-    this.config.scheme = Object.keys(Shuang.resource.schemeList)[Object.values(Shuang.resource.schemeList).indexOf(schemeName)]
+    this.config.scheme = Object.keys(Shuang.resource.schemeList)[
+        Object.values(Shuang.resource.schemeList)
+            .findIndex(scheme => scheme.startsWith(schemeName))
+        ]
     localStorage.setItem('scheme', this.config.scheme)
     const callback = () => {
       if (next) Shuang.app.action.next()

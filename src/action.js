@@ -1,4 +1,4 @@
-/** last changed: 2018.11.15 */
+/** last changed: 2018.12.13 */
 
 Shuang.app.action = {
   init() {
@@ -17,7 +17,8 @@ Shuang.app.action = {
     function renderSelect(target, options, callback) {
       options.forEach(option => {
         const opt = document.createElement('option')
-        opt.innerText = option
+        if (option.disabled) opt.setAttribute('disabled', 'disabled')
+        opt.innerText = option.text || option
         target.appendChild(opt)
       })
       target.onchange = e => {
@@ -25,7 +26,27 @@ Shuang.app.action = {
       }
     }
     
-    renderSelect($('#scheme-select'), Object.values(Shuang.resource.schemeList), value => {
+    const schemeList = Object.values(Shuang.resource.schemeList)
+    const schemes = {
+      common: schemeList.filter(scheme => !scheme.endsWith('*')),
+      uncommon: schemeList
+          .filter(scheme => scheme.endsWith('*') && !scheme.endsWith('**'))
+          .map(scheme => scheme.slice(0, -1))
+      ,
+      rare: schemeList
+          .filter(scheme => scheme.endsWith('**'))
+          .map(scheme => scheme.slice(0, -2))
+    }
+    const schemeOptions = [
+        {disabled: true, text: '常见'},
+        ...schemes.common,
+        {disabled: true, text: '小众'},
+        ...schemes.uncommon,
+        {disabled: true, text: '爱好者'},
+        ...schemes.rare,
+    ]
+    
+    renderSelect($('#scheme-select'), schemeOptions, value => {
       Shuang.app.setting.setScheme(value)
     })
     renderSelect($('#mode-select'), Object.values(Shuang.app.modeList).map(mode => mode.name), value => {
