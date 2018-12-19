@@ -1,8 +1,12 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2018.12.19 */
 
 Shuang.resource.scheme.ziranma = {
   id: 'ziranma',
   name: '自然码',
+  tips: [
+    '请查看 Github 来操作',
+    '将 macOS 原生双拼输入法设置成自然码方案'
+  ],
   detail: {
     sheng: {
       b: 'b',
