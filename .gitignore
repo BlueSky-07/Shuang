@@ -1,3 +1,7 @@
+# IntelliJ IDEA
 .idea
 *.iml
+
+# npm
 node_modules
+*.lock

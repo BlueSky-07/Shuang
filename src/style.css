@@ -141,15 +141,15 @@ body {
   margin: 5px;
 }
 
-/* tips */
-.tips {
+/* manual */
+.manual {
   width: 50%;
   min-width: 230px;
   text-align: center;
   margin: 20px auto;
 }
 
-.tips p {
+.manual p {
   color: #333;
   font-size: 14px;
   margin: 5px;
@@ -267,11 +267,9 @@ body {
   filter: invert(0.8);
 }
 
-@media not all and (min-resolution: .001dpcm) {
-  @media {
-    /* Safari 10.1+ */
-    .dark-mode .menu select {
-      color: #000 !important;
-    }
+@supports (-webkit-overflow-scrolling: touch) {
+  /* Safari on iOS */
+  .dark-mode .menu select {
+    color: #000 !important;
   }
 }

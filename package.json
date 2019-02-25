@@ -1,6 +1,6 @@
 {
   "name": "shuang",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "build-win": "del /Q build\\*.js && npx babel src -d build && ren .\\build\\*.js *.min.js && copy .\\src\\style.css .\\build\\style.min.css",
@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/BlueSky-07/Shuang#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
     "babel-preset-minify": "^0.5.0"
   },
   "dependencies": {}
