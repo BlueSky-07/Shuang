@@ -1,11 +1,13 @@
 Shuang | 双拼练习
 ----
 
-v5.4.1 2019.2.25 更新
+v5.4.2 2019.3.6 更新
 
 ### 开始使用
 
 [https://api.ihint.me/shuang](https://api.ihint.me/shuang)
+
+字帖：[https://api.ihint.me/zi](https://api.ihint.me/zi)
 
 ### 功能介绍
 
