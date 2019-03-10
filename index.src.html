@@ -1,4 +1,4 @@
-<!-- last changed: 2019.3.6 -->
+<!-- last changed: 2019.3.10 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +6,7 @@
   <title>双拼练习 @ BlueSky</title>
   <meta http-equiv="X-UA-Compatible" content="ie=EmulateIE9, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="build/style.min.css?v=5.4.1">
+  <link rel="stylesheet" href="build/style.min.css?v=5.5">
   <meta name="keywords" content="双拼,双拼输入,双拼练习,双拼入门,双拼教程,自然码,小鹤双拼"/>
   <meta name="description" content="帮助你快速上手双拼输入法，也可在微信小程序中搜索“双拼练习”使用。"/>
 </head>
@@ -31,6 +31,14 @@
   <div class="menu">
     <span class="title">夜间模式：</span>
     <input type="checkbox" id="dark-mode-switcher">
+  </div>
+  <div class="menu">
+    <span class="title">正确时自动切换：</span>
+    <input type="checkbox" id="auto-next-switcher">
+  </div>
+  <div class="menu">
+    <span class="title">错误时自动清空：</span>
+    <input type="checkbox" id="auto-clear-switcher">
   </div>
 </div>
 <div class="workspace">
@@ -69,7 +77,7 @@
     <img id="wx-qr" hidden="hidden" src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~">
   </div>
   <div class="copyright">
-    <span>@ BlueSky | v5.4.2 2019.3.6 更新</span>
+    <span>@ BlueSky | v5.5 2019.3.10 更新</span>
     <br>
     <a
         title="在 Github 上查看该项目源码"
@@ -83,8 +91,8 @@
     >https://api.ihint.me/keyboard</a></span>
     <br>
     <span>字帖 <a title="字帖"
-                 href="https://api.ihint.me/zi"
-                 target="_blank"
+                href="https://api.ihint.me/zi"
+                target="_blank"
     >https://api.ihint.me/zi</a></span>
   </div>
   <div class="pays" id="pay">
@@ -99,6 +107,6 @@
 <!--[if IE]>
 <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-rc.4/polyfill.min.js"></script>
 <![endif]-->
-<script src="build/app.min.js?v=5.4"></script>
+<script src="build/app.min.js?v=5.5"></script>
 </body>
 </html>

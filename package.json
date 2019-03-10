@@ -1,6 +1,6 @@
 {
   "name": "shuang",
-  "version": "5.4.1",
+  "version": "5.5",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "build-win": "del /Q build\\*.js && npx babel src -d build && ren .\\build\\*.js *.min.js && copy .\\src\\style.css .\\build\\style.min.css",
