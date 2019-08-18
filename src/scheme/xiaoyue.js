@@ -51,7 +51,7 @@ Shuang.resource.scheme.xiaoyue = {
       ie: 'p',
       iong: 'j',
       in: 'd',
-      ing: 'x',
+      ing: 'v',
       iu: 't',
       o: 'o',
       ong: 'l',
@@ -60,12 +60,12 @@ Shuang.resource.scheme.xiaoyue = {
       ua: 'f',
       uai: 'v',
       uan: 'g',
-      uang: 'z',
+      uang: 'c',
       ue: 'b',
       ui: 'd',
       un: 'y',
       uo: 'o',
-      v: 'v',
+      v: 'x',
       ve: 'b'
     },
     other: {
