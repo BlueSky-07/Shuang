@@ -1,5 +1,6 @@
-/** last changed: 2018.11.11 */
+/** last changed: 2019.8.23 */
 
+/** States **/
 const Shuang = {
   resource: {
     dict: {},
@@ -21,10 +22,10 @@ const Shuang = {
   app: {
     setting: {
       config: {},
-      reload: new Function()
+      reload() {}
     },
     staticJS: 0,
-    _init: new Function(),
+    _init() {},
     modeList: [],
     action: {}
   }
@@ -32,25 +33,30 @@ const Shuang = {
 
 const $ = document.querySelector.bind(document)
 
-function importJS(src = '', onload = new Function()) {
-  src = src + '?time=' + Date.now()
+function importJS(src = '', onload = () => { Shuang.app.staticJS++ }) {
+  src = `build/${src}.min.js`
   const newScript = document.createElement('script')
   Object.assign(newScript, {src, onload})
   document.body.appendChild(newScript)
 }
 
-importJS('build/dict.min.js', () => {Shuang.app.staticJS++})
-importJS('build/schemeList.min.js', () => {Shuang.app.staticJS++})
-importJS('build/modeList.min.js', () => {Shuang.app.staticJS++})
-importJS('build/core.min.js', () => {Shuang.app.staticJS++})
-importJS('build/setting.min.js', () => {Shuang.app.staticJS++})
-importJS('build/action.min.js', () => {
+const JS_FILES_COUNT = 6
+/** Resources **/
+importJS('dict')
+importJS('scheme-list')
+importJS('mode-list')
+
+/** Modules **/
+importJS('core')
+importJS('setting')
+importJS('action', () => {
   Shuang.app.staticJS++
+
   function init() {
-    if (Shuang.app.staticJS === 6) {
+    if (Shuang.app.staticJS === JS_FILES_COUNT) {
       Shuang.app.action.init()
       clearInterval(Shuang.app._init)
     }
   }
-  Shuang.app._init = setInterval(init, 10)
+  Shuang.app._init = setInterval(init, 100)
 })

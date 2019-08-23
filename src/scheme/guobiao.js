@@ -1,10 +1,11 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2019.8.23 */
 
 Shuang.resource.scheme.guobiao = {
   id: 'guobiao',
   name: '国标双拼',
   tips: [
-    '推荐性国家标准 : GB/T 34947-2017'
+    '推荐性国家标准 : GB/T 34947-2017',
+    '常用输入法几乎不内置'
   ],
   detail: {
     sheng: {

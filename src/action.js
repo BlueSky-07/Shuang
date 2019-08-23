@@ -1,19 +1,13 @@
-/** last changed: 2019.3.10 */
+/** last changed: 2019.8.23 */
 
 Shuang.app.action = {
   init() {
-    // better emoji for windows users
-    if (navigator && navigator.userAgent) {
-      const ua = navigator.userAgent
-      if (/Windows/.test(ua)) {
-        // Windows
-        Shuang.resource.emoji = {
-          right: '✔️', wrong: '❌'
-        }
-      }
+    /** Update Resources **/
+    if (navigator && navigator.userAgent && /Windows/.test(navigator.userAgent)) {
+      Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
     }
     
-    // render
+    /** Rendering **/
     function renderSelect(target, options, callback) {
       options.forEach(option => {
         const opt = document.createElement('option')
@@ -53,18 +47,18 @@ Shuang.app.action = {
       Shuang.app.setting.setMode(value)
       this.next()
     })
-    
-    // set first question
+
+    /** Setting First Question **/
     Shuang.core.current = new Shuang.core.model('sh', 'uang')
-    $('#q').innerHTML = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
-    $('#dict').innerHTML = Shuang.core.current.dict
-    
-    // reset configs
+    $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
+    $('#dict').innerText = Shuang.core.current.dict
+
+    /** Reset Configs **/
     Shuang.app.setting.reload()
-    
-    // register actions
+
+    /** Listen Events **/
     document.addEventListener('keydown', e => {
-      if ([27, 9, 13, 32].includes(e.keyCode)) e.preventDefault()
+      if (['Escape', 'Tab', 'Enter', 'Space'].includes(e.code)) e.preventDefault()
     })
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
@@ -113,23 +107,22 @@ Shuang.app.action = {
       $('#a').value = Shuang.core.current.scheme.values().next().value
       this.judge()
     })
-    
-    // focus input
+
+    /** All Done **/
     this.redo()
   },
   keyPressed(e) {
-    const a = $('#a')
-    switch (e.keyCode) {
-      case 27: // ESC
+    switch (e.code) {
+      case 'Escape':
         this.redo()
         break
-      case 9: // Tab
+      case 'Tab':
         Shuang.core.current.beforeJudge()
-        a.value = Shuang.core.current.scheme.values().next().value
+        $('#a').value = Shuang.core.current.scheme.values().next().value
         this.judge()
         break
-      case 13: // Enter
-      case 32: // Space
+      case 'Enter':
+      case 'Space':
         if (this.judge()) {
           this.next()
         } else {
@@ -137,7 +130,7 @@ Shuang.app.action = {
         }
         break
       default:
-        a.value = a.value.slice(0, 2).replace(/[^a-zA-Z;]/g, '')
+        $('#a').value = $('#a').value.slice(0, 2).replace(/[^a-zA-Z;]/g, '')
         const canAuto = a.value.length === 2
         const isRight = this.judge()
         if (canAuto) {
@@ -152,32 +145,22 @@ Shuang.app.action = {
   judge() {
     const input = $('#a')
     const btn = $('#btn')
-    const _sheng = input.value[0]
-    const _yun = input.value[1]
-    if (_yun) {
-      if (Shuang.core.current.judge(_sheng, _yun)) {
-        btn.onclick = () => {
-          this.next()
-        }
-        btn.innerText = Shuang.resource.emoji.right
-        return true
-      }
+    const [sheng, yun] = input.value
+    if (yun && Shuang.core.current.judge(sheng, yun)) {
+      btn.onclick = this.next.bind(this)
+      btn.innerText = Shuang.resource.emoji.right
+      return true
+    } else {
+      btn.onclick = this.redo.bind(this)
+      btn.innerText = Shuang.resource.emoji.wrong
+      return false
     }
-    btn.onclick = () => {
-      this.redo()
-    }
-    btn.innerText = Shuang.resource.emoji.wrong
-    return false
   },
   redo() {
-    const input = $('#a')
-    const btn = $('#btn')
-    input.value = ''
-    input.focus()
-    btn.onclick = () => {
-      this.redo()
-    }
-    btn.innerText = Shuang.resource.emoji.wrong
+    $('#a').value = ''
+    $('#a').focus()
+    $('#btn').onclick = this.redo.bind(this)
+    $('#btn').innerText = Shuang.resource.emoji.wrong
   },
   next() {
     this.redo()
@@ -198,9 +181,9 @@ Shuang.app.action = {
         break
     }
     if (Shuang.core.history.includes(Shuang.core.current.sheng + Shuang.core.current.yun)) this.next()
-    else Shuang.core.history = Shuang.core.history.concat([Shuang.core.current.sheng + Shuang.core.current.yun]).slice(-100)
-    $('#q').innerHTML = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
-    $('#dict').innerHTML = Shuang.core.current.dict
+    else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
+    $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
+    $('#dict').innerText = Shuang.core.current.dict
   },
   qrShow(targetId) {
     $('#' + targetId).style.display = 'block'

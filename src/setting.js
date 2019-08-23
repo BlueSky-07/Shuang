@@ -1,90 +1,87 @@
-/** last changed: 2019.3.10 */
+/** last changed: 2019.8.23 */
 
 Shuang.app.setting = {
-  config: {
-    scheme: 'guobiao',
-    mode: 'all-random',
-    showPic: 'true',
-    darkMode: 'false',
-    autoNext: 'false',
-    autoClear: 'false'
-  },
+  config: {},
   reload() {
-    if (localStorage.getItem('scheme')) this.config.scheme = localStorage.getItem('scheme')
-    if (localStorage.getItem('mode')) this.config.mode = localStorage.getItem('mode')
-    if (localStorage.getItem('showPic')) this.config.showPic = localStorage.getItem('showPic')
-    if (localStorage.getItem('darkMode')) this.config.darkMode = localStorage.getItem('darkMode')
-    if (localStorage.getItem('autoNext')) this.config.autoNext = localStorage.getItem('autoNext')
-    if (localStorage.getItem('autoClear')) this.config.autoClear = localStorage.getItem('autoClear')
-    ;[].find.call(
-        $('#scheme-select').children,
-            schemeOption => Shuang.resource.schemeList[Shuang.app.setting.config.scheme].startsWith(schemeOption.innerText)
+    /** Reading Storage or Using Default **/
+    this.config = {
+      scheme: readStorage('scheme') || 'ziranma',
+      mode: readStorage('mode') || 'all-random',
+      showPic: readStorage('showPic') || 'true',
+      darkMode: readStorage('darkMode') || (new Date().getHours() >= 6 && new Date().getHours() <= 22 ? 'false' : 'true'),
+      autoNext: readStorage('autoNext') || 'true',
+      autoClear: readStorage('autoClear') || 'true',
+    }
+    /** Applying Settings :: Changing UI **/
+    const { scheme, mode, showPic, darkMode, autoNext, autoClear } = this.config
+    Array.prototype.find.call($('#scheme-select').children,
+       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
-    $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(this.config.mode)].selected = true
-    $('#pic-switcher').checked = this.config.showPic === 'true'
-    $('#dark-mode-switcher').checked = this.config.darkMode === 'true'
-    $('#auto-next-switcher').checked = this.config.autoNext === 'true'
-    $('#auto-clear-switcher').checked = this.config.autoClear === 'true'
-    this.setScheme(Shuang.resource.schemeList[this.config.scheme], false)
-    this.setMode(Shuang.app.modeList[this.config.mode].name)
-    this.setPicVisible(this.config.showPic)
-    this.setDarkMode(this.config.darkMode)
-    this.setAutoNext(this.config.autoNext)
-    this.setAutoClear(this.config.autoClear)
+    $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
+    $('#pic-switcher').checked = showPic === 'true'
+    $('#dark-mode-switcher').checked = darkMode === 'true'
+    $('#auto-next-switcher').checked = autoNext === 'true'
+    $('#auto-clear-switcher').checked = autoClear === 'true'
+    /** Applying Settings :: Invoking Actions  **/
+    this.setScheme(Shuang.resource.schemeList[scheme], false)
+    this.setMode(Shuang.app.modeList[mode].name)
+    this.setPicVisible(showPic)
+    this.setDarkMode(darkMode)
+    this.setAutoNext(autoNext)
+    this.setAutoClear(autoClear)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
         Object.values(Shuang.resource.schemeList)
             .findIndex(scheme => scheme.startsWith(schemeName))
         ]
-    localStorage.setItem('scheme', this.config.scheme)
-    const callback = () => {
+    importJS('scheme/' + this.config.scheme,  () => {
       if (next) Shuang.app.action.next()
       this.updateTips()
-    }
-    importJS('build/scheme/' + this.config.scheme + '.js', callback)
+    })
+    writeStorage('scheme', this.config.scheme)
   },
   setMode(modeName) {
     Shuang.core.history = []
-    for (const [mode, m] of Object.entries(Shuang.app.modeList)) {
-      if (m.name === modeName) {
+    for (const [mode, { name }] of Object.entries(Shuang.app.modeList)) {
+      if (name === modeName) {
         this.config.mode = mode
+        $('#mode-desc').innerText = Shuang.app.modeList[mode].desc
+        if (mode === 'hard-random-without-pinyin') {
+          $('#q').style.display = 'none'
+        } else {
+          $('#q').style.display = 'block'
+        }
         break
       }
     }
-    localStorage.setItem('mode', this.config.mode)
-    $('#mode-desc').innerHTML = Shuang.app.modeList[this.config.mode].desc
-    if (this.config.mode === 'hard-random-without-pinyin') {
-      $('#q').style.display = 'none'
-    } else {
-      $('#q').style.display = 'block'
-    }
+    writeStorage('mode', this.config.mode)
   },
   setPicVisible(bool) {
     this.config.showPic = bool.toString()
-    localStorage.setItem('showPic', this.config.showPic)
     if (this.config.showPic === 'false') {
       $('#keyboard').style.display = 'none'
     } else if (this.config.showPic === 'true') {
       $('#keyboard').style.display = 'block'
     }
+    writeStorage('showPic', this.config.showPic)
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()
-    localStorage.setItem('darkMode', this.config.darkMode)
     if (this.config.darkMode === 'true') {
       $('body').setAttribute('class', 'dark-mode')
     } else if (this.config.darkMode === 'false') {
       $('body').setAttribute('class', '')
     }
+    writeStorage('darkMode', this.config.darkMode)
   },
   setAutoNext(bool) {
     this.config.autoNext = bool.toString()
-    localStorage.setItem('autoNext', this.config.autoNext)
+    writeStorage('autoNext', this.config.autoNext)
   },
   setAutoClear(bool) {
     this.config.autoClear = bool.toString()
-    localStorage.setItem('autoClear', this.config.autoClear)
+    writeStorage('autoClear', this.config.autoClear)
   },
   updateTips() {
     const tips = $('#tips')
@@ -99,6 +96,9 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    $('#pic').src = 'img/' + this.config.scheme + '.png'
+    $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
   }
 }
+
+function readStorage(key = '') { return localStorage.getItem(key) }
+function writeStorage(key = '', value = '') { localStorage.setItem(key, value) }

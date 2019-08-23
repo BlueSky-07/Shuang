@@ -1,10 +1,19 @@
 {
   "name": "shuang",
-  "version": "5.5",
+  "version": "5.6.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
-    "build-win": "del /Q build\\*.js && npx babel src -d build && ren .\\build\\*.js *.min.js && copy .\\src\\style.css .\\build\\style.min.css",
-    "build": "rm -rf build/* && npx babel src -d build && for i in build/*.js;do mv \"$i\" \"${i%.js}.min.js\";done && cp ./src/style.css ./build/style.min.css"
+    "clear:win": "del /Q build\\*.js",
+    "clear": "rm -rf build/*",
+    "rename:win": "ren .\\build\\*.js *.min.js && ren .\\build\\**\\*.js *.min.js",
+    "rename": "for i in build/*.js;do mv \"$i\" \"${i%.js}.min.js\";done && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
+    "build:js": "npx babel src -d build",
+    "build:css": "npx cleancss src/style.css -o build/style.min.css",
+    "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
+    "build:src": "npm run build:js && npm run build:css && npm run build:html",
+    "debug": "rm -rf build && cp -r src build && npm run rename && npm run build:css && npm run build:html",
+    "build:win": "npm run clear:win && npm run build:src && npm run rename:win",
+    "build": "npm run clear && npm run build:src && npm run rename"
   },
   "repository": {
     "type": "git",
@@ -19,12 +28,15 @@
   "bugs": {
     "url": "https://github.com/BlueSky-07/Shuang/issues"
   },
-  "homepage": "https://github.com/BlueSky-07/Shuang#readme",
+  "homepage": "https://api.ihint.me/shuang",
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.3",
-    "@babel/preset-env": "^7.2.3",
-    "babel-preset-minify": "^0.5.0"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-preset-minify": "^0.5.1",
+    "clean-css-cli": "^4.3.0",
+    "html-minifier": "^4.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

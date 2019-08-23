@@ -1,13 +1,13 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2019.8.23 */
 
-Shuang.core.model = class {
+Shuang.core.model = class Model {
   constructor(sheng = '', yun = '') {
     this.sheng = sheng.toLowerCase()
     this.yun = yun.toLowerCase()
     this.dict = Shuang.resource.dict[this.sheng][this.yun]
     this.scheme = new Set()
     this.view = {
-      sheng: this.sheng ? this.sheng[0].toUpperCase() + this.sheng.slice(1) : '',
+      sheng: this.sheng.toUpperCase().slice(0, 1) + this.sheng.slice(1),
       yun: this.yun
     }
   }
@@ -16,13 +16,12 @@ Shuang.core.model = class {
     this.scheme.clear()
     const schemeName = Shuang.app.setting.config.scheme
     const schemeDetail = Shuang.resource.scheme[schemeName].detail
-    if (schemeDetail.other[this.sheng + this.yun]) {
-      if (Array.isArray(schemeDetail.other[this.sheng + this.yun])) {
-        for (const other of schemeDetail.other[this.sheng + this.yun]) {
-          this.scheme.add(other)
-        }
+    const pinyin = this.sheng + this.yun
+    if (schemeDetail.other[pinyin]) {
+      if (Array.isArray(schemeDetail.other[pinyin])) {
+        schemeDetail.other[pinyin].forEach(other => this.scheme.add(other))
       } else {
-        this.scheme.add(schemeDetail.other[this.sheng + this.yun])
+        this.scheme.add(schemeDetail.other[pinyin])
       }
     } else {
       for (const s of schemeDetail.sheng[this.sheng]) {
@@ -40,27 +39,24 @@ Shuang.core.model = class {
     }
   }
   
-  judge(_sheng = '', _yun = '') {
+  judge(sheng = '', yun = '') {
     this.beforeJudge()
-    _sheng = _sheng.toLowerCase()
-    _yun = _yun.toLowerCase()
-    return this.scheme.has(_sheng + _yun)
+    return this.scheme.has(sheng.toLowerCase() + yun.toLowerCase())
   }
   
   static getRandom() {
     const sheng = Shuang.resource.dict.list[Math.floor(Math.random() * Shuang.resource.dict.list.length)]
     const yun = Shuang.resource.dict[sheng].list[Math.floor(Math.random() * Shuang.resource.dict[sheng].list.length)]
-    const model = new Shuang.core.model(sheng, yun)
-    return Shuang.core.model.isSame(model, Shuang.core.current) ? Shuang.core.model.getRandom() : model
+    const instance = new Model(sheng, yun)
+    return Model.isSame(instance, Shuang.core.current) ? Model.getRandom() : instance
   }
   
   static getHardRandom() {
-    let model = Shuang.core.model.getRandom()
-    while (model.sheng === '' || model.yun.length === 1) {
-      model = Shuang.core.model.getRandom()
-    }
-    // babel compile bug
-    return model
+    let instance = undefined
+    do {
+      instance = Model.getRandom()
+    } while (instance.sheng === '' || instance.yun.length === 1)
+    return instance
   }
   
   static getByOrder() {
@@ -70,7 +66,7 @@ Shuang.core.model = class {
         const yun = Shuang.resource.dict[sheng].list[Shuang.core.order.yunIndex]
         if (yun) {
           Shuang.core.order.yunIndex++
-          return new Shuang.core.model(sheng, yun)
+          return new Model(sheng, yun)
         }
       }
       if (Shuang.core.order.yunIndex === 0) {
