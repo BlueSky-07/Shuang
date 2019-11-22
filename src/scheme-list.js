@@ -1,4 +1,4 @@
-/** last changed: 2018.12.13 */
+/** last changed: 2019.11.26 */
 /*
   常见方案
   小众方案*
@@ -19,5 +19,6 @@ Shuang.resource.schemeList = {
   jiandao3: '键道双拼3**',
   jiandao6: '键道双拼6**',
   xiaoguan: '开源小鹳**',
-  xiaoyue: '小月双拼**'
+  xiaoyue: '小月双拼**',
+  yunbiaokuaipin: '韵标块拼**'
 }

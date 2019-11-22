@@ -226,7 +226,7 @@ Object.entries(Shuang.resource.dict).forEach(([sheng, yunList]) => Shuang.resour
 Shuang.resource.dict.list = Object.keys(Shuang.resource.dict)
 /******************** EOF dict.js ************************/
 /************************ scheme-list.js ************************/
-/** last changed: 2018.12.13 */
+/** last changed: 2019.11.26 */
 /*
   常见方案
   小众方案*
@@ -247,7 +247,8 @@ Shuang.resource.schemeList = {
   jiandao3: '键道双拼3**',
   jiandao6: '键道双拼6**',
   xiaoguan: '开源小鹳**',
-  xiaoyue: '小月双拼**'
+  xiaoyue: '小月双拼**',
+  yunbiaokuaipin: '韵标块拼**'
 }
 /******************** EOF scheme-list.js ************************/
 /************************ mode-list.js ************************/
