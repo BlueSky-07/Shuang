@@ -3,17 +3,15 @@
   "version": "5.6.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
-    "clear:win": "del /Q build\\*.js",
     "clear": "rm -rf build/*",
-    "rename:win": "ren .\\build\\*.js *.min.js && ren .\\build\\**\\*.js *.min.js",
-    "rename": "for i in build/*.js;do mv \"$i\" \"${i%.js}.min.js\";done && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
-    "build:js": "npx babel src -d build",
+    "rename": "mv build/app.js build/app.min.js && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
+    "build:js": "npx babel src/app.js -d build && npx babel src/scheme -d build/scheme",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",
     "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
     "build:src": "npm run build:js && npm run build:css && npm run build:html",
     "debug": "rm -rf build && cp -r src build && npm run rename && npm run build:css && npm run build:html",
-    "build:win": "npm run clear:win && npm run build:src && npm run rename:win",
-    "build": "npm run clear && npm run build:src && npm run rename"
+    "build": "npm run build:app && npm run clear && npm run build:src && npm run rename",
+    "build:app": "scripts/build-app.sh"
   },
   "repository": {
     "type": "git",

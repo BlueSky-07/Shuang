@@ -1,7 +1,7 @@
 Shuang | 双拼练习
 ----
 
-v5.6 2019.8.23 更新
+v5.7 2019.11.26 更新
 
 ### 许可
 
@@ -106,5 +106,3 @@ v5.6 2019.8.23 更新
 6. 拼音加加：`defaults write com.apple.inputmethod.CoreChineseEngineFramework shuangpinLayout 6`
 
 7. 搜狗双拼：`defaults write com.apple.inputmethod.CoreChineseEngineFramework shuangpinLayout 7`
-
-

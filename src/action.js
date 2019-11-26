@@ -3,7 +3,7 @@
 Shuang.app.action = {
   init() {
     /** Update Resources **/
-    if (navigator && navigator.userAgent && /Windows/.test(navigator.userAgent)) {
+    if (navigator && navigator.userAgent && /Windows|Linux/.test(navigator.userAgent)) {
       Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
     }
     
