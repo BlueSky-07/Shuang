@@ -11,9 +11,10 @@ Shuang.app.setting = {
       darkMode: readStorage('darkMode') || (new Date().getHours() >= 6 && new Date().getHours() <= 22 ? 'false' : 'true'),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
+      showKeys: readStorage("showKeys") || "true",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear } = this.config
+    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys } = this.config
     Array.prototype.find.call($('#scheme-select').children,
        schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -22,6 +23,7 @@ Shuang.app.setting = {
     $('#dark-mode-switcher').checked = darkMode === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
+    $('#show-keys').checked = showKeys === 'true'
     /** Applying Settings :: Invoking Actions  **/
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
@@ -29,6 +31,7 @@ Shuang.app.setting = {
     this.setDarkMode(darkMode)
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
+    this.setShowKeys(showKeys)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
@@ -82,6 +85,30 @@ Shuang.app.setting = {
   setAutoClear(bool) {
     this.config.autoClear = bool.toString()
     writeStorage('autoClear', this.config.autoClear)
+  },
+  setShowKeys(bool) {
+    this.config.showKeys = bool.toString()
+    writeStorage('showKeys', this.config.showKeys)
+    
+    var keys = document.getElementsByClassName("key");
+		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
+		if (!bool) return;
+		try{
+			var c = Shuang.app.setting.config.scheme,
+				d = Shuang.resource.scheme[c].detail,
+				e = Shuang.core.current.sheng + Shuang.core.current.yun,
+				key_str = "qwertyuiopasdfghjkl;zxcvbnm";
+			if (d.other[e]){
+				keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
+				keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
+			}
+			else{
+				keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
+				keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
+			}
+		} catch(e) {
+			return;
+		}
   },
   updateTips() {
     const tips = $('#tips')

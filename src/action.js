@@ -75,6 +75,9 @@ Shuang.app.action = {
     $('#auto-clear-switcher').addEventListener('change', e => {
       Shuang.app.setting.setAutoClear(e.target.checked)
     })
+    $('#show-keys').addEventListener('change', e => {
+      Shuang.app.setting.setShowKeys(e.target.checked)
+    })
     $('.pay-name#alipay').addEventListener('mouseover', () => {
       Shuang.app.action.qrShow('alipay-qr')
     })
@@ -184,6 +187,23 @@ Shuang.app.action = {
     else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
     $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
     $('#dict').innerText = Shuang.core.current.dict
+    
+    // change the showing of keys
+    var keys = document.getElementsByClassName("key");
+		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
+		if ("false" == Shuang.app.setting.config.showKeys) return;
+		var c = Shuang.app.setting.config.scheme,
+			d = Shuang.resource.scheme[c].detail,
+			e = Shuang.core.current.sheng + Shuang.core.current.yun,
+			key_str = "qwertyuiopasdfghjkl;zxcvbnm";
+		if (d.other[e]){
+			keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
+			keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
+		}
+		else{
+			keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
+			keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
+		}
   },
   qrShow(targetId) {
     $('#' + targetId).style.display = 'block'

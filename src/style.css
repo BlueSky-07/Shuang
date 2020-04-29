@@ -1,4 +1,4 @@
-/** last changed: 2018.11.15 */
+/** last changed: 2020.05.01 */
 
 body {
   margin: 0 auto;
@@ -123,6 +123,39 @@ body {
   .keyboard .pic {
     filter: none;
   }
+}
+
+.keyboard .key-array {
+  position: absolute;
+  width: 680px;
+  left: 0px;
+  right: 0px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 2;
+  opacity: 0.2;
+	/*    border: thin solid #777777;*/
+}
+
+.keyboard .key-array .top-row {
+
+}
+
+.keyboard .key-array .middle-row {
+	margin-left: 33px
+}
+
+.keyboard .key-array .bottom-row {
+	margin-left: 66px;
+}
+
+.keyboard .key-array .key {
+  width: 64.5px;
+  height: 66px;
+  float: left;
+  background-color: #007700;
+  visibility: hidden;
 }
 
 .keyboard .tips {
@@ -265,6 +298,10 @@ body {
 
 .dark-mode .keyboard .pic {
   filter: invert(0.8);
+}
+
+.dark-mode .keyboard .key {
+	background-color: #77FF77 !important;
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
