@@ -367,7 +367,7 @@ Shuang.app.setting = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
       showPic: readStorage('showPic') || 'true',
-      darkMode: readStorage('darkMode') || (new Date().getHours() >= 6 && new Date().getHours() <= 22 ? 'false' : 'true'),
+      darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
       showKeys: readStorage("showKeys") || "true",
@@ -498,6 +498,15 @@ Shuang.app.setting = {
       }
     }
     $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
+  }
+}
+
+function detectDarkMode() {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return true
+  }
+  if (new Date().getHours() < 6 || new Date().getHours() > 22) {
+    return true
   }
 }
 
