@@ -1,4 +1,4 @@
-/** last changed: 2020.05.01 */
+/** last changed: 2020.5.3 */
 
 body {
   margin: 0 auto;
@@ -110,6 +110,34 @@ body {
   margin: 20px auto;
 }
 
+.keyboard .keys {
+  position: absolute;
+  width: 680px;
+  left: 0px;
+  right: 0px;
+  margin: 10px auto;
+  z-index: 2;
+  opacity: 0.2;
+}
+
+.keyboard .keys .row-1 {}
+
+.keyboard .keys .row-2 {
+  margin-left: 33px
+}
+
+.keyboard .keys .row-3 {
+  margin-left: 66px;
+}
+
+.keyboard .keys .key {
+  width: 64.5px;
+  height: 66px;
+  float: left;
+  background-color: #007700;
+  visibility: hidden;
+}
+
 .keyboard .pic {
   width: 100%;
   max-width: 700px;
@@ -117,45 +145,12 @@ body {
   filter: invert(0.07);
 }
 
-@media screen and (min-width: 0\0
-) and (min-resolution: +72dpi) {
+@media screen and (min-width: 0\0) and (min-resolution: +72dpi) {
+
   /* IE */
   .keyboard .pic {
     filter: none;
   }
-}
-
-.keyboard .key-array {
-  position: absolute;
-  width: 680px;
-  left: 0px;
-  right: 0px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 2;
-  opacity: 0.2;
-	/*    border: thin solid #777777;*/
-}
-
-.keyboard .key-array .top-row {
-
-}
-
-.keyboard .key-array .middle-row {
-	margin-left: 33px
-}
-
-.keyboard .key-array .bottom-row {
-	margin-left: 66px;
-}
-
-.keyboard .key-array .key {
-  width: 64.5px;
-  height: 66px;
-  float: left;
-  background-color: #007700;
-  visibility: hidden;
 }
 
 .keyboard .tips {
@@ -301,10 +296,11 @@ body {
 }
 
 .dark-mode .keyboard .key {
-	background-color: #77FF77 !important;
+  background-color: #77FF77 !important;
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
+
   /* Safari on iOS */
   .dark-mode .menu select {
     color: #000 !important;

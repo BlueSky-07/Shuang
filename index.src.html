@@ -1,149 +1,144 @@
-<!-- last changed: 2019.11.26 -->
+<!-- last changed: 2020.5.3 -->
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>双拼练习 @ BlueSky</title>
   <meta http-equiv="X-UA-Compatible" content="ie=EmulateIE9, chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="build/style.min.css">
-  <meta name="keywords" content="双拼,双拼输入,双拼练习,双拼入门,双拼教程,自然码,小鹤双拼"/>
-  <meta name="description" content="帮助你快速上手双拼输入法，也可在微信小程序中搜索“双拼练习”使用。"/>
+  <meta name="keywords" content="双拼,双拼输入,双拼练习,双拼入门,双拼教程,自然码,小鹤双拼" />
+  <meta name="description" content="帮助你快速上手双拼输入法，也可在微信小程序中搜索“双拼练习”使用。" />
 </head>
+
 <body>
-<div class="header">
-  <div class="menu">
-    <label for="scheme-select" class="title">双拼方案：</label>
-    <select id="scheme-select"></select>
-  </div>
-  <div class="menu">
-    <label for="mode-select" class="title">练习模式：</label>
-    <select id="mode-select"></select>
-  </div>
-  <div class="menu">
-    <span class="title">模式说明：</span>
-    <span id="mode-desc"></span>
-  </div>
-  <div class="menu">
-    <span class="title">显示键位图：</span>
-    <input type="checkbox" id="pic-switcher">
-  </div>
-  <div class="menu">
-    <span class="title">夜间模式：</span>
-    <input type="checkbox" id="dark-mode-switcher">
-  </div>
-  <div class="menu">
-    <span class="title">正确时自动切换：</span>
-    <input type="checkbox" id="auto-next-switcher">
-  </div>
-  <div class="menu">
-    <span class="title">错误时自动清空：</span>
-    <input type="checkbox" id="auto-clear-switcher">
-  </div>
-  <div class="menu">
-    <span class="title">显示键位：</span>
-    <input type="checkbox"id="show-keys">
-  </div>
-</div>
-<div class="workspace">
-  <div class="col">
-    <span class="dict" id="dict"></span>
-  </div>
-  <div class="col">
-    <div class="row">
-      <span class="q" id="q"></span>
+  <div class="header">
+    <div class="menu">
+      <label for="scheme-select" class="title">双拼方案：</label>
+      <select id="scheme-select"></select>
     </div>
-    <div class="row">
-      <input id="a" maxlength="2" autofocus="autofocus" autocomplete="off">
-      <div class="btn" id="btn"></div>
+    <div class="menu">
+      <label for="mode-select" class="title">练习模式：</label>
+      <select id="mode-select"></select>
+    </div>
+    <div class="menu">
+      <span class="title">模式说明：</span>
+      <span id="mode-desc"></span>
+    </div>
+    <div class="menu">
+      <span class="title">显示键位图：</span>
+      <input type="checkbox" id="pic-switcher">
+    </div>
+    <div class="menu">
+      <span class="title">夜间模式：</span>
+      <input type="checkbox" id="dark-mode-switcher">
+    </div>
+    <div class="menu">
+      <span class="title">正确时自动切换：</span>
+      <input type="checkbox" id="auto-next-switcher">
+    </div>
+    <div class="menu">
+      <span class="title">错误时自动清空：</span>
+      <input type="checkbox" id="auto-clear-switcher">
+    </div>
+    <div class="menu">
+      <span class="title">显示按键提示：</span>
+      <input type="checkbox" id="show-keys">
     </div>
   </div>
-</div>
-<div class="keyboard" id="keyboard">
-  <div class="key-array">
-      <div class="top-row">
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key" style="visibility: visible"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
+  <div class="workspace">
+    <div class="col">
+      <span class="dict" id="dict"></span>
+    </div>
+    <div class="col">
+      <div class="row">
+        <span class="q" id="q"></span>
       </div>
-      <div class="middle-row">
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key" style="visibility: visible"></div>
-          <div class="key"></div>
+      <div class="row">
+        <input id="a" maxlength="2" autofocus="autofocus" autocomplete="off">
+        <div class="btn" id="btn"></div>
       </div>
-      <div class="bottom-row">
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
-          <div class="key"></div>
+    </div>
+  </div>
+  <div class="keyboard" id="keyboard">
+    <div class="keys" id="keys">
+      <div class="row-1">
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
       </div>
+      <div class="row-2">
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+      </div>
+      <div class="row-3">
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+        <div class="key"></div>
+      </div>
+    </div>
+    <img class="pic" id="pic">
+    <div class="tips" id="tips"></div>
   </div>
-  <img class="pic" id="pic">
-  <div class="tips" id="tips"></div>
-</div>
-<div class="manual">
-  <p>1. 切换至系统自带的英文输入法</p>
-  <p>2. 空格键 / 回车键 切换或清空</p>
-  <p>3. Tab 键 显示答案（可能不唯一）</p>
-  <p>4. 手机练习推荐使用微信小程序</p>
-  <p>5. 使用 <a title="立即下载 Chrome 浏览器"
-                href="https://www.google.cn/chrome"
-                target="_blank"
-  >Chrome 浏览器</a> 体验最佳</p>
-</div>
-<div class="footer">
-  <div class="wx" id="wx">
-    <span id="wx-title">微信小程序：</span>
-    <span id="wx-name">双拼练习</span>
-    <img id="wx-qr" hidden="hidden" src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~">
+  <div class="manual">
+    <p>1. 切换至系统自带的英文输入法</p>
+    <p>2. 空格键 / 回车键 切换或清空</p>
+    <p>3. Tab 键 显示答案（可能不唯一）</p>
+    <p>4. 手机练习推荐使用微信小程序</p>
+    <p>5. 使用 <a title="立即下载 Chrome 浏览器" href="https://www.google.cn/chrome" target="_blank">Chrome 浏览器</a> 体验最佳</p>
   </div>
-  <div class="copyright">
-    <span>@ BlueSky | v5.8 2019.11.26 更新</span>
-    <br>
-    <a title="在 Github 上查看该项目源码"
-       href="https://github.com/BlueSky-07/Shuang"
-       target="_blank"
-    >https://github.com/BlueSky-07/Shuang</a>
-    <br>
-    <span>键位图 <a title="查看包含 Dvorak 键盘布局的键位图"
-                    href="https://api.ihint.me/keyboard"
-                    target="_blank"
-    >https://api.ihint.me/keyboard</a></span>
-    <br>
-    <span>字帖 <a title="字帖"
-                  href="https://api.ihint.me/zi"
-                  target="_blank"
-    >https://api.ihint.me/zi</a></span>
+  <div class="footer">
+    <div class="wx" id="wx">
+      <span id="wx-title">微信小程序：</span>
+      <span id="wx-name">双拼练习</span>
+      <img id="wx-qr" hidden="hidden"
+        src="https://api.ihint.me/qr.php?https://mp.weixin.qq.com/a/~Jaww_jP-YK1G39fiZ01Qxg~~">
+    </div>
+    <div class="copyright">
+      <span>@ BlueSky | v5.9 2020.5.3 更新</span>
+      <br>
+      <a title="在 Github 上查看该项目源码" href="https://github.com/BlueSky-07/Shuang"
+        target="_blank">https://github.com/BlueSky-07/Shuang</a>
+      <br>
+      <span>键位图 <a title="查看包含 Dvorak 键盘布局的键位图" href="https://api.ihint.me/keyboard"
+          target="_blank">https://api.ihint.me/keyboard</a></span>
+      <br>
+      <span>字帖 <a title="字帖" href="https://api.ihint.me/zi" target="_blank">https://api.ihint.me/zi</a></span>
+    </div>
+    <div class="pays" id="pay">
+      <span class="pay-title">支持开发者：</span>
+      <span class="pay-name" id="alipay">支付宝</span>
+      <img id="alipay-qr" hidden="hidden"
+        src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35">
+      <span class="pay-name" id="wxpay">微信</span>
+      <img id="wxpay-qr" hidden="hidden" src="https://api.ihint.me/wxpay.jpg">
+    </div>
   </div>
-  <div class="pays" id="pay">
-    <span class="pay-title">支持开发者：</span>
-    <span class="pay-name" id="alipay">支付宝</span>
-    <img id="alipay-qr" hidden="hidden" src="https://api.ihint.me/qr.php?HTTPS://QR.ALIPAY.COM/FKX05370OGFIX8QOBKXS35">
-    <span class="pay-name" id="wxpay">微信</span>
-    <img id="wxpay-qr" hidden="hidden" src="https://api.ihint.me/wxpay.jpg">
-  </div>
-</div>
-<img src="https://api.ihint.me/statistics.php?site=shuang" hidden="hidden">
-<!--[if IE]>
-<script src="https://cdn.bootcss.com/babel-polyfill/7.4.4/polyfill.min.js"></script>
-<![endif]-->
-<script src="build/app.min.js"></script>
+  <img src="https://api.ihint.me/statistics.php?site=shuang" hidden="hidden">
+  <!--[if IE]>
+  <script src="https://cdn.bootcdn.net/ajax/libs/babel-polyfill/7.8.7/polyfill.min.js"></script>
+  <![endif]-->
+  <script src="build/app.min.js"></script>
 </body>
+
 </html>

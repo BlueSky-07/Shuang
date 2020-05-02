@@ -1,4 +1,4 @@
-/** last changed: 2019.8.23 */
+/** last changed: 2020.5.3 */
 
 Shuang.app.action = {
   init() {
@@ -6,7 +6,7 @@ Shuang.app.action = {
     if (navigator && navigator.userAgent && /Windows|Linux/.test(navigator.userAgent)) {
       Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
     }
-    
+
     /** Rendering **/
     function renderSelect(target, options, callback) {
       options.forEach(option => {
@@ -19,27 +19,27 @@ Shuang.app.action = {
         callback(e.target.value)
       }
     }
-    
+
     const schemeList = Object.values(Shuang.resource.schemeList)
     const schemes = {
       common: schemeList.filter(scheme => !scheme.endsWith('*')),
       uncommon: schemeList
-          .filter(scheme => scheme.endsWith('*') && !scheme.endsWith('**'))
-          .map(scheme => scheme.slice(0, -1))
+        .filter(scheme => scheme.endsWith('*') && !scheme.endsWith('**'))
+        .map(scheme => scheme.slice(0, -1))
       ,
       rare: schemeList
-          .filter(scheme => scheme.endsWith('**'))
-          .map(scheme => scheme.slice(0, -2))
+        .filter(scheme => scheme.endsWith('**'))
+        .map(scheme => scheme.slice(0, -2))
     }
     const schemeOptions = [
-        {disabled: true, text: '常见'},
-        ...schemes.common,
-        {disabled: true, text: '小众'},
-        ...schemes.uncommon,
-        {disabled: true, text: '爱好者'},
-        ...schemes.rare,
+      { disabled: true, text: '常见' },
+      ...schemes.common,
+      { disabled: true, text: '小众' },
+      ...schemes.uncommon,
+      { disabled: true, text: '爱好者' },
+      ...schemes.rare,
     ]
-    
+
     renderSelect($('#scheme-select'), schemeOptions, value => {
       Shuang.app.setting.setScheme(value)
     })
@@ -110,6 +110,8 @@ Shuang.app.action = {
       $('#a').value = Shuang.core.current.scheme.values().next().value
       this.judge()
     })
+    window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
+    window.resizeTo(window.outerWidth, window.outerHeight)
 
     /** All Done **/
     this.redo()
@@ -187,23 +189,10 @@ Shuang.app.action = {
     else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
     $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
     $('#dict').innerText = Shuang.core.current.dict
-    
-    // change the showing of keys
-    var keys = document.getElementsByClassName("key");
-		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
-		if ("false" == Shuang.app.setting.config.showKeys) return;
-		var c = Shuang.app.setting.config.scheme,
-			d = Shuang.resource.scheme[c].detail,
-			e = Shuang.core.current.sheng + Shuang.core.current.yun,
-			key_str = "qwertyuiopasdfghjkl;zxcvbnm";
-		if (d.other[e]){
-			keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
-			keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
-		}
-		else{
-			keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
-			keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
-		}
+
+    // Update Keys Hint
+    Shuang.core.current.beforeJudge()
+    Shuang.app.setting.updateKeysHint()
   },
   qrShow(targetId) {
     $('#' + targetId).style.display = 'block'

@@ -1,4 +1,4 @@
-/** last changed: 2019.8.23 */
+/** last changed: 2020.5.3 */
 
 Shuang.app.setting = {
   config: {},
@@ -16,7 +16,7 @@ Shuang.app.setting = {
     /** Applying Settings :: Changing UI **/
     const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys } = this.config
     Array.prototype.find.call($('#scheme-select').children,
-       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
+      schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
@@ -35,11 +35,13 @@ Shuang.app.setting = {
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
-        Object.values(Shuang.resource.schemeList)
-            .findIndex(scheme => scheme.startsWith(schemeName))
-        ]
-    importJS('scheme/' + this.config.scheme,  () => {
+      Object.values(Shuang.resource.schemeList)
+        .findIndex(scheme => scheme.startsWith(schemeName))
+    ]
+    importJS('scheme/' + this.config.scheme, () => {
       if (next) Shuang.app.action.next()
+      Shuang.core.current.beforeJudge()
+      this.updateKeysHint()
       this.updateTips()
     })
     writeStorage('scheme', this.config.scheme)
@@ -89,26 +91,39 @@ Shuang.app.setting = {
   setShowKeys(bool) {
     this.config.showKeys = bool.toString()
     writeStorage('showKeys', this.config.showKeys)
-    
-    var keys = document.getElementsByClassName("key");
-		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
-		if (!bool) return;
-		try{
-			var c = Shuang.app.setting.config.scheme,
-				d = Shuang.resource.scheme[c].detail,
-				e = Shuang.core.current.sheng + Shuang.core.current.yun,
-				key_str = "qwertyuiopasdfghjkl;zxcvbnm";
-			if (d.other[e]){
-				keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
-				keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
-			}
-			else{
-				keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
-				keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
-			}
-		} catch(e) {
-			return;
-		}
+    this.updateKeysHint()
+  },
+  updateKeysHint() {
+    const keys = $$('.key')
+    keys.forEach((key) => key.style.visibility = 'hidden')
+    if (this.config.showKeys === 'false') return
+    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    for (const [sheng, yun] of Shuang.core.current.scheme) {
+      keys[qwerty.indexOf(sheng)].style.visibility = 'visible'
+      keys[qwerty.indexOf(yun)].style.visibility = 'visible'
+    }
+    this.updateKeysHintLayoutRatio()
+  },
+  updateKeysHintLayoutRatio() {
+    // TODO: 修改样式而不是计算
+    const MIN_WIDTH = 310
+    const MAX_WIDTH = 740
+    const OFFSET_WIDTH = 300
+    const OFFSET = 30
+    let left = 0
+    let keysHintRatio = window.outerWidth / MAX_WIDTH
+    if (window.outerWidth > MAX_WIDTH) {
+      keysHintRatio = 1
+    } else if (window.outerWidth < MIN_WIDTH) {
+      keysHintRatio = MIN_WIDTH / MAX_WIDTH
+      if (window.outerWidth > OFFSET_WIDTH) {
+        left = (MIN_WIDTH - window.outerWidth) / (MIN_WIDTH - OFFSET_WIDTH) * OFFSET
+      } else {
+        left = OFFSET
+      }
+    }
+    $('.keys').style.zoom = keysHintRatio
+    $('.keys').style.left = left + 'px'
   },
   updateTips() {
     const tips = $('#tips')

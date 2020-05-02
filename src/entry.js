@@ -1,4 +1,4 @@
-/** last changed: 2019.11.26 */
+/** last changed: 2020.5.3 */
 
 /** States **/
 const Shuang = {
@@ -22,7 +22,7 @@ const Shuang = {
   app: {
     setting: {
       config: {},
-      reload() {}
+      reload() { }
     },
     staticJS: 0,
     modeList: [],
@@ -31,10 +31,11 @@ const Shuang = {
 }
 
 const $ = document.querySelector.bind(document)
+const $$ = document.querySelectorAll.bind(document)
 
 function importJS(src = '', onload = () => { Shuang.app.staticJS++ }) {
   src = `build/${src}.min.js`
   const newScript = document.createElement('script')
-  Object.assign(newScript, {src, onload})
+  Object.assign(newScript, { src, onload })
   document.body.appendChild(newScript)
 }

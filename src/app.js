@@ -1,6 +1,6 @@
 
 /************************ entry.js ************************/
-/** last changed: 2019.11.26 */
+/** last changed: 2020.5.3 */
 
 /** States **/
 const Shuang = {
@@ -24,7 +24,7 @@ const Shuang = {
   app: {
     setting: {
       config: {},
-      reload() {}
+      reload() { }
     },
     staticJS: 0,
     modeList: [],
@@ -33,11 +33,12 @@ const Shuang = {
 }
 
 const $ = document.querySelector.bind(document)
+const $$ = document.querySelectorAll.bind(document)
 
 function importJS(src = '', onload = () => { Shuang.app.staticJS++ }) {
   src = `build/${src}.min.js`
   const newScript = document.createElement('script')
-  Object.assign(newScript, {src, onload})
+  Object.assign(newScript, { src, onload })
   document.body.appendChild(newScript)
 }
 /******************** EOF entry.js ************************/
@@ -356,7 +357,7 @@ Shuang.core.model = class Model {
 }
 /******************** EOF core.js ************************/
 /************************ setting.js ************************/
-/** last changed: 2019.8.23 */
+/** last changed: 2020.5.3 */
 
 Shuang.app.setting = {
   config: {},
@@ -374,7 +375,7 @@ Shuang.app.setting = {
     /** Applying Settings :: Changing UI **/
     const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys } = this.config
     Array.prototype.find.call($('#scheme-select').children,
-       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
+      schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
@@ -393,11 +394,13 @@ Shuang.app.setting = {
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
-        Object.values(Shuang.resource.schemeList)
-            .findIndex(scheme => scheme.startsWith(schemeName))
-        ]
-    importJS('scheme/' + this.config.scheme,  () => {
+      Object.values(Shuang.resource.schemeList)
+        .findIndex(scheme => scheme.startsWith(schemeName))
+    ]
+    importJS('scheme/' + this.config.scheme, () => {
       if (next) Shuang.app.action.next()
+      Shuang.core.current.beforeJudge()
+      this.updateKeysHint()
       this.updateTips()
     })
     writeStorage('scheme', this.config.scheme)
@@ -447,26 +450,39 @@ Shuang.app.setting = {
   setShowKeys(bool) {
     this.config.showKeys = bool.toString()
     writeStorage('showKeys', this.config.showKeys)
-    
-    var keys = document.getElementsByClassName("key");
-		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
-		if (!bool) return;
-		try{
-			var c = Shuang.app.setting.config.scheme,
-				d = Shuang.resource.scheme[c].detail,
-				e = Shuang.core.current.sheng + Shuang.core.current.yun,
-				key_str = "qwertyuiopasdfghjkl;zxcvbnm";
-			if (d.other[e]){
-				keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
-				keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
-			}
-			else{
-				keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
-				keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
-			}
-		} catch(e) {
-			return;
-		}
+    this.updateKeysHint()
+  },
+  updateKeysHint() {
+    const keys = $$('.key')
+    keys.forEach((key) => key.style.visibility = 'hidden')
+    if (this.config.showKeys === 'false') return
+    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    for (const [sheng, yun] of Shuang.core.current.scheme) {
+      keys[qwerty.indexOf(sheng)].style.visibility = 'visible'
+      keys[qwerty.indexOf(yun)].style.visibility = 'visible'
+    }
+    this.updateKeysHintLayoutRatio()
+  },
+  updateKeysHintLayoutRatio() {
+    // TODO: 修改样式而不是计算
+    const MIN_WIDTH = 310
+    const MAX_WIDTH = 740
+    const OFFSET_WIDTH = 300
+    const OFFSET = 30
+    let left = 0
+    let keysHintRatio = window.outerWidth / MAX_WIDTH
+    if (window.outerWidth > MAX_WIDTH) {
+      keysHintRatio = 1
+    } else if (window.outerWidth < MIN_WIDTH) {
+      keysHintRatio = MIN_WIDTH / MAX_WIDTH
+      if (window.outerWidth > OFFSET_WIDTH) {
+        left = (MIN_WIDTH - window.outerWidth) / (MIN_WIDTH - OFFSET_WIDTH) * OFFSET
+      } else {
+        left = OFFSET
+      }
+    }
+    $('.keys').style.zoom = keysHintRatio
+    $('.keys').style.left = left + 'px'
   },
   updateTips() {
     const tips = $('#tips')
@@ -486,9 +502,10 @@ Shuang.app.setting = {
 }
 
 function readStorage(key = '') { return localStorage.getItem(key) }
-function writeStorage(key = '', value = '') { localStorage.setItem(key, value) }/******************** EOF setting.js ************************/
+function writeStorage(key = '', value = '') { localStorage.setItem(key, value) }
+/******************** EOF setting.js ************************/
 /************************ action.js ************************/
-/** last changed: 2019.8.23 */
+/** last changed: 2020.5.3 */
 
 Shuang.app.action = {
   init() {
@@ -496,7 +513,7 @@ Shuang.app.action = {
     if (navigator && navigator.userAgent && /Windows|Linux/.test(navigator.userAgent)) {
       Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
     }
-    
+
     /** Rendering **/
     function renderSelect(target, options, callback) {
       options.forEach(option => {
@@ -509,27 +526,27 @@ Shuang.app.action = {
         callback(e.target.value)
       }
     }
-    
+
     const schemeList = Object.values(Shuang.resource.schemeList)
     const schemes = {
       common: schemeList.filter(scheme => !scheme.endsWith('*')),
       uncommon: schemeList
-          .filter(scheme => scheme.endsWith('*') && !scheme.endsWith('**'))
-          .map(scheme => scheme.slice(0, -1))
+        .filter(scheme => scheme.endsWith('*') && !scheme.endsWith('**'))
+        .map(scheme => scheme.slice(0, -1))
       ,
       rare: schemeList
-          .filter(scheme => scheme.endsWith('**'))
-          .map(scheme => scheme.slice(0, -2))
+        .filter(scheme => scheme.endsWith('**'))
+        .map(scheme => scheme.slice(0, -2))
     }
     const schemeOptions = [
-        {disabled: true, text: '常见'},
-        ...schemes.common,
-        {disabled: true, text: '小众'},
-        ...schemes.uncommon,
-        {disabled: true, text: '爱好者'},
-        ...schemes.rare,
+      { disabled: true, text: '常见' },
+      ...schemes.common,
+      { disabled: true, text: '小众' },
+      ...schemes.uncommon,
+      { disabled: true, text: '爱好者' },
+      ...schemes.rare,
     ]
-    
+
     renderSelect($('#scheme-select'), schemeOptions, value => {
       Shuang.app.setting.setScheme(value)
     })
@@ -600,6 +617,8 @@ Shuang.app.action = {
       $('#a').value = Shuang.core.current.scheme.values().next().value
       this.judge()
     })
+    window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
+    window.resizeTo(window.outerWidth, window.outerHeight)
 
     /** All Done **/
     this.redo()
@@ -677,23 +696,10 @@ Shuang.app.action = {
     else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
     $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
     $('#dict').innerText = Shuang.core.current.dict
-    
-    // change the showing of keys
-    var keys = document.getElementsByClassName("key");
-		for (var i=0; i<=26; ++i) keys[i].style.visibility = "hidden";
-		if ("false" == Shuang.app.setting.config.showKeys) return;
-		var c = Shuang.app.setting.config.scheme,
-			d = Shuang.resource.scheme[c].detail,
-			e = Shuang.core.current.sheng + Shuang.core.current.yun,
-			key_str = "qwertyuiopasdfghjkl;zxcvbnm";
-		if (d.other[e]){
-			keys[key_str.indexOf(d.other[e][0])].style.visibility = "visible";
-			keys[key_str.indexOf(d.other[e][1])].style.visibility = "visible";
-		}
-		else{
-			keys[key_str.indexOf(d.sheng[Shuang.core.current.sheng])].style.visibility = "visible";
-			keys[key_str.indexOf(d.yun[Shuang.core.current.yun])].style.visibility = "visible";
-		}
+
+    // Update Keys Hint
+    Shuang.core.current.beforeJudge()
+    Shuang.app.setting.updateKeysHint()
   },
   qrShow(targetId) {
     $('#' + targetId).style.display = 'block'
