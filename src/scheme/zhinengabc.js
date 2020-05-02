@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2020.5.3 */
 
 Shuang.resource.scheme.zhinengabc = {
   id: 'zhinengabc',
@@ -65,7 +65,7 @@ Shuang.resource.scheme.zhinengabc = {
       un: 'n',
       uo: 'o',
       v: 'v',
-      ve: 'v'
+      ve: ['m', 'v']
     },
     other: {
       a: 'oa',
