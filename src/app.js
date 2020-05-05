@@ -357,7 +357,7 @@ Shuang.core.model = class Model {
 }
 /******************** EOF core.js ************************/
 /************************ setting.js ************************/
-/** last changed: 2020.5.3 */
+/** last changed: 2020.5.5 */
 
 Shuang.app.setting = {
   config: {},
@@ -508,7 +508,7 @@ function detectDarkMode() {
   if (new Date().getHours() < 6 || new Date().getHours() > 22) {
     return true
   }
-  return false;
+  return false
 }
 
 function readStorage(key = '') { return localStorage.getItem(key) }
