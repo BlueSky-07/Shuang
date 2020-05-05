@@ -149,6 +149,7 @@ function detectDarkMode() {
   if (new Date().getHours() < 6 || new Date().getHours() > 22) {
     return true
   }
+  return false;
 }
 
 function readStorage(key = '') { return localStorage.getItem(key) }
