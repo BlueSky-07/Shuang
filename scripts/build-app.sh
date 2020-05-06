@@ -1,3 +1,4 @@
+#!/bin/bash
 BUNDLE_FILE="src/app.js"
 
 function append () {
