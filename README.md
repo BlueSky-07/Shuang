@@ -92,7 +92,7 @@ v5.10 2020.5.5 更新
 
 ![小程序二维码](assets/mini-program-qrcode.jpg)
 
-### 特别提示
+### 在 macOS 设备上使用常见方案的原生双拼
 
 使用 macOS 的用户可以通过在终端中运行以下命令，将原生双拼输入法设置成一些可能未被开放的常见方案
 
@@ -115,3 +115,13 @@ v5.10 2020.5.5 更新
 6. 拼音加加：`defaults write com.apple.inputmethod.CoreChineseEngineFramework shuangpinLayout 6`
 
 7. 搜狗双拼：`defaults write com.apple.inputmethod.CoreChineseEngineFramework shuangpinLayout 7`
+
+### 在 iOS 设备上使用常见方案的原生双拼
+
+* 以下仅在 iOS 13.4.1（越狱） & iOS 13.5（非越狱） 上测试
+
+![iOS原生自然码](assets/iOS-ziranma.jpeg)
+
+修改 `/var/mobile/Library/Preferences/com.apple.InputModePreferences.plist` 的 `ShuangpinType` 值即可
+
+具体请阅读 [https://sspai.com/post/60751](https://sspai.com/post/60751)
