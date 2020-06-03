@@ -120,8 +120,14 @@ v5.10 2020.5.5 更新
 
 * 以下仅在 iOS 13.4.1（越狱） & iOS 13.5（非越狱） 上测试
 
-![iOS原生自然码](assets/iOS-ziranma.jpeg)
-
 修改 `/var/mobile/Library/Preferences/com.apple.InputModePreferences.plist` 的 `ShuangpinType` 值即可
 
 具体请阅读 [https://sspai.com/post/60751](https://sspai.com/post/60751)
+
+效果：
+
+![iOS原生自然码](assets/iOS-ziranma.jpeg)
+
+外接键盘下同样生效：
+
+![iOS原生自然码+外接键盘](assets/iOS-ziranma.gif)
