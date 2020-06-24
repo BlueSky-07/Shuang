@@ -1,10 +1,10 @@
-/** last changed: 2019.11.26 */
+/** last changed: 2020.6.25 */
 
 Shuang.resource.scheme.yunbiaokuaipin = {
   id: 'yunbiaokuaipin',
   name: '韵标块拼',
   tips: [
-    '常用输入法几乎不内置'
+    '常用输入法不内置'
   ],
   detail: {
     sheng: {

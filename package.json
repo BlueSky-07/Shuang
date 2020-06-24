@@ -28,9 +28,9 @@
   },
   "homepage": "https://api.ihint.me/shuang",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/preset-env": "^7",
     "babel-preset-minify": "^0.5.1",
     "clean-css-cli": "^4.3.0",
     "html-minifier": "^4.0.0"

@@ -1,4 +1,4 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2020.6.25 */
 
 body {
   margin: 0 auto;
@@ -120,8 +120,6 @@ body {
   opacity: 0.2;
 }
 
-.keyboard .keys .row-1 {}
-
 .keyboard .keys .row-2 {
   margin-left: 33px
 }
@@ -195,7 +193,8 @@ body {
   min-width: 160px;
   position: relative;
   float: right;
-  right: 25px;
+  right: 20px;
+  z-index: 1;
 }
 
 .wx #wx-title {
@@ -228,7 +227,7 @@ body {
   float: left;
   left: 25px;
   text-align: left;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .copyright span {
