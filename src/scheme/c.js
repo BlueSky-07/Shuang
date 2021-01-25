@@ -1,10 +1,11 @@
-/** last changed: 2020.09.28 */
+/** last changed: 2021.01.25 */
 
 Shuang.resource.scheme.c = {
   id: 'c',
   name: 'C双拼',
   tips: [
-    '常用输入法几乎不内置'
+    '常用输入法不内置',
+    '查看<a target="_blank" href="https://blog.csdn.net/dsscicin/article/details/80691080">介绍</a>'
   ],
   detail: {
     sheng: {
