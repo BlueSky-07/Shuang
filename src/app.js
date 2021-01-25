@@ -249,7 +249,8 @@ Shuang.resource.schemeList = {
   jiandao6: '键道双拼6**',
   xiaoguan: '开源小鹳**',
   xiaoyue: '小月双拼**',
-  yunbiaokuaipin: '韵标块拼**'
+  yunbiaokuaipin: '韵标块拼**',
+  c: 'C双拼**'
 }
 /******************** EOF scheme-list.js ************************/
 /************************ mode-list.js ************************/
