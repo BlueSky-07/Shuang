@@ -358,7 +358,7 @@ Shuang.core.model = class Model {
 }
 /******************** EOF core.js ************************/
 /************************ setting.js ************************/
-/** last changed: 2020.5.5 */
+/** last changed: 2021.1.25 */
 
 Shuang.app.setting = {
   config: {},
@@ -455,7 +455,9 @@ Shuang.app.setting = {
   },
   updateKeysHint() {
     const keys = $$('.key')
-    keys.forEach((key) => key.style.visibility = 'hidden')
+    for (const key of keys) {
+      key.style.visibility = 'hidden'
+    }
     if (this.config.showKeys === 'false') return
     const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (const [sheng, yun] of Shuang.core.current.scheme) {
@@ -467,7 +469,7 @@ Shuang.app.setting = {
   updateKeysHintLayoutRatio() {
     // TODO: 修改样式而不是计算
     const MIN_WIDTH = 310
-    const MAX_WIDTH = 740
+    const MAX_WIDTH = 750
     const OFFSET_WIDTH = 300
     const OFFSET = 30
     let left = 0

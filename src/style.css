@@ -1,4 +1,4 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2021.1.25 */
 
 body {
   margin: 0 auto;
@@ -121,6 +121,10 @@ body {
 }
 
 .keyboard .keys .row-2 {
+  margin-left: 2px
+}
+
+.keyboard .keys .row-2 {
   margin-left: 33px
 }
 
@@ -130,7 +134,7 @@ body {
 
 .keyboard .keys .key {
   width: 64.5px;
-  height: 66px;
+  height: 64.5px;
   float: left;
   background-color: #007700;
   visibility: hidden;
@@ -144,7 +148,6 @@ body {
 }
 
 @media screen and (min-width: 0\0) and (min-resolution: +72dpi) {
-
   /* IE */
   .keyboard .pic {
     filter: none;
@@ -299,7 +302,6 @@ body {
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
-
   /* Safari on iOS */
   .dark-mode .menu select {
     color: #000 !important;
