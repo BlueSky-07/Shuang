@@ -157,7 +157,7 @@ Shuang.app.setting = {
     keys[index].classList.add('pressed')
     setTimeout(() => {
       keys[index].classList.remove('pressed')
-    }, 300)
+    }, 250)
   },
   updateTips() {
     const tips = $('#tips')

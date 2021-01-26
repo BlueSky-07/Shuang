@@ -1,6 +1,6 @@
 {
   "name": "shuang",
-  "version": "5.13.0",
+  "version": "5.14.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "clear": "rm -rf build",

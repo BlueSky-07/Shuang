@@ -518,7 +518,7 @@ Shuang.app.setting = {
     keys[index].classList.add('pressed')
     setTimeout(() => {
       keys[index].classList.remove('pressed')
-    }, 300)
+    }, 250)
   },
   updateTips() {
     const tips = $('#tips')
@@ -675,6 +675,17 @@ Shuang.app.action = {
     window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
     window.resizeTo(window.outerWidth, window.outerHeight)
 
+    /** Simulate Keyboard */
+    const keys = $$('.key')
+    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    for (let i = 0; i < keys.length; i++) {
+      keys[i].addEventListener('click', () => {
+        const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase()})
+        event.simulated = true
+        document.dispatchEvent(event)
+      })
+    }
+
     /** All Done **/
     this.redo()
   },
@@ -697,6 +708,9 @@ Shuang.app.action = {
         }
         break
       default:
+        if (e.simulated) {
+          $('#a').value += e.key.toLowerCase()
+        }
         $('#a').value = $('#a').value
           .slice(0, 2)
           .replace(/[^a-zA-Z;]/g, '')
@@ -708,9 +722,9 @@ Shuang.app.action = {
         const isRight = this.judge()
         if (canAuto) {
           if (isRight && Shuang.app.setting.config.autoNext === 'true') {
-            this.next()
+            this.next(e.simulated)
           } else if (!isRight && Shuang.app.setting.config.autoClear === 'true') {
-            this.redo()
+            this.redo(e.simulated)
           }
         }
     }
@@ -720,23 +734,23 @@ Shuang.app.action = {
     const btn = $('#btn')
     const [sheng, yun] = input.value
     if (yun && Shuang.core.current.judge(sheng, yun)) {
-      btn.onclick = this.next.bind(this)
+      btn.onclick = () => this.next(true)
       btn.innerText = Shuang.resource.emoji.right
       return true
     } else {
-      btn.onclick = this.redo.bind(this)
+      btn.onclick = () => this.redo(true)
       btn.innerText = Shuang.resource.emoji.wrong
       return false
     }
   },
-  redo() {
+  redo(noFocus) {
     $('#a').value = ''
-    $('#a').focus()
-    $('#btn').onclick = this.redo.bind(this)
+    if (!noFocus) $('#a').focus()
+    $('#btn').onclick = () => this.redo(noFocus)
     $('#btn').innerText = Shuang.resource.emoji.wrong
   },
-  next() {
-    this.redo()
+  next(noFocus) {
+    this.redo(noFocus)
     switch (Shuang.app.setting.config.mode) {
       case 'all-random':
         Shuang.core.current = Shuang.core.model.getRandom()
