@@ -1,17 +1,21 @@
 {
   "name": "shuang",
-  "version": "5.11.0",
+  "version": "5.12.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
-    "clear": "rm -rf build/*",
-    "rename": "mv build/app.js build/app.min.js && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
-    "build:js": "npx babel src/app.js -d build && npx babel src/scheme -d build/scheme",
+    "clear": "rm -rf build",
+    "rename:minjs": "mv build/app.bundle.js build/app.min.js && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
+    "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",
     "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
-    "build:src": "npm run build:js && npm run build:css && npm run build:html",
-    "debug": "rm -rf build && npm run build:app && cp -r src build && npm run rename && npm run build:css && npm run build:html",
-    "build": "npm run build:app && npm run clear && npm run build:src && npm run rename",
-    "build:app": "scripts/build-app.sh"
+    "build:src": "npm run build:bundle && npm run build:js && npm run build:css && npm run build:html",
+    "build:bundle": "scripts/build-app.sh",
+    "build": "npm run clear && npm run build:src && npm run rename:minjs",
+    "debug:js": "cp -r src build",
+    "debug:css": "cp src/style.css build/style.min.css",
+    "debug:html": "cp index.src.html index.html",
+    "debug:src": "npm run build:bundle && npm run debug:js && npm run debug:css && npm run debug:html",
+    "debug": "npm run clear && npm run debug:src && npm run rename:minjs"
   },
   "repository": {
     "type": "git",

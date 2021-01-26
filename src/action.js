@@ -1,9 +1,9 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2021.1.26 */
 
 Shuang.app.action = {
   init() {
     /** Update Resources **/
-    if (navigator && navigator.userAgent && /Windows|Linux/.test(navigator.userAgent)) {
+    if (navigator && navigator.userAgent && /windows|linux/i.test(navigator.userAgent)) {
       Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
     }
 

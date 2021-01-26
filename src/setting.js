@@ -1,4 +1,4 @@
-/** last changed: 2021.1.25 */
+/** last changed: 2021.1.26 */
 
 Shuang.app.setting = {
   config: {},
@@ -66,10 +66,13 @@ Shuang.app.setting = {
     this.config.showPic = bool.toString()
     if (this.config.showPic === 'false') {
       $('#keyboard').style.display = 'none'
+      $('#pic-placeholder').style.display = 'none'
     } else if (this.config.showPic === 'true') {
       $('#keyboard').style.display = 'block'
+      $('#pic-placeholder').style.display = 'block'
     }
     writeStorage('showPic', this.config.showPic)
+    this.updateKeysHintLayoutRatio()
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()
@@ -107,25 +110,33 @@ Shuang.app.setting = {
     this.updateKeysHintLayoutRatio()
   },
   updateKeysHintLayoutRatio() {
-    // TODO: 修改样式而不是计算
-    const MIN_WIDTH = 310
-    const MAX_WIDTH = 750
-    const OFFSET_WIDTH = 300
-    const OFFSET = 30
-    let left = 0
-    let keysHintRatio = window.outerWidth / MAX_WIDTH
-    if (window.outerWidth > MAX_WIDTH) {
-      keysHintRatio = 1
-    } else if (window.outerWidth < MIN_WIDTH) {
-      keysHintRatio = MIN_WIDTH / MAX_WIDTH
-      if (window.outerWidth > OFFSET_WIDTH) {
-        left = (MIN_WIDTH - window.outerWidth) / (MIN_WIDTH - OFFSET_WIDTH) * OFFSET
+    if ($('body').scrollWidth < 700) {
+      const width = $('body').scrollWidth === 310 ? 310 : $('#pic').scrollWidth
+      const ratio = 1874 / 1928 * width / 680
+      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
+        // Firefox 不支持 zoom
+        $('#keys').style.transform = `scale(${ratio})`
+        $('#keys').style.transformOrigin = `left top`
+        $('#keys').style.margin = `${ratio * 10}px`
+        $('#pic-placeholder').style.height = `${width / 680 * 300}px`
       } else {
-        left = OFFSET
+        $('#keys').style.marginLeft = '10px'
+        $('#keys').style.zoom = ratio
+        $('#pic-placeholder').style.zoom = ratio
+      }
+    } else {
+      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
+        // Firefox 不支持 zoom
+        $('#keys').style.transform = 'unset'
+        $('#keys').style.transformOrigin = 'unset'
+        $('#pic-placeholder').style.height = '300px'
+        $('#keys').style.margin = `10px auto`
+      } else {
+        $('#keys').style.marginLeft = 'auto'
+        $('#keys').style.zoom = 'unset'
+        $('#pic-placeholder').style.zoom = 'unset'
       }
     }
-    $('.keys').style.zoom = keysHintRatio
-    $('.keys').style.left = left + 'px'
   },
   updateTips() {
     const tips = $('#tips')

@@ -1,4 +1,4 @@
-/** last changed: 2021.1.25 */
+/** last changed: 2021.1.26 */
 
 body {
   margin: 0 auto;
@@ -105,35 +105,35 @@ body {
 
 /* keyboard */
 .keyboard {
-  width: 95%;
   text-align: center;
   margin: 20px auto;
 }
 
 .keyboard .keys {
-  position: absolute;
+  /** 1874 / 1928 * 700 */
+  margin: 10px auto;
   width: 680px;
+  position: absolute;
   left: 0px;
   right: 0px;
-  margin: 10px auto;
   z-index: 2;
   opacity: 0.2;
 }
 
 .keyboard .keys .row-2 {
-  margin-left: 2px
-}
-
-.keyboard .keys .row-2 {
-  margin-left: 33px
+  /** 90 / 1928 * 700 */
+  margin-left: 33px;
 }
 
 .keyboard .keys .row-3 {
-  margin-left: 66px;
+  /** 180 / 1928 * 700 */
+  margin-left: 65px;
 }
 
 .keyboard .keys .key {
+  /** 180 / 1928 * 700 */
   width: 64.5px;
+  /** 180 / 1928 * 700 */
   height: 64.5px;
   float: left;
   background-color: #007700;
@@ -142,9 +142,18 @@ body {
 
 .keyboard .pic {
   width: 100%;
+  min-width: 310px;
   max-width: 700px;
   z-index: 1;
   filter: invert(0.07);
+  margin: auto;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.keyboard .pic-placeholder {
+  height: 300px;
 }
 
 @media screen and (min-width: 0\0) and (min-resolution: +72dpi) {
