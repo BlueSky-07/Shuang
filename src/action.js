@@ -58,7 +58,13 @@ Shuang.app.action = {
 
     /** Listen Events **/
     document.addEventListener('keydown', e => {
-      if (['Escape', 'Tab', 'Enter', 'Space'].includes(e.code)) e.preventDefault()
+      if (['Backspace', 'Tab', 'Enter', ' '].includes(e.key)) {
+        if (e.preventDefault) {
+          e.preventDefault()
+        } else {
+          event.returnValue = false
+        }
+      }
     })
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
@@ -77,6 +83,9 @@ Shuang.app.action = {
     })
     $('#show-keys').addEventListener('change', e => {
       Shuang.app.setting.setShowKeys(e.target.checked)
+    })
+    $('#show-pressed-key').addEventListener('change', e => {
+      Shuang.app.setting.setShowPressedKey(e.target.checked)
     })
     $('.pay-name#alipay').addEventListener('mouseover', () => {
       Shuang.app.action.qrShow('alipay-qr')
@@ -117,8 +126,8 @@ Shuang.app.action = {
     this.redo()
   },
   keyPressed(e) {
-    switch (e.code) {
-      case 'Escape':
+    switch (e.key) {
+      case 'Backspace':
         this.redo()
         break
       case 'Tab':
@@ -127,7 +136,7 @@ Shuang.app.action = {
         this.judge()
         break
       case 'Enter':
-      case 'Space':
+      case ' ':
         if (this.judge()) {
           this.next()
         } else {
@@ -135,8 +144,14 @@ Shuang.app.action = {
         }
         break
       default:
-        $('#a').value = $('#a').value.slice(0, 2).replace(/[^a-zA-Z;]/g, '')
-        const canAuto = a.value.length === 2
+        $('#a').value = $('#a').value
+          .slice(0, 2)
+          .replace(/[^a-zA-Z;]/g, '')
+          .split('')
+          .map((c, i) => i === 0 ? c.toUpperCase() : c.toLowerCase())
+          .join('')
+        Shuang.app.setting.updatePressedKeyHint(e.key)
+        const canAuto = $('#a').value.length === 2
         const isRight = this.judge()
         if (canAuto) {
           if (isRight && Shuang.app.setting.config.autoNext === 'true') {

@@ -12,9 +12,10 @@ Shuang.app.setting = {
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
       showKeys: readStorage("showKeys") || "true",
+      showPressedKey: readStorage("showPressedKey") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys } = this.config
+    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -24,6 +25,7 @@ Shuang.app.setting = {
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
     $('#show-keys').checked = showKeys === 'true'
+    $('#show-pressed-key').checked = showPressedKey === 'true'
     /** Applying Settings :: Invoking Actions  **/
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
@@ -32,6 +34,7 @@ Shuang.app.setting = {
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
     this.setShowKeys(showKeys)
+    this.setShowPressedKey(showPressedKey)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
@@ -96,16 +99,20 @@ Shuang.app.setting = {
     writeStorage('showKeys', this.config.showKeys)
     this.updateKeysHint()
   },
+  setShowPressedKey(bool) {
+    this.config.showPressedKey = bool.toString()
+    writeStorage('showPressedKey', this.config.showPressedKey)
+  },
   updateKeysHint() {
     const keys = $$('.key')
     for (const key of keys) {
-      key.style.visibility = 'hidden'
+      key.classList.remove('answer')
     }
     if (this.config.showKeys === 'false') return
     const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (const [sheng, yun] of Shuang.core.current.scheme) {
-      keys[qwerty.indexOf(sheng)].style.visibility = 'visible'
-      keys[qwerty.indexOf(yun)].style.visibility = 'visible'
+      keys[qwerty.indexOf(sheng)].classList.add('answer')
+      keys[qwerty.indexOf(yun)].classList.add('answer')
     }
     this.updateKeysHintLayoutRatio()
   },
@@ -138,6 +145,20 @@ Shuang.app.setting = {
       }
     }
   },
+  updatePressedKeyHint(k) {
+    if (this.config.showPressedKey === 'false' || !k) return
+    const keys = $$('.key')
+    for (const key of keys) {
+      key.classList.remove('pressed')
+    }
+    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    const index = qwerty.indexOf(k.toLowerCase())
+    if (index === -1) return
+    keys[index].classList.add('pressed')
+    setTimeout(() => {
+      keys[index].classList.remove('pressed')
+    }, 300)
+  },
   updateTips() {
     const tips = $('#tips')
     tips.innerHTML = ''
@@ -146,7 +167,7 @@ Shuang.app.setting = {
       const tipsToView = Array.isArray(currentScheme.tips) ? currentScheme.tips : [currentScheme.tips]
       for (const tip of tipsToView) {
         const newLine = document.createElement('div')
-        newLine.className = 'line'
+        newLine.classList.add('line')
         newLine.innerHTML = tip
         tips.appendChild(newLine)
       }

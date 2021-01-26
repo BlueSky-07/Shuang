@@ -136,8 +136,14 @@ body {
   /** 180 / 1928 * 700 */
   height: 64.5px;
   float: left;
+}
+
+.keyboard .keys .key.answer {
   background-color: #007700;
-  visibility: hidden;
+}
+
+.keyboard .keys .key.pressed {
+  background-color: #02b9ff;
 }
 
 .keyboard .pic {
@@ -306,8 +312,12 @@ body {
   filter: invert(0.8);
 }
 
-.dark-mode .keyboard .key {
+.dark-mode .keyboard .keys .key.answer {
   background-color: #77FF77 !important;
+}
+
+.dark-mode .keyboard .keys .key.pressed {
+  background-color: #ffec02 !important;
 }
 
 @supports (-webkit-overflow-scrolling: touch) {

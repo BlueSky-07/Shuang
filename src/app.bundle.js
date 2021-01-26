@@ -373,9 +373,10 @@ Shuang.app.setting = {
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
       showKeys: readStorage("showKeys") || "true",
+      showPressedKey: readStorage("showPressedKey") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys } = this.config
+    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -385,6 +386,7 @@ Shuang.app.setting = {
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
     $('#show-keys').checked = showKeys === 'true'
+    $('#show-pressed-key').checked = showPressedKey === 'true'
     /** Applying Settings :: Invoking Actions  **/
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
@@ -393,6 +395,7 @@ Shuang.app.setting = {
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
     this.setShowKeys(showKeys)
+    this.setShowPressedKey(showPressedKey)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
@@ -457,16 +460,20 @@ Shuang.app.setting = {
     writeStorage('showKeys', this.config.showKeys)
     this.updateKeysHint()
   },
+  setShowPressedKey(bool) {
+    this.config.showPressedKey = bool.toString()
+    writeStorage('showPressedKey', this.config.showPressedKey)
+  },
   updateKeysHint() {
     const keys = $$('.key')
     for (const key of keys) {
-      key.style.visibility = 'hidden'
+      key.classList.remove('answer')
     }
     if (this.config.showKeys === 'false') return
     const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (const [sheng, yun] of Shuang.core.current.scheme) {
-      keys[qwerty.indexOf(sheng)].style.visibility = 'visible'
-      keys[qwerty.indexOf(yun)].style.visibility = 'visible'
+      keys[qwerty.indexOf(sheng)].classList.add('answer')
+      keys[qwerty.indexOf(yun)].classList.add('answer')
     }
     this.updateKeysHintLayoutRatio()
   },
@@ -499,6 +506,20 @@ Shuang.app.setting = {
       }
     }
   },
+  updatePressedKeyHint(k) {
+    if (this.config.showPressedKey === 'false' || !k) return
+    const keys = $$('.key')
+    for (const key of keys) {
+      key.classList.remove('pressed')
+    }
+    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    const index = qwerty.indexOf(k.toLowerCase())
+    if (index === -1) return
+    keys[index].classList.add('pressed')
+    setTimeout(() => {
+      keys[index].classList.remove('pressed')
+    }, 300)
+  },
   updateTips() {
     const tips = $('#tips')
     tips.innerHTML = ''
@@ -507,7 +528,7 @@ Shuang.app.setting = {
       const tipsToView = Array.isArray(currentScheme.tips) ? currentScheme.tips : [currentScheme.tips]
       for (const tip of tipsToView) {
         const newLine = document.createElement('div')
-        newLine.className = 'line'
+        newLine.classList.add('line')
         newLine.innerHTML = tip
         tips.appendChild(newLine)
       }
@@ -590,7 +611,13 @@ Shuang.app.action = {
 
     /** Listen Events **/
     document.addEventListener('keydown', e => {
-      if (['Escape', 'Tab', 'Enter', 'Space'].includes(e.code)) e.preventDefault()
+      if (['Backspace', 'Tab', 'Enter', ' '].includes(e.key)) {
+        if (e.preventDefault) {
+          e.preventDefault()
+        } else {
+          event.returnValue = false
+        }
+      }
     })
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
@@ -609,6 +636,9 @@ Shuang.app.action = {
     })
     $('#show-keys').addEventListener('change', e => {
       Shuang.app.setting.setShowKeys(e.target.checked)
+    })
+    $('#show-pressed-key').addEventListener('change', e => {
+      Shuang.app.setting.setShowPressedKey(e.target.checked)
     })
     $('.pay-name#alipay').addEventListener('mouseover', () => {
       Shuang.app.action.qrShow('alipay-qr')
@@ -649,8 +679,8 @@ Shuang.app.action = {
     this.redo()
   },
   keyPressed(e) {
-    switch (e.code) {
-      case 'Escape':
+    switch (e.key) {
+      case 'Backspace':
         this.redo()
         break
       case 'Tab':
@@ -659,7 +689,7 @@ Shuang.app.action = {
         this.judge()
         break
       case 'Enter':
-      case 'Space':
+      case ' ':
         if (this.judge()) {
           this.next()
         } else {
@@ -667,8 +697,14 @@ Shuang.app.action = {
         }
         break
       default:
-        $('#a').value = $('#a').value.slice(0, 2).replace(/[^a-zA-Z;]/g, '')
-        const canAuto = a.value.length === 2
+        $('#a').value = $('#a').value
+          .slice(0, 2)
+          .replace(/[^a-zA-Z;]/g, '')
+          .split('')
+          .map((c, i) => i === 0 ? c.toUpperCase() : c.toLowerCase())
+          .join('')
+        Shuang.app.setting.updatePressedKeyHint(e.key)
+        const canAuto = $('#a').value.length === 2
         const isRight = this.judge()
         if (canAuto) {
           if (isRight && Shuang.app.setting.config.autoNext === 'true') {
