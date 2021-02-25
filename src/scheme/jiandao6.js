@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2021.2.25 */
 
 Shuang.resource.scheme.jiandao6 = {
   id: 'jiandao6',
@@ -61,7 +61,7 @@ Shuang.resource.scheme.jiandao6 = {
       ua: 'q',
       uai: 'g',
       uan: 't',
-      uang: 'x',
+      uang: ['x', 'm'],
       ue: 'h',
       ui: 'b',
       un: 'w',
