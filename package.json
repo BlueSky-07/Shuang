@@ -3,19 +3,19 @@
   "version": "5.14.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
-    "clear": "rm -rf build",
-    "rename:minjs": "mv build/app.bundle.js build/app.min.js && for i in build/**/*.js;do mv \"$i\" \"${i%.js}.min.js\";done",
+    "clear": "node scripts/clear.js",
+    "bundle": "node scripts/bundle.js",
+    "rename": "node scripts/rename.js",
+    "build": "npm run clear && npm run build:src && npm run rename",
+    "build:src": "npm run bundle && npm run build:js && npm run build:css && npm run build:html",
     "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",
     "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
-    "build:src": "npm run build:bundle && npm run build:js && npm run build:css && npm run build:html",
-    "build:bundle": "scripts/build-app.sh",
-    "build": "npm run clear && npm run build:src && npm run rename:minjs",
-    "debug:js": "cp -r src build",
-    "debug:css": "cp src/style.css build/style.min.css",
-    "debug:html": "cp index.src.html index.html",
-    "debug:src": "npm run build:bundle && npm run debug:js && npm run debug:css && npm run debug:html",
-    "debug": "npm run clear && npm run debug:src && npm run rename:minjs"
+    "debug": "npm run clear && npm run debug:src && npm run rename",
+    "debug:src": "npm run bundle && npm run debug:js && npm run debug:css && npm run debug:html",
+    "debug:js": "node scripts/copy.js src build",
+    "debug:css": "node scripts/copy.js src/style.css build/style.min.css",
+    "debug:html": "node scripts/copy.js index.src.html index.html"
   },
   "repository": {
     "type": "git",
@@ -35,10 +35,10 @@
     "@babel/cli": "^7",
     "@babel/core": "^7",
     "@babel/preset-env": "^7",
-    "babel-preset-minify": "^0.5.1",
-    "clean-css-cli": "^4.3.0",
-    "html-minifier": "^4.0.0"
+    "babel-preset-minify": "^0",
+    "clean-css-cli": "^4",
+    "html-minifier": "^4",
+    "fs-extra": "^9"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

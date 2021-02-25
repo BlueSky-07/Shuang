@@ -72,8 +72,6 @@ v5.14 2021.1.26 更新
 3. 运行 `npm run build` 来打包
 4. 提交代码
 
-** 暂时不支持在 Windows 环境下调试打包
-
 ### 联系
 
 如果有疑问 / 建议，或发现了错误，请在 Issues 中留言，也可与我邮件联系：[admin@ihint.me](mailto:admin@ihint.me)
