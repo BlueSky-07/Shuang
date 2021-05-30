@@ -15,7 +15,8 @@
     "debug:src": "npm run bundle && npm run debug:js && npm run debug:css && npm run debug:html",
     "debug:js": "node scripts/copy.js src build",
     "debug:css": "node scripts/copy.js src/style.css build/style.min.css",
-    "debug:html": "node scripts/copy.js index.src.html index.html"
+    "debug:html": "node scripts/copy.js index.src.html index.html",
+    "start": "npx serve"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,8 @@
     "babel-preset-minify": "^0",
     "clean-css-cli": "^4",
     "html-minifier": "^4",
-    "fs-extra": "^9"
+    "fs-extra": "^9",
+    "serve": "^11.3.2"
   },
   "dependencies": {}
 }
