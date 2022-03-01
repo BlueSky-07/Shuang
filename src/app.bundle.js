@@ -248,6 +248,7 @@ Shuang.resource.schemeList = {
   daniu: '大牛双拼*',
   jiandao3: '键道双拼3**',
   jiandao6: '键道双拼6**',
+  xingkong: '星空双拼**',
   xiaoguan: '开源小鹳**',
   xiaoyue: '小月双拼**',
   yunbiaokuaipin: '韵标块拼**',
