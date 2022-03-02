@@ -70,7 +70,7 @@ Shuang.resource.scheme.xingkong = {
     other: {
       a: 'va',
       ai: 'vh',
-      an: 'oj',
+      an: 'vj',
       ang: 'vp',
       ao: 'vk',
       e: 've',
