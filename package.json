@@ -16,7 +16,8 @@
     "debug:js": "node scripts/copy.js src build",
     "debug:css": "node scripts/copy.js src/style.css build/style.min.css",
     "debug:html": "node scripts/copy.js index.src.html index.html",
-    "start": "npx serve"
+    "start": "npx serve",
+    "release": "node scripts/release.js"
   },
   "repository": {
     "type": "git",
@@ -33,14 +34,15 @@
   },
   "homepage": "https://api.ihint.me/shuang",
   "devDependencies": {
-    "@babel/cli": "^7",
-    "@babel/core": "^7",
-    "@babel/preset-env": "^7",
-    "babel-preset-minify": "^0",
-    "clean-css-cli": "^4",
-    "html-minifier": "^4",
-    "fs-extra": "^9",
-    "serve": "^11.3.2"
+    "@babel/cli": "latest",
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "babel-preset-minify": "latest",
+    "clean-css-cli": "latest",
+    "html-minifier": "latest",
+    "fs-extra": "latest",
+    "serve": "latest",
+    "archiver": "latest"
   },
   "dependencies": {}
 }
