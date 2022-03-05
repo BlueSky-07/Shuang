@@ -1,6 +1,6 @@
 {
-  "name": "shuang",
-  "version": "5.16.0",
+  "name": "Shuang",
+  "version": "5.16.1",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "clear": "node scripts/clear.js",
@@ -28,7 +28,7 @@
     "练习"
   ],
   "author": "BlueSky",
-  "license": "gpl-3.0",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/BlueSky-07/Shuang/issues"
   },

@@ -228,7 +228,7 @@ Object.entries(Shuang.resource.dict).forEach(([sheng, yunList]) => Shuang.resour
 Shuang.resource.dict.list = Object.keys(Shuang.resource.dict)
 /******************** EOF dict.js ************************/
 /************************ scheme-list.js ************************/
-/** last changed: 2019.11.26 */
+/** last changed: 2022.3.2 */
 /*
   常见方案
   小众方案*
