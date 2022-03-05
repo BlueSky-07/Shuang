@@ -1,4 +1,4 @@
-/** last changed: 2021.1.26 */
+/** last changed: 2022.3.6 */
 
 body {
   margin: 0 auto;
@@ -318,11 +318,4 @@ body {
 
 .dark-mode .keyboard .keys .key.pressed {
   background-color: #ffec02 !important;
-}
-
-@supports (-webkit-overflow-scrolling: touch) {
-  /* Safari on iOS */
-  .dark-mode .menu select {
-    color: #000 !important;
-  }
 }
