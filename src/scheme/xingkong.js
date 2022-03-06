@@ -1,10 +1,10 @@
-/** last changed: 2022.3.1 */
+/** last changed: 2022.3.6 */
 
 Shuang.resource.scheme.xingkong = {
   id: 'xingkong',
   name: '星空双拼',
   tips: [
-    '（零声母用v引导。例如：a=va ai=vh en=vn）'
+    '常用输入法不内置'
   ],
   detail: {
     sheng: {

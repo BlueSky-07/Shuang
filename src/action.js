@@ -1,4 +1,4 @@
-/** last changed: 2021.1.26 */
+/** last changed: 2022.3.6 */
 
 Shuang.app.action = {
   init() {
@@ -86,6 +86,9 @@ Shuang.app.action = {
     })
     $('#show-pressed-key').addEventListener('change', e => {
       Shuang.app.setting.setShowPressedKey(e.target.checked)
+    })
+    $('#disable-mobile-keyboard').addEventListener('change', e => {
+      Shuang.app.setting.setDisableMobileKeyboard(e.target.checked)
     })
     $('.pay-name#alipay').addEventListener('mouseover', () => {
       Shuang.app.action.qrShow('alipay-qr')

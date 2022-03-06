@@ -1,4 +1,4 @@
-/** last changed: 2021.1.26 */
+/** last changed: 2022.3.6 */
 
 Shuang.app.setting = {
   config: {},
@@ -12,10 +12,11 @@ Shuang.app.setting = {
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
       showKeys: readStorage("showKeys") || "true",
-      showPressedKey: readStorage("showPressedKey") || "false",
+      showPressedKey: readStorage("showPressedKey") || "true",
+      disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey } = this.config
+    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -26,6 +27,7 @@ Shuang.app.setting = {
     $('#auto-clear-switcher').checked = autoClear === 'true'
     $('#show-keys').checked = showKeys === 'true'
     $('#show-pressed-key').checked = showPressedKey === 'true'
+    $('#disable-mobile-keyboard').checked = disableMobileKeyboard === 'true'
     /** Applying Settings :: Invoking Actions  **/
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
@@ -35,6 +37,7 @@ Shuang.app.setting = {
     this.setAutoClear(autoClear)
     this.setShowKeys(showKeys)
     this.setShowPressedKey(showPressedKey)
+    this.setDisableMobileKeyboard(disableMobileKeyboard)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
@@ -102,6 +105,15 @@ Shuang.app.setting = {
   setShowPressedKey(bool) {
     this.config.showPressedKey = bool.toString()
     writeStorage('showPressedKey', this.config.showPressedKey)
+  },
+  setDisableMobileKeyboard(bool) {
+    this.config.disableMobileKeyboard = bool.toString()
+    if (this.config.disableMobileKeyboard === 'true') {
+      $('#a').setAttribute('inputmode', 'none')
+    } else if (this.config.disableMobileKeyboard === 'false') {
+      $('#a').setAttribute('inputmode', 'text')
+    }
+    writeStorage('disableMobileKeyboard', this.config.disableMobileKeyboard)
   },
   updateKeysHint() {
     const keys = $$('.key')
@@ -172,7 +184,8 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
+    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
+    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
   }
 }
 
