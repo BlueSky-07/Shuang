@@ -9,3 +9,9 @@ package-lock.json
 
 # Release
 dist
+
+# Visual Studio Code
+.vscode
+
+# Build
+build
