@@ -13,7 +13,8 @@ const FILE_LIST = [
   'README.md',
   'LICENSE',
   'index.html',
-  'PWA',
+  'sw.js',
+  'manifest.webmanifest'
 ]
 
 console.log(`creating release dist for ${VERSION}`)
