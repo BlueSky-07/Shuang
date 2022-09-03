@@ -13,6 +13,7 @@ const FILE_LIST = [
   'README.md',
   'LICENSE',
   'index.html',
+  'PWA',
 ]
 
 console.log(`creating release dist for ${VERSION}`)
@@ -20,7 +21,7 @@ console.log(`creating release dist for ${VERSION}`)
 fse.mkdirpSync(DIST_DIR)
 try {
   fse.rmSync(DIST_FILE)
-} catch (e) {}
+} catch (e) { }
 
 const output = fs.createWriteStream(DIST_FILE)
 const zip = archiver('zip')
@@ -42,7 +43,7 @@ for (const filename of FILE_LIST) {
   }
   try {
     if (fs.lstatSync(filepath).isDirectory()) {
-      zip.directory(filepath,filename)
+      zip.directory(filepath, filename)
       console.log(`+ ${filename}/*`)
     } else {
       zip.file(filepath, { name: filename })
