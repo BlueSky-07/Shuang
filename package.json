@@ -14,7 +14,7 @@
     "build:pwa": "npx babel PWA/sw.js -o sw.js && node scripts/copy.js PWA/manifest.webmanifest manifest.webmanifest",
     "debug": "npm run clear && npm run debug:src && npm run rename",
     "debug:src": "npm run bundle && npm run debug:js && npm run debug:css && npm run debug:html && npm run debug:pwa",
-    "debug:js": "node scripts/copy.js src build",
+    "debug:js": "node scripts/copy.js src/app.bundle.js build/app.min.js && node scripts/copy.js src/scheme build/scheme",
     "debug:css": "node scripts/copy.js src/style.css build/style.min.css",
     "debug:html": "node scripts/copy.js index.src.html index.html",
     "debug:pwa": "node scripts/copy.js PWA/manifest.webmanifest manifest.webmanifest && node scripts/copy.js PWA/sw.js sw.js",
