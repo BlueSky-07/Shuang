@@ -10,6 +10,7 @@ const DIST_FILE = path.resolve(DIST_DIR, `Shuang_${VERSION}.zip`)
 const FILE_LIST = [
   'img',
   'build',
+  'font',
   'README.md',
   'LICENSE',
   'index.html',
