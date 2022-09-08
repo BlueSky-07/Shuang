@@ -1,0 +1,45 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"emeraldwalk.runonsave": {
+			"autoClearConsole": true,
+			"commands": [
+				// {
+				// 	"match": ".*",
+				// 	"isAsync": true,
+				// 	"cmd": "echo 'I run for all files.'"
+				// },
+				// {
+				// 	"match": "\\.txt$",
+				// 	"cmd": "echo 'I am a .txt file ${file}.'"
+				// },
+				{
+					"match": "src\\\\[0-9|a-z|A-Z]*\\.js$",
+					// "cmd": "echo 'I am a .js file ${file}.'"
+					"cmd": "npm run debug:js && npm run rename"
+				},
+				{
+					"match": "\\.html$",
+					"cmd": "npm run debug:html"
+				},
+				{
+					"match": "src\\\\.*\\.css$",
+					"cmd": "npm run debug:css"
+				},
+				{
+					"match": "PWA\\\\.*$",
+					"cmd": "npm run debug:pwa"
+				}
+				// {
+				// 	"match": ".*",
+				// 	// "cmd": "echo 'I am ${env.USERNAME}.'"
+				// 	"npm": "run debug:fast"
+				// }
+			]
+		}
+	}
+}
