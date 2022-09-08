@@ -18,6 +18,7 @@
     "debug:css": "node scripts/copy.js src/style.css build/style.min.css",
     "debug:html": "node scripts/copy.js index.src.html index.html",
     "debug:pwa": "node scripts/copy.js PWA/manifest.webmanifest manifest.webmanifest && node scripts/copy.js PWA/sw.js sw.js",
+    "debug:fast": "node scripts/clear.js && npm run bundle && node scripts/copy.js src/app.bundle.js build/app.min.js && node scripts/copy.js src/scheme build/scheme && node scripts/copy.js src/style.css build/style.min.css && node scripts/copy.js index.src.html index.html && node scripts/copy.js PWA/manifest.webmanifest manifest.webmanifest && node scripts/copy.js PWA/sw.js sw.js && npm run rename",
     "start": "npx serve",
     "release": "node scripts/release.js"
   },
