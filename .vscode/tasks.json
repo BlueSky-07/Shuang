@@ -7,7 +7,7 @@
 			"group": "build",
 			"problemMatcher": [],
 			"label": "npm: build",
-			"detail": "npm run clear && npm run build:src && npm run rename",
+			"detail": "npm run build",
 			"presentation": {
 				"panel": "new"
 			}

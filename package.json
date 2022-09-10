@@ -6,7 +6,7 @@
     "clear": "node scripts/clear.js",
     "bundle": "node scripts/bundle.js",
     "rename": "node scripts/rename.js",
-    "build": "npm run clear && npm run build:src && npm run rename",
+    "build": "npm run clear && npm run build:src && npm run rename && mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"编译完成\",0,\"Visual Studio Code\",64)(window.close)",
     "build:src": "npm run bundle && npm run build:js && npm run build:css && npm run build:html && npm run build:pwa",
     "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",

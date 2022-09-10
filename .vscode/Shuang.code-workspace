@@ -20,19 +20,20 @@
 				{
 					"match": "src\\\\[0-9|a-z|A-Z]*\\.js$",
 					// "cmd": "echo 'I am a .js file ${file}.'"
-					"cmd": "npm run bundle && npm run debug:js && npm run rename"
-				},
-				{
-					"match": "\\.html$",
-					"cmd": "npm run debug:html"
+					"cmd": "npm run bundle && npm run debug:js && npm run rename && mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"js文件调试输出完毕\",3,\"Run on Save\",64)(window.close)"
 				},
 				{
 					"match": "src\\\\.*\\.css$",
-					"cmd": "npm run debug:css"
+					"cmd": "npm run debug:css && mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"css文件调试输出完毕\",3,\"Run on Save\",64)(window.close)"
+				},
+				{
+					"match": "\\.html$",
+					"cmd": "npm run debug:html && mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"html文件调试输出完毕\",3,\"Run on Save\",64)(window.close)"
 				},
 				{
 					"match": "PWA\\\\.*$",
-					"cmd": "npm run debug:pwa"
+					// "cmd": "npm run debug:pwa"
+					"cmd": "mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"WPA功能已暂时弃用\",3,\"Run on Save\",64)(window.close)"
 				}
 				// {
 				// 	"match": ".*",
