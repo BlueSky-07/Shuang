@@ -5,8 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
-            "name": "Run npm start",
+            "command": "npm run debug:fast",
+            "name": "fast debug",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm run start",
+            "name": "Start",
             "request": "launch",
             "type": "node-terminal"
         },
