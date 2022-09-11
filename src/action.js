@@ -71,6 +71,21 @@ Shuang.app.action = {
     Shuang.app.setting.reload()
 
     /** Listen Events **/
+    document.onkeydown = (e) => {
+      if (e.key.replace(/[a-zA-Z;]/g, '') != "" && this.isFullscreen()) {
+        return false
+      }
+    }
+    document.onmousedown = (e) => {
+      if (e.button != 0 && this.isFullscreen()) {
+        return false
+      }
+    }
+    document.oncontextmenu = (e) => {
+      if (e.button != 0 && this.isFullscreen()) {
+        return false
+      }
+    }
     document.addEventListener('keydown', e => {
       if (['Backspace', 'Tab', 'Enter', ' '].includes(e.key)) {
         if (e.preventDefault) {
@@ -144,10 +159,10 @@ Shuang.app.action = {
     this.redo()
   },
   keyDown(e) {
-    if (e.key.replace(/[^a-zA-Z;]/g, '') == "") {
-      $('#a').blur()
-    } else {
+    if (e.key.replace(/[a-zA-Z;]/g, '') == "") {
       $('#a').focus()
+    } else {
+      $('#a').blur()
     }
   },
   keyPressed(e) {
