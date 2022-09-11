@@ -7,7 +7,9 @@ const Shuang = {
     schemeList: {},
     scheme: {},
     emoji: {
-      right: '✅', wrong: '❎'
+      right: '✅',
+      wrong: '❎',
+      unknown: '✍️'
     }
   },
   core: {

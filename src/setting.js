@@ -184,8 +184,59 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+    // $('img.pic').setAttribute('src', `img/${this.config.scheme}.png`)
+    this.updateKeyboard();
+    $('img.pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+  },
+  updateKeyboard() {
+    // debugger
+    var schemeName = this.config.scheme;
+    var schemeDetail = Shuang.resource.scheme[schemeName].detail;
+    const keyboardSheng = "#keyboard-svg>#sheng-mu.col-2"
+    const keyboardShengList = $(keyboardSheng).children
+    const keyboardYun = "#keyboard-svg>#yun-mu"
+    const keyboardYunList = $(keyboardYun).children
+    console.log(schemeDetail);
+    console.log(keyboardYunList);
+    for (element of keyboardShengList) {
+      element.innerHTML = ""
+    }
+    for (element of keyboardYunList) {
+      element.innerHTML = ""
+    }
+    // console.log(schemeDetail);
+    for (var sheng of ['zh', 'ch', 'sh']) {
+      if (typeof schemeDetail.sheng[sheng] === "string") {
+        $(keyboardSheng + '>.' + schemeDetail.sheng[sheng]).innerHTML = sheng
+        // $(keyboard_sheng + schemeDetail.sheng[shengKey]).firstChild.nodeValue = shengKey
+      } else if (typeof schemeDetail.sheng[sheng] === "object") {
+        for (i of schemeDetail.sheng[sheng]) {
+          $(keyboardSheng + '>.' + i).innerHTML = sheng
+          // $(keyboard_sheng + i).firstChild.nodeValue = shengKey
+        }
+      }
+    }
+    for (var yun of Object.keys(schemeDetail.yun)) {
+      if (typeof schemeDetail.yun[yun] === "string") {
+        var yunKey = document.querySelectorAll(keyboardYun + '>.' + (schemeDetail.yun[yun] == ";" ? "semicolon" : schemeDetail.yun[yun]))
+        if (yunKey[0].innerHTML == "") {
+          yunKey[0].innerHTML = yun
+        }
+        else if (yunKey[1].innerHTML == "") {
+          yunKey[1].innerHTML = yun
+        }
+      } else if (typeof schemeDetail.yun[yun] === "object") {
+        for (i of schemeDetail.yun[yun]) {
+          var yunKey = document.querySelectorAll(keyboardYun + '>.' + (i == ";" ? "semicolon" : schemeDetail.yun[yun]))
+          if (yunKey[0].innerHTML == "") {
+            yunKey[0].innerHTML = yun
+          }
+          else if (yunKey[1].innerHTML == "") {
+            yunKey[1].innerHTML = yun
+          }
+        }
+      }
+    }
   }
 }
 

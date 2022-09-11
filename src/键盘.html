@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        #a123>polyline {
+            fill: #00cfcf80;
+        }
+
+        #a321>polyline {
+            fill: transparent;
+            stroke: #cfcf0080;
+            stroke-width: 3;
+        }
+
+        polyline {
+            fill: transparent;
+        }
+    </style>
+
+    <svg width="1928px" height="820px" viewBox="0 0 210 297" version="1.1" id="svg1459"
+        inkscape:version="1.1.2 (b8e25be833, 2022-02-05)" sodipodi:docname="绘图.svg"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg">
+        <!-- <sodipodi:namedview id="namedview1461" pagecolor="#505050" bordercolor="#eeeeee" borderopacity="1"
+            inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="mm"
+            showgrid="false" inkscape:zoom="0.57549102" inkscape:cx="702.87804" inkscape:cy="383.15107"
+            inkscape:window-width="1920" inkscape:window-height="1009" inkscape:window-x="-8" inkscape:window-y="-8"
+            inkscape:window-maximized="1" inkscape:current-layer="svg1459" />
+        <defs id="defs1456" /> -->
+        <g id="a321" transform="matrix(0.36219512,0,0,0.36219512,-243.06951,0)">
+            <polyline points="28,27 1808,27" />
+            <polyline points="28,204 1897,204" />
+            <polyline points="204,28 204,205" />
+            <polyline points="382,28 382,205" />
+            <polyline points="560,28 560,205" />
+            <polyline points="738,28 738,205" />
+            <polyline points="916,28 916,205" />
+            <polyline points="1094,28 1094,205" />
+            <polyline points="1272,28 1272,205" />
+            <polyline points="1450,28 1450,205" />
+            <polyline points="1628,28 1628,205" />
+            <polyline points="1806,28 1806,205" />
+            <polyline points="117,381 1897,381" />
+            <polyline points="293,205 293,382" />
+            <polyline points="471,205 471,382" />
+            <polyline points="649,205 649,382" />
+            <polyline points="827,205 827,382" />
+            <polyline points="1005,205 1005,382" />
+            <polyline points="1183,205 1183,382" />
+            <polyline points="1361,205 1361,382" />
+            <polyline points="1717,205 1717,382" />
+            <polyline points="206,558 1452,558" />
+            <polyline points="560,382 560,559" />
+            <polyline points="738,382 738,559" />
+            <polyline points="916,382 916,559" />
+            <polyline points="1094,382 1094,559" />
+            <polyline points="1272,382 1272,559" />
+            <polyline points="473,617 1363,617" />
+            <polyline points="473,676 1363,676" />
+            <polyline points="473,735 1363,735" />
+            <polyline points="473,794 829,794" />
+            <polyline points="1183,618 1183,736" />
+            <polyline points="26,25 26,205" />
+            <polyline points="115,205 115,382" />
+            <polyline points="204,382 204,559" />
+            <polyline points="382,382 382,559" />
+            <polyline points="471,615 471,795" />
+            <polyline points="649,618 649,795" />
+            <polyline points="827,618 827,795" />
+            <polyline points="1005,618 1005,736" />
+            <polyline points="1361,618 1361,736" />
+            <polyline points="1450,382 1450,559" />
+            <polyline points="1539,205 1539,382" />
+            <polyline points="1895,205 1895,382" />
+        </g>
+    </svg>
+
+    <script>
+        const a123 = document.getElementById("a123").children;
+        const a321 = document.getElementById("a321").children;
+        var ln = 0;
+        var n = 0;
+        document.addEventListener("keydown", function (e) {
+            switch (e.key) {
+                case 'Enter':
+                    to(n);
+                    ln = n;
+                    n = 0;
+                    break;
+                case 'PageDown':
+                    if (ln < a123.length - 1) {
+                        ln += 1;
+                        to(ln);
+                    }
+                    break;
+                case 'PageUp':
+                    if (ln > 0) {
+                        ln -= 1;
+                        to(ln);
+                    }
+                    break;
+                default:
+                    if (e.key.replace(/[0-9]/g, '') == "") {
+                        n *= 10;
+                        n += Number(e.key);
+                    }
+            }
+        });
+        function to(n) {
+            for (var i = 0; i < a123.length; i++) {
+                a123[i].classList.remove("show");
+            }
+            for (var i = 0; i < a321.length; i++) {
+                a321[i].classList.remove("show");
+            }
+            try {
+                a123[n].classList.add("show");
+                a321[n].classList.add("show");
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    </script>
+</body>
+
+</html>

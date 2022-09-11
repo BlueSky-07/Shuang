@@ -10,12 +10,12 @@ const DIST_FILE = path.resolve(DIST_DIR, `Shuang_${VERSION}.zip`)
 const FILE_LIST = [
   'img',
   'build',
-  'font',
+  'font/ocraextended-min.ttf',
   'README.md',
   'LICENSE',
   'index.html',
-  'sw.js',
-  'manifest.webmanifest'
+  // 'sw.js',
+  // 'manifest.webmanifest'
 ]
 
 console.log(`creating release dist for ${VERSION}`)

@@ -10,7 +10,9 @@ const Shuang = {
     schemeList: {},
     scheme: {},
     emoji: {
-      right: '✅', wrong: '❎'
+      right: '✅',
+      wrong: '❎',
+      unknown: '✍️'
     }
   },
   core: {
@@ -546,8 +548,59 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+    // $('img.pic').setAttribute('src', `img/${this.config.scheme}.png`)
+    this.updateKeyboard();
+    $('img.pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+  },
+  updateKeyboard() {
+    // debugger
+    var schemeName = this.config.scheme;
+    var schemeDetail = Shuang.resource.scheme[schemeName].detail;
+    const keyboardSheng = "#keyboard-svg>#sheng-mu.col-2"
+    const keyboardShengList = $(keyboardSheng).children
+    const keyboardYun = "#keyboard-svg>#yun-mu"
+    const keyboardYunList = $(keyboardYun).children
+    console.log(schemeDetail);
+    console.log(keyboardYunList);
+    for (element of keyboardShengList) {
+      element.innerHTML = ""
+    }
+    for (element of keyboardYunList) {
+      element.innerHTML = ""
+    }
+    // console.log(schemeDetail);
+    for (var sheng of ['zh', 'ch', 'sh']) {
+      if (typeof schemeDetail.sheng[sheng] === "string") {
+        $(keyboardSheng + '>.' + schemeDetail.sheng[sheng]).innerHTML = sheng
+        // $(keyboard_sheng + schemeDetail.sheng[shengKey]).firstChild.nodeValue = shengKey
+      } else if (typeof schemeDetail.sheng[sheng] === "object") {
+        for (i of schemeDetail.sheng[sheng]) {
+          $(keyboardSheng + '>.' + i).innerHTML = sheng
+          // $(keyboard_sheng + i).firstChild.nodeValue = shengKey
+        }
+      }
+    }
+    for (var yun of Object.keys(schemeDetail.yun)) {
+      if (typeof schemeDetail.yun[yun] === "string") {
+        var yunKey = document.querySelectorAll(keyboardYun + '>.' + (schemeDetail.yun[yun] == ";" ? "semicolon" : schemeDetail.yun[yun]))
+        if (yunKey[0].innerHTML == "") {
+          yunKey[0].innerHTML = yun
+        }
+        else if (yunKey[1].innerHTML == "") {
+          yunKey[1].innerHTML = yun
+        }
+      } else if (typeof schemeDetail.yun[yun] === "object") {
+        for (i of schemeDetail.yun[yun]) {
+          var yunKey = document.querySelectorAll(keyboardYun + '>.' + (i == ";" ? "semicolon" : schemeDetail.yun[yun]))
+          if (yunKey[0].innerHTML == "") {
+            yunKey[0].innerHTML = yun
+          }
+          else if (yunKey[1].innerHTML == "") {
+            yunKey[1].innerHTML = yun
+          }
+        }
+      }
+    }
   }
 }
 
@@ -569,10 +622,24 @@ function writeStorage(key = '', value = '') { localStorage.setItem(key, value) }
 
 Shuang.app.action = {
   init() {
+    /** Init WPA ServiceWorker**/
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register('/sw.js').then(function (reg) {
+    //     // registration worked
+    //     console.log('Registration succeeded. Scope is ' + reg.scope);
+    //   }).catch(function (error) {
+    //     // registration failed
+    //     console.log('Registration failed with ' + error);
+    //   });
+    // }
+
     /** Update Resources **/
     if (navigator && navigator.userAgent && /windows|linux/i.test(navigator.userAgent)) {
-      Shuang.resource.emoji = { right: '✔️', wrong: '❌' }
+      Shuang.resource.emoji = { right: '✔️', wrong: '❌', unknown: '❔' }
     }
+    $('#btn').innerText = Shuang.resource.emoji.unknown
+    this.setUnderLine("first")
+    $('#pic').style = "--svg-keyborad-width: " + $('#pic').offsetWidth + "px"
 
     /** Rendering **/
     function renderSelect(target, options, callback) {
@@ -633,8 +700,14 @@ Shuang.app.action = {
         }
       }
     })
+    document.addEventListener('keydown', e => {
+      this.keyDown(e)
+    })
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
+    })
+    window.addEventListener('resize', () => {
+      $('#pic').style = "--svg-keyborad-width: " + $('#pic').offsetWidth + "px"
     })
     $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
@@ -657,34 +730,8 @@ Shuang.app.action = {
     $('#disable-mobile-keyboard').addEventListener('change', e => {
       Shuang.app.setting.setDisableMobileKeyboard(e.target.checked)
     })
-    $('.pay-name#alipay').addEventListener('mouseover', () => {
-      Shuang.app.action.qrShow('alipay-qr')
-    })
-    $('#alipay-qr').addEventListener('click', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
-    $('#alipay-qr').addEventListener('mouseout', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
-    $('.pay-name#wxpay').addEventListener('mouseover', () => {
-      Shuang.app.action.qrShow('wxpay-qr')
-    })
-    $('#wxpay-qr').addEventListener('click', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
-    $('#wxpay-qr').addEventListener('mouseout', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
-    $('#wx-name').addEventListener('mouseover', () => {
-      Shuang.app.action.qrShow('wx-qr')
-    })
-    $('#wx-qr').addEventListener('click', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
-    $('#wx-qr').addEventListener('mouseout', e => {
-      Shuang.app.action.qrHide(e.target)
-    })
     $('#dict').addEventListener('click', () => {
+      this.setUnderLine("both")
       Shuang.core.current.beforeJudge()
       $('#a').value = Shuang.core.current.scheme.values().next().value
       this.judge()
@@ -697,7 +744,7 @@ Shuang.app.action = {
     const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (let i = 0; i < keys.length; i++) {
       keys[i].addEventListener('click', () => {
-        const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase()})
+        const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase() })
         event.simulated = true
         document.dispatchEvent(event)
       })
@@ -706,12 +753,21 @@ Shuang.app.action = {
     /** All Done **/
     this.redo()
   },
+  keyDown(e) {
+    if (e.key.replace(/[^a-zA-Z;]/g, '') == "") {
+      $('#a').blur()
+    } else {
+      $('#a').focus()
+    }
+  },
   keyPressed(e) {
+    const btn = $('#btn')
     switch (e.key) {
       case 'Backspace':
         this.redo()
         break
       case 'Tab':
+        this.setUnderLine("both")
         Shuang.core.current.beforeJudge()
         $('#a').value = Shuang.core.current.scheme.values().next().value
         this.judge()
@@ -723,6 +779,7 @@ Shuang.app.action = {
         } else {
           this.redo()
         }
+        btn.innerText = Shuang.resource.emoji.unknown
         break
       default:
         if (e.simulated) {
@@ -736,13 +793,21 @@ Shuang.app.action = {
           .join('')
         Shuang.app.setting.updatePressedKeyHint(e.key)
         const canAuto = $('#a').value.length === 2
-        const isRight = this.judge()
+        const isEmpty = $('#a').value.length === 0
         if (canAuto) {
+          const isRight = this.judge()
           if (isRight && Shuang.app.setting.config.autoNext === 'true') {
             this.next(e.simulated)
           } else if (!isRight && Shuang.app.setting.config.autoClear === 'true') {
             this.redo(e.simulated)
+          } else {
+            this.setUnderLine("both")
           }
+        } else if (!isEmpty) {
+          btn.innerText = Shuang.resource.emoji.unknown
+          this.setUnderLine("second")
+        } else {
+          this.setUnderLine("first")
         }
     }
   },
@@ -751,11 +816,17 @@ Shuang.app.action = {
     const btn = $('#btn')
     const [sheng, yun] = input.value
     if (yun && Shuang.core.current.judge(sheng, yun)) {
-      btn.onclick = () => this.next(true)
+      btn.onclick = () => {
+        this.next(true)
+        btn.innerText = Shuang.resource.emoji.unknown
+      }
       btn.innerText = Shuang.resource.emoji.right
       return true
     } else {
-      btn.onclick = () => this.redo(true)
+      btn.onclick = () => {
+        this.redo(true)
+        btn.innerText = Shuang.resource.emoji.unknown
+      }
       btn.innerText = Shuang.resource.emoji.wrong
       return false
     }
@@ -764,7 +835,7 @@ Shuang.app.action = {
     $('#a').value = ''
     if (!noFocus) $('#a').focus()
     $('#btn').onclick = () => this.redo(noFocus)
-    $('#btn').innerText = Shuang.resource.emoji.wrong
+    this.setUnderLine("first")
   },
   next(noFocus) {
     this.redo(noFocus)
@@ -798,6 +869,9 @@ Shuang.app.action = {
   },
   qrHide(target) {
     target.style.display = 'none'
+  },
+  setUnderLine(key) {
+    $('#under-line').setAttribute("key", key)
   }
 }
 /******************** EOF action.js ************************/
