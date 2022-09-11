@@ -16,6 +16,11 @@
     src: url('/font/ocraextended-min.ttf');
 }
 
+@font-face {
+    font-family: 'setting-button';
+    src: url('/font/setting-button-from-heydings-icons.ttf');
+}
+
 html,
 body {
     min-width: 100%;
@@ -60,19 +65,11 @@ body * {
 #setting-button {
     position: fixed;
     top: 20px;
-    left: 20px;
-    font-size: xx-large;
+    left: 25px;
+    font-size: 32px;
     cursor: pointer;
     z-index: 3;
-}
-
-#full-screen-button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    font-size: xx-large;
-    cursor: pointer;
-    z-index: 3;
+    font-family: "setting-button";
 }
 
 #setting-background {
@@ -165,15 +162,63 @@ body * {
     border-color: var(--front);
 }
 
-#edit-dict {
-    border-style: dashed;
+
+/* main-fullscreen */
+
+#full-screen-button {
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    /* font-size: xx-large; */
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+main:fullscreen{
+    background-color: var(--back);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+main:fullscreen>.workspace{
+    margin-bottom: 20px;
+}
+
+#full-screen-button>svg>.arrow {
+    fill:var(--front)
+}
+
+main:fullscreen>#full-screen-button>svg>#tl {
+    /* display: block; */
+    transform: translate(18.8px, 18.8px);
+}
+
+main:fullscreen>#full-screen-button>svg>#tr {
+    /* display: block; */
+    transform: translate(-18.8px, 18.8px);
+}
+
+main:fullscreen>#full-screen-button>svg>#bl {
+    /* display: block; */
+    transform: translate(18.8px, -18.8px);
+}
+
+main:fullscreen>#full-screen-button>svg>#br {
+    /* display: block; */
+    transform: translate(-18.8px, -18.8px);
 }
 
 
 /* workspace */
 
 .workspace {
-    margin: auto;
+    margin: 0 auto;
     width: 300px;
     height: 150px;
     position: relative;

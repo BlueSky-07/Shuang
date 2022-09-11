@@ -372,6 +372,7 @@ Shuang.app.setting = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
       showPic: readStorage('showPic') || 'true',
+      showPinyin: readStorage('showPinyin') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
@@ -380,12 +381,13 @@ Shuang.app.setting = {
       disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
+    const { scheme, mode, showPic, showPinyin, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
+    $('#pinyin-switcher').checked = showPinyin === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
@@ -396,6 +398,7 @@ Shuang.app.setting = {
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
+    // this.setPinyinVisible(showPinyin)
     this.setDarkMode(darkMode)
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
@@ -443,6 +446,11 @@ Shuang.app.setting = {
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
+  },
+  setPinyinVisible(bool) {
+    this.config.showPinyin = bool.toString()
+    this.updateKeyboard()
+    writeStorage('showPinyin', this.config.showPinyin)
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()
@@ -554,49 +562,54 @@ Shuang.app.setting = {
   },
   updateKeyboard() {
     // debugger
-    var schemeName = this.config.scheme;
-    var schemeDetail = Shuang.resource.scheme[schemeName].detail;
     const keyboardSheng = "#keyboard-svg>#sheng-mu.col-2"
     const keyboardShengList = $(keyboardSheng).children
     const keyboardYun = "#keyboard-svg>#yun-mu"
     const keyboardYunList = $(keyboardYun).children
-    console.log(schemeDetail);
-    console.log(keyboardYunList);
-    for (element of keyboardShengList) {
-      element.innerHTML = ""
+    // for (element of keyboardShengList) {
+    //   element.innerHTML = ""
+    // }
+    for (var i = 0; i < keyboardShengList.length; i++) {
+      keyboardShengList[i].innerHTML = ""
     }
-    for (element of keyboardYunList) {
-      element.innerHTML = ""
+    // for (element of keyboardYunList) {
+    //   element.innerHTML = ""
+    // }
+    for (var i = 0; i < keyboardYunList.length; i++) {
+      keyboardYunList[i].innerHTML = ""
     }
-    // console.log(schemeDetail);
-    for (var sheng of ['zh', 'ch', 'sh']) {
-      if (typeof schemeDetail.sheng[sheng] === "string") {
-        $(keyboardSheng + '>.' + schemeDetail.sheng[sheng]).innerHTML = sheng
-        // $(keyboard_sheng + schemeDetail.sheng[shengKey]).firstChild.nodeValue = shengKey
-      } else if (typeof schemeDetail.sheng[sheng] === "object") {
-        for (i of schemeDetail.sheng[sheng]) {
-          $(keyboardSheng + '>.' + i).innerHTML = sheng
-          // $(keyboard_sheng + i).firstChild.nodeValue = shengKey
+    if (this.config.showPinyin === "true") {
+      const schemeName = this.config.scheme;
+      const schemeDetail = Shuang.resource.scheme[schemeName].detail;
+      for (var sheng of ['zh', 'ch', 'sh']) {
+        if (typeof schemeDetail.sheng[sheng] === "string") {
+          $(keyboardSheng + '>.' + schemeDetail.sheng[sheng]).innerHTML = sheng
+          // $(keyboard_sheng + schemeDetail.sheng[shengKey]).firstChild.nodeValue = shengKey
+        } else if (typeof schemeDetail.sheng[sheng] === "object") {
+          for (i of schemeDetail.sheng[sheng]) {
+            $(keyboardSheng + '>.' + i).innerHTML = sheng
+            // $(keyboard_sheng + i).firstChild.nodeValue = shengKey
+          }
         }
       }
-    }
-    for (var yun of Object.keys(schemeDetail.yun)) {
-      if (typeof schemeDetail.yun[yun] === "string") {
-        var yunKey = document.querySelectorAll(keyboardYun + '>.' + (schemeDetail.yun[yun] == ";" ? "semicolon" : schemeDetail.yun[yun]))
-        if (yunKey[0].innerHTML == "") {
-          yunKey[0].innerHTML = yun
-        }
-        else if (yunKey[1].innerHTML == "") {
-          yunKey[1].innerHTML = yun
-        }
-      } else if (typeof schemeDetail.yun[yun] === "object") {
-        for (i of schemeDetail.yun[yun]) {
-          var yunKey = document.querySelectorAll(keyboardYun + '>.' + (i == ";" ? "semicolon" : schemeDetail.yun[yun]))
+      for (var yun of Object.keys(schemeDetail.yun)) {
+        if (typeof schemeDetail.yun[yun] === "string") {
+          var yunKey = document.querySelectorAll(keyboardYun + '>.' + (schemeDetail.yun[yun] == ";" ? "semicolon" : schemeDetail.yun[yun]))
           if (yunKey[0].innerHTML == "") {
             yunKey[0].innerHTML = yun
           }
           else if (yunKey[1].innerHTML == "") {
             yunKey[1].innerHTML = yun
+          }
+        } else if (typeof schemeDetail.yun[yun] === "object") {
+          for (i of schemeDetail.yun[yun]) {
+            var yunKey = document.querySelectorAll(keyboardYun + '>.' + (i == ";" ? "semicolon" : schemeDetail.yun[yun]))
+            if (yunKey[0].innerHTML == "") {
+              yunKey[0].innerHTML = yun
+            }
+            else if (yunKey[1].innerHTML == "") {
+              yunKey[1].innerHTML = yun
+            }
           }
         }
       }
@@ -712,6 +725,9 @@ Shuang.app.action = {
     $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
     })
+    $('#pinyin-switcher').addEventListener('change', e => {
+      Shuang.app.setting.setPinyinVisible(e.target.checked)
+    })
     $('#dark-mode-switcher').addEventListener('change', e => {
       Shuang.app.setting.setDarkMode(e.target.checked)
     })
@@ -738,6 +754,13 @@ Shuang.app.action = {
     })
     window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
     window.resizeTo(window.outerWidth, window.outerHeight)
+    $('#full-screen-button').addEventListener('click', () => {
+      if (this.isFullscreen()) {
+        this.exitFull()
+      } else {
+        this.requestFullScreen($('main'))
+      }
+    })
 
     /** Simulate Keyboard */
     const keys = $$('.key')
@@ -864,14 +887,46 @@ Shuang.app.action = {
     Shuang.core.current.beforeJudge()
     Shuang.app.setting.updateKeysHint()
   },
-  qrShow(targetId) {
-    $('#' + targetId).style.display = 'block'
-  },
-  qrHide(target) {
-    target.style.display = 'none'
-  },
   setUnderLine(key) {
     $('#under-line').setAttribute("key", key)
+  },
+  requestFullScreen(element) {
+    // 判断各种浏览器，找到正确的方法
+    var requestMethod = element.requestFullScreen || //W3C
+      element.webkitRequestFullScreen || //Chrome等
+      element.mozRequestFullScreen || //FireFox
+      element.msRequestFullScreen; //IE11
+    if (requestMethod) {
+      requestMethod.call(element);
+    }
+    else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  },
+  exitFull() {
+    // 判断各种浏览器，找到正确的方法
+    var exitMethod = document.exitFullscreen || //W3C
+      document.mozCancelFullScreen || //Chrome等
+      document.webkitExitFullscreen || //FireFox
+      document.webkitExitFullscreen; //IE11
+    if (exitMethod) {
+      exitMethod.call(document);
+    }
+    else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  },
+  isFullscreen() {
+    return document.fullscreenElement ||
+      document.msFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement || false;
   }
 }
 /******************** EOF action.js ************************/

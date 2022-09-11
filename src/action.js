@@ -92,6 +92,9 @@ Shuang.app.action = {
     $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
     })
+    $('#pinyin-switcher').addEventListener('change', e => {
+      Shuang.app.setting.setPinyinVisible(e.target.checked)
+    })
     $('#dark-mode-switcher').addEventListener('change', e => {
       Shuang.app.setting.setDarkMode(e.target.checked)
     })
@@ -118,6 +121,13 @@ Shuang.app.action = {
     })
     window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
     window.resizeTo(window.outerWidth, window.outerHeight)
+    $('#full-screen-button').addEventListener('click', () => {
+      if (this.isFullscreen()) {
+        this.exitFull()
+      } else {
+        this.requestFullScreen($('main'))
+      }
+    })
 
     /** Simulate Keyboard */
     const keys = $$('.key')
@@ -244,13 +254,45 @@ Shuang.app.action = {
     Shuang.core.current.beforeJudge()
     Shuang.app.setting.updateKeysHint()
   },
-  qrShow(targetId) {
-    $('#' + targetId).style.display = 'block'
-  },
-  qrHide(target) {
-    target.style.display = 'none'
-  },
   setUnderLine(key) {
     $('#under-line').setAttribute("key", key)
+  },
+  requestFullScreen(element) {
+    // 判断各种浏览器，找到正确的方法
+    var requestMethod = element.requestFullScreen || //W3C
+      element.webkitRequestFullScreen || //Chrome等
+      element.mozRequestFullScreen || //FireFox
+      element.msRequestFullScreen; //IE11
+    if (requestMethod) {
+      requestMethod.call(element);
+    }
+    else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  },
+  exitFull() {
+    // 判断各种浏览器，找到正确的方法
+    var exitMethod = document.exitFullscreen || //W3C
+      document.mozCancelFullScreen || //Chrome等
+      document.webkitExitFullscreen || //FireFox
+      document.webkitExitFullscreen; //IE11
+    if (exitMethod) {
+      exitMethod.call(document);
+    }
+    else if (typeof window.ActiveXObject !== "undefined") {//for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+  },
+  isFullscreen() {
+    return document.fullscreenElement ||
+      document.msFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement || false;
   }
 }
