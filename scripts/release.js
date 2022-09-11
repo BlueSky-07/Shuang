@@ -11,6 +11,7 @@ const FILE_LIST = [
   'img',
   'build',
   'font/ocraextended-min.ttf',
+  'font/setting-button-from-heydings-icons.ttf',
   'README.md',
   'LICENSE',
   'index.html',
