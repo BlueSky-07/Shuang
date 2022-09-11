@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2022.9.12 */
 
 Shuang.app.setting = {
   config: {},

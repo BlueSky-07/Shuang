@@ -1,4 +1,4 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2020.9.12 */
 
 /** States **/
 const Shuang = {
