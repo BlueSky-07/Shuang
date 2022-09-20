@@ -8,17 +8,8 @@
 		"emeraldwalk.runonsave": {
 			"autoClearConsole": true,
 			"commands": [
-				// {
-				// 	"match": ".*",
-				// 	"isAsync": true,
-				// 	"cmd": "echo 'I run for all files.'"
-				// },
-				// {
-				// 	"match": "\\.txt$",
-				// 	"cmd": "echo 'I am a .txt file ${file}.'"
-				// },
 				{
-					"match": "src\\\\[0-9|a-z|A-Z]*\\.js$",
+					"match": "src\\\\[0-9|a-z|A-Z|\\\\]*\\.js$",
 					// "cmd": "echo 'I am a .js file ${file}.'"
 					"cmd": "npm run bundle && npm run debug:js && npm run rename && mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"js文件调试输出完毕\",3,\"Run on Save\",64)(window.close)"
 				},
@@ -35,11 +26,6 @@
 					// "cmd": "npm run debug:pwa"
 					"cmd": "mshta vbscript:CreateObject(\"Wscript.Shell\").popup(\"WPA功能已暂时弃用\",3,\"Run on Save\",64)(window.close)"
 				}
-				// {
-				// 	"match": ".*",
-				// 	// "cmd": "echo 'I am ${env.USERNAME}.'"
-				// 	"npm": "run debug:fast"
-				// }
 			]
 		}
 	}
