@@ -81,5 +81,24 @@ Shuang.resource.scheme.pinyinjiajia = {
       o: 'oo',
       ou: 'op'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'as',
+      an: 'af',
+      ang: 'ag',
+      ao: 'ad',
+      e: 'ee',
+      ei: 'ew',
+      en: 'er',
+      eng: 'et',
+      er: 'eq',
+      o: 'oo',
+      ou: 'op'
+    },
+    other: {
+      q_push: 'er'
+    }
   }
 }

@@ -81,5 +81,22 @@ Shuang.resource.scheme.xiaohe = {
       o: 'oo',
       ou: 'ou'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ai',
+      an: 'an',
+      ang: 'ah',
+      ao: 'ao',
+      e: 'ee',
+      ei: 'ei',
+      en: 'en',
+      eng: 'eg',
+      er: 'er',
+      o: 'oo',
+      ou: 'ou'
+    },
+    other: {}
   }
 }

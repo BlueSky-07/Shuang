@@ -120,5 +120,31 @@ Shuang.resource.scheme.jiandao6 = {
       zhun: 'qw',
       zhuo: 'fl'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'xs',
+      ai: 'xh',
+      an: 'xf',
+      ang: 'xp',
+      ao: 'xz',
+      e: 'xe',
+      ei: 'xw',
+      en: 'xn',
+      eng: 'xr',
+      er: 'xj',
+      o: 'xi',
+      ou: 'xd'
+    },
+    other: {
+      q_push: 'ua',
+      y_push: 'ong',
+      d_push: 'ou',
+      g_push: 'uai',
+      j: 'er',
+      l_1: 'uo',
+      l_2: 'v o',
+      m: 'uang'
+    }
   }
 }

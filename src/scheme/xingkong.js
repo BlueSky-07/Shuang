@@ -60,12 +60,12 @@ Shuang.resource.scheme.xingkong = {
       uai: 'g',
       uan: 't',
       uang: 'c',
-      ue: ['h','z' ],
+      ue: ['h', 'z'],
       ui: 'v',
       un: 'y',
       uo: 'o',
       v: 'v',
-      ve: ['h','z']
+      ve: ['h', 'z']
     },
     other: {
       a: 'va',
@@ -80,6 +80,33 @@ Shuang.resource.scheme.xingkong = {
       er: 'vu',
       o: 'vo',
       ou: 'vr'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'va',
+      ai: 'vh',
+      an: 'vj',
+      ang: 'vp',
+      ao: 'vk',
+      e: 've',
+      ei: 'vw',
+      en: 'vn',
+      eng: 'vm',
+      er: 'vu',
+      o: 'vo',
+      ou: 'vr'
+    },
+    other: {
+      e_0: '一',
+      u_0: '丿',
+      u: 'er',
+      i_0: '丨',
+      o_0: '丶',
+      a_0: '乛',
+      g_push: 'uai',
+      z: 've',
+      v_2: 'ui'
     }
   }
 }

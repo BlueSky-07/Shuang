@@ -78,5 +78,24 @@ Shuang.resource.scheme.ziguang = {
       o: 'oo',
       ou: 'oz'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'oa',
+      ai: 'op',
+      an: 'or',
+      ang: 'os',
+      ao: 'oq',
+      e: 'oe',
+      ei: 'ok',
+      en: 'ow',
+      eng: 'ot',
+      er: 'oj',
+      o: 'oo',
+      ou: 'oz'
+    },
+    other: {
+      j_push: 'er'
+    }
   }
 }

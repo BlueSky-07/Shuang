@@ -81,5 +81,25 @@ Shuang.resource.scheme.zhinengabc = {
       o: 'oo',
       ou: 'ob'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'oa',
+      ai: 'ol',
+      an: 'oj',
+      ang: 'oh',
+      ao: 'ok',
+      e: 'oe',
+      ei: 'oq',
+      en: 'of',
+      eng: 'og',
+      er: 'or',
+      o: 'oo',
+      ou: 'ob'
+    },
+    other: {
+      r_push: 'er',
+      v: 've'
+    }
   }
 }

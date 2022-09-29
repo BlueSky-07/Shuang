@@ -81,5 +81,24 @@ Shuang.resource.scheme.weiruan = {
       o: 'oo',
       ou: 'ob'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'oa',
+      ai: 'ol',
+      an: 'oj',
+      ang: 'oh',
+      ao: 'ok',
+      e: 'oe',
+      ei: 'oz',
+      en: 'of',
+      eng: 'og',
+      er: 'or',
+      o: 'oo',
+      ou: 'ob'
+    },
+    other: {
+      r_push: 'er'
+    }
   }
 }

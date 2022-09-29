@@ -81,5 +81,25 @@ Shuang.resource.scheme.xiaolang = {
       o: 'oo',
       ou: 'ou'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ai',
+      an: 'an',
+      ang: 'ah',
+      ao: 'ao',
+      e: 'uu',
+      ei: 'ui',
+      en: 'un',
+      eng: 'un',
+      er: 'ur',
+      o: 'oo',
+      ou: 'ou'
+    },
+    other: {
+      y: 'vn',
+      o_push: 'uo'
+    }
   }
 }

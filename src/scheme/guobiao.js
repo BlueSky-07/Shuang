@@ -82,5 +82,27 @@ Shuang.resource.scheme.guobiao = {
       o: 'ao',
       ou: 'ap'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ak',
+      an: 'af',
+      ang: 'ag',
+      ao: 'ac',
+      e: 'ae',
+      ei: 'ab',
+      en: 'ar',
+      eng: 'ah',
+      er: 'al',
+      o: 'ao',
+      ou: 'ap'
+    },
+    other: {
+      l: 'er',
+      w_push: 'van',
+      z_push: 'vn',
+      v_push: 'v'
+    }
   }
 }

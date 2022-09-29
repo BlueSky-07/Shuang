@@ -89,5 +89,33 @@ Shuang.resource.scheme.daniu = {
       yuan: ['yz', 'yj'],
       yun: ['yy', 'yw']
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'ea',
+      ai: 'eh',
+      an: 'ed',
+      ang: 'ef',
+      ao: 'es',
+      e: 'ee',
+      ei: 'ew',
+      en: 'ek',
+      eng: 'ej',
+      er: 'eu',
+      o: 'eo',
+      ou: 'er'
+    },
+    other: {
+      q: 'ian',
+      w_push: 'vn',
+      u: 'er',
+      g_push: 'uai',
+      j: 'van',
+      l_push: 'ong',
+      x_push: 've',
+      c_2: '',
+      v_push: 'ui',
+      n_push: 'ui'
+    }
   }
 }

@@ -1,6 +1,6 @@
 /** last changed: 2022.9.12 */
 
- :root {
+:root {
     --back: var(--light-white);
     --front: var(--light-black);
     --light-white: #fffff0;
@@ -118,6 +118,10 @@ body * {
     display: inline-block;
 }
 
+.settings .menu>select>option {
+    background-color: var(--back);
+}
+
 #open-setting:checked+#setting-background {
     background-color: #1111119c;
     -webkit-pointer-events: auto;
@@ -176,7 +180,7 @@ body * {
     z-index: 3;
 }
 
-main:fullscreen{
+main:fullscreen {
     background-color: var(--back);
     display: flex;
     flex-direction: column;
@@ -189,12 +193,12 @@ main:fullscreen{
     cursor: default;
 }
 
-main:fullscreen>.workspace{
+main:fullscreen>.workspace {
     margin-bottom: 20px;
 }
 
 #full-screen-button>svg>.arrow {
-    fill:var(--front)
+    fill: var(--front)
 }
 
 main:fullscreen>#full-screen-button>svg>#tl {
@@ -389,16 +393,23 @@ main:fullscreen>#full-screen-button>svg>#br {
     left: 0;
     right: 0;
     position: absolute;
-    opacity: 0.8;
 }
 
-#kuang polyline {
+img.pic {
+    opacity: 0.2;
+}
+
+
+#kuang polyline,
+#kuang-ling-sheng-mu polyline,
+#kuang-other polyline {
     fill: transparent;
-    /* build */
     stroke: var(--front);
-    /* debug */
-    /* stroke: #cfcf0080; */
     stroke-width: 3;
+}
+
+#kuang-other {
+    display: none;
 }
 
 text {
@@ -426,6 +437,19 @@ text {
     text-anchor: end;
 }
 
+#ling-sheng-mu text,
+#ling-sheng-mu-other text {
+    font-size: 35px;
+    font-weight: 500;
+    text-anchor: middle;
+}
+
+#ling-sheng-mu text.output,
+#ling-sheng-mu-other text.output {
+    font-style: italic;
+    font-size: 30px;
+}
+
 .keyboard .pic-placeholder {
     height: 300px;
 }
@@ -435,6 +459,7 @@ text {
 }
 
 @media screen and (min-width: 0\0) and (min-resolution:+72dpi) {
+
     /* IE */
     .keyboard .pic {
         filter: none;

@@ -81,5 +81,27 @@ Shuang.resource.scheme.yunbiaokuaipin = {
       o: 'eo',
       ou: 'el'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'ea',
+      ai: 'ep',
+      an: 'ez',
+      ang: 'em',
+      ao: 'ec',
+      e: 'ee',
+      ei: 'ek',
+      en: 'en',
+      eng: 'et',
+      er: 'er',
+      o: 'eo',
+      ou: 'el'
+    },
+    other: {
+      g_push: 'uang',
+      h_push: 'ong',
+      v_push: 'v',
+      b_1: 'ei',
+    }
   }
 }
