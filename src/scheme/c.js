@@ -1,4 +1,4 @@
-/** last changed: 2021.01.25 */
+/** last changed: 2022.9.28 */
 
 Shuang.resource.scheme.c = {
   id: 'c',

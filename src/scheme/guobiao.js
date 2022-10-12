@@ -1,4 +1,4 @@
-/** last changed: 2019.8.23 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.guobiao = {
   id: 'guobiao',

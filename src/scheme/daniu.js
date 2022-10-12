@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.20 */
 
 Shuang.resource.scheme.daniu = {
   id: 'daniu',

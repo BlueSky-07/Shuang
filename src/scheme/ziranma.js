@@ -1,4 +1,4 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2022.9.20 */
 
 Shuang.resource.scheme.ziranma = {
   id: 'ziranma',

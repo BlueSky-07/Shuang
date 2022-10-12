@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.jiandao3 = {
   id: 'jiandao3',

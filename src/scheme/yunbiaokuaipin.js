@@ -1,4 +1,4 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.yunbiaokuaipin = {
   id: 'yunbiaokuaipin',

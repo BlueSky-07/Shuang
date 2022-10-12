@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.xingkong = {
   id: 'xingkong',

@@ -362,7 +362,7 @@ Shuang.core.model = class Model {
 }
 /******************** EOF core.js ************************/
 /************************ setting.js ************************/
-/** last changed: 2022.9.12 */
+/** last changed: 2022.9.29 */
 
 Shuang.app.setting = {
   config: {},

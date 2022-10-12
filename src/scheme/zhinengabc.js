@@ -1,4 +1,4 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.zhinengabc = {
   id: 'zhinengabc',
