@@ -4,8 +4,8 @@ Shuang.resource.scheme.lantian = {
   id: 'lantian',
   name: '蓝天双拼',
   tips: [
-    '手心输入法内置',
-	'华宇输入法内置'
+    '手心输入法PC版内置',
+	'华宇(紫光)输入法内置'
   ],
   detail: {
     sheng: {
