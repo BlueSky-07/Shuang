@@ -23,5 +23,6 @@ Shuang.resource.schemeList = {
   xiaoguan: '开源小鹳**',
   xiaoyue: '小月双拼**',
   yunbiaokuaipin: '韵标块拼**',
-  c: 'C双拼**'
+  c: 'C双拼**',
+  baiyun: '白云双拼**'
 }
