@@ -16,11 +16,13 @@ Shuang.resource.schemeList = {
   guobiao: '国标双拼*',
   xiaolang: '小浪双拼*',
   daniu: '大牛双拼*',
+  lantian: '蓝天双拼*',
   jiandao3: '键道双拼3**',
   jiandao6: '键道双拼6**',
   xingkong: '星空双拼**',
   xiaoguan: '开源小鹳**',
   xiaoyue: '小月双拼**',
   yunbiaokuaipin: '韵标块拼**',
-  c: 'C双拼**'
+  c: 'C双拼**',
+  baiyun: '白云双拼**'
 }
