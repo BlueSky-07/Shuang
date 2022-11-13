@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   x="0px"
+   y="0px"
+   width="32px"
+   height="32px"
+   viewBox="0 0 32 32"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <polygon
+     fill="#444444"
+     points="313.8,255.8 320.4,262.3 323.2,259.5 316.7,252.9 320.5,249.1 310,249.1 310,259.6 "
+     id="tl"
+     transform="translate(-310,-249.1)" />
+  <polygon
+     fill="#444444"
+     points="342,259.6 342,249.1 331.5,249.1 335.3,252.9 328.8,259.5 331.6,262.3 338.2,255.8 "
+     id="tr"
+     transform="translate(-310,-249.1)" />
+  <polygon
+     fill="#444444"
+     points="310,270.6 310,281.1 320.5,281.1 316.7,277.3 323.2,270.8 320.4,267.9 313.8,274.5 "
+     id="bl"
+     transform="translate(-310,-249.1)" />
+  <polygon
+     fill="#444444"
+     points="338.2,274.5 331.6,267.9 328.8,270.8 335.3,277.3 331.5,281.1 342,281.1 342,270.6 "
+     id="br"
+     transform="translate(-310,-249.1)" />
+</svg>

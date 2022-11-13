@@ -1,4 +1,4 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2020.9.12 */
 
 /** States **/
 const Shuang = {
@@ -7,7 +7,9 @@ const Shuang = {
     schemeList: {},
     scheme: {},
     emoji: {
-      right: '✅', wrong: '❎'
+      right: '✅',
+      wrong: '❎',
+      unknown: '✍️'
     }
   },
   core: {

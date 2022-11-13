@@ -1,4 +1,4 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2022.9.20 */
 
 Shuang.resource.scheme.ziranma = {
   id: 'ziranma',
@@ -78,5 +78,22 @@ Shuang.resource.scheme.ziranma = {
       o: 'oo',
       ou: 'ou'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ai',
+      an: 'an',
+      ang: 'ah',
+      ao: 'ao',
+      e: 'ee',
+      ei: 'ei',
+      en: 'en',
+      eng: 'eg',
+      er: 'er',
+      o: 'oo',
+      ou: 'ou'
+    },
+    other: {}
   }
 }

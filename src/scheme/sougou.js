@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.20 */
 
 Shuang.resource.scheme.sougou = {
   id: 'sougou',
@@ -80,6 +80,25 @@ Shuang.resource.scheme.sougou = {
       er: 'or',
       o: 'oo',
       ou: 'ob'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'oa',
+      ai: 'ol',
+      an: 'oj',
+      ang: 'oh',
+      ao: 'ok',
+      e: 'oe',
+      ei: 'oz',
+      en: 'of',
+      eng: 'og',
+      er: 'or',
+      o: 'oo',
+      ou: 'ob'
+    },
+    other: {
+      r_push: 'er'
     }
   }
 }

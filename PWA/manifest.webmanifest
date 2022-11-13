@@ -1,0 +1,21 @@
+{
+    "name": "双拼练习 @ BlueSky",
+    "short_name": "双拼练习",
+    "description": "让双拼不再是只属于少数人的输入方式。",
+    "icons": [
+        {
+            "src": "icons/icon-32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "theme_color": "#333",
+    "background_color": "#eee"
+}

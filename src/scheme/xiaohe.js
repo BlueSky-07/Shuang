@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.19 */
 
 Shuang.resource.scheme.xiaohe = {
   id: 'xiaohe',
@@ -81,5 +81,22 @@ Shuang.resource.scheme.xiaohe = {
       o: 'oo',
       ou: 'ou'
     }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ai',
+      an: 'an',
+      ang: 'ah',
+      ao: 'ao',
+      e: 'ee',
+      ei: 'ei',
+      en: 'en',
+      eng: 'eg',
+      er: 'er',
+      o: 'oo',
+      ou: 'ou'
+    },
+    other: {}
   }
 }

@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.xiaolang = {
   id: 'xiaolang',
@@ -80,6 +80,26 @@ Shuang.resource.scheme.xiaolang = {
       er: 'ur',
       o: 'oo',
       ou: 'ou'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'ai',
+      an: 'an',
+      ang: 'ah',
+      ao: 'ao',
+      e: 'uu',
+      ei: 'ui',
+      en: 'un',
+      eng: 'un',
+      er: 'ur',
+      o: 'oo',
+      ou: 'ou'
+    },
+    other: {
+      y: 'vn',
+      o_push: 'uo'
     }
   }
 }

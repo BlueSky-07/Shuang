@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.pinyinjiajia = {
   id: 'pinyinjiajia',
@@ -80,6 +80,25 @@ Shuang.resource.scheme.pinyinjiajia = {
       er: 'eq',
       o: 'oo',
       ou: 'op'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'aa',
+      ai: 'as',
+      an: 'af',
+      ang: 'ag',
+      ao: 'ad',
+      e: 'ee',
+      ei: 'ew',
+      en: 'er',
+      eng: 'et',
+      er: 'eq',
+      o: 'oo',
+      ou: 'op'
+    },
+    other: {
+      q_push: 'er'
     }
   }
 }

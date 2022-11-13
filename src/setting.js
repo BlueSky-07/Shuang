@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2022.9.29 */
 
 Shuang.app.setting = {
   config: {},
@@ -8,6 +8,7 @@ Shuang.app.setting = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
       showPic: readStorage('showPic') || 'true',
+      showPinyin: readStorage('showPinyin') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
@@ -16,12 +17,13 @@ Shuang.app.setting = {
       disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
+    const { scheme, mode, showPic, showPinyin, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
+    $('#pinyin-switcher').checked = showPinyin === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
@@ -32,6 +34,7 @@ Shuang.app.setting = {
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
+    // this.setPinyinVisible(showPinyin)
     this.setDarkMode(darkMode)
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
@@ -79,6 +82,11 @@ Shuang.app.setting = {
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
+  },
+  setPinyinVisible(bool) {
+    this.config.showPinyin = bool.toString()
+    this.updateKeyboard()
+    writeStorage('showPinyin', this.config.showPinyin)
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()
@@ -184,8 +192,162 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+    // $('img.pic').setAttribute('src', `img/${this.config.scheme}.png`)
+    // $('img.pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+    this.updateKeyboard();
+  },
+  updateKeyboard() {
+    // init
+    const keyboardSheng = "#keyboard-svg>#sheng-mu.col-2"
+    const keyboardShengList = $(keyboardSheng).children
+    const keyboardYun = "#keyboard-svg>#yun-mu"
+    const keyboardYunList = $(keyboardYun).children
+    const keyboardLingShengMu = "#keyboard-svg>#ling-sheng-mu"
+    const keyboardLingShengMuList = $(keyboardLingShengMu).children
+    const keyboardLingShengMuOther = "#keyboard-svg>#ling-sheng-mu-other"
+    // clear
+    for (var i = 0; i < keyboardShengList.length; i++) {
+      keyboardShengList[i].innerHTML = ""
+    }
+    for (var i = 0; i < keyboardYunList.length; i++) {
+      keyboardYunList[i].innerHTML = ""
+    }
+    for (var i = 0; i < keyboardLingShengMuList.length; i++) {
+      keyboardLingShengMuList[i].innerHTML = ""
+    }
+    // write
+    if (this.config.showPinyin === "true") {
+      const schemeName = this.config.scheme;
+      const schemeDetail = Shuang.resource.scheme[schemeName].detail;
+      const schemeOther = Shuang.resource.scheme[schemeName].show;
+      // name
+      $("#other>text.scheme").innerHTML = Shuang.resource.scheme[schemeName].name
+      // sheng
+      for (var sheng of ['zh', 'ch', 'sh']) {
+        if (typeof schemeDetail.sheng[sheng] === "string") {
+          $(keyboardSheng + '>.' + schemeDetail.sheng[sheng]).innerHTML = sheng
+          // $(keyboard_sheng + schemeDetail.sheng[shengKey]).firstChild.nodeValue = shengKey
+        } else if (typeof schemeDetail.sheng[sheng] === "object") {
+          for (i of schemeDetail.sheng[sheng]) {
+            $(keyboardSheng + '>.' + i).innerHTML = sheng
+            // $(keyboard_sheng + i).firstChild.nodeValue = shengKey
+          }
+        }
+      }
+      // yun
+      for (var yun of Object.keys(schemeDetail.yun)) {
+        if (typeof schemeDetail.yun[yun] === "string") {
+          var yunKey = document.querySelectorAll(keyboardYun + '>.' + (schemeDetail.yun[yun] == ";" ? "semicolon" : schemeDetail.yun[yun]))
+          if (yunKey[0].innerHTML == "") {
+            yunKey[0].innerHTML = yun
+          }
+          else if (yunKey[1].innerHTML == "") {
+            yunKey[1].innerHTML = yun
+          }
+        } else if (typeof schemeDetail.yun[yun] === "object") {
+          for (i of schemeDetail.yun[yun]) {
+            var yunKey = document.querySelectorAll(keyboardYun + '>.' + (i == ";" ? "semicolon" : schemeDetail.yun[yun]))
+            if (yunKey[0].innerHTML == "") {
+              yunKey[0].innerHTML = yun
+            }
+            else if (yunKey[1].innerHTML == "") {
+              yunKey[1].innerHTML = yun
+            }
+          }
+        }
+      }
+      // ling-sheng-mu
+      $('#kuang-other').innerHTML = ""
+      $(keyboardLingShengMuOther).innerHTML = ""
+      if ("mode" in schemeOther.lingShengMu) {
+        $('#kuang-ling-sheng-mu').style = "display: none;"
+        $('#kuang-other').style = "display: inline;"
+        $('#other').children[0].innerHTML = schemeOther.lingShengMu.mode
+        for (var kuang of schemeOther.lingShengMu.kuang) {
+          var line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline')
+          line.setAttribute("points", kuang)
+          $('#kuang-other').appendChild(line)
+        }
+        for (var outputText of schemeOther.lingShengMu.output) {
+          var text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+          var xy = outputText.split(",")
+          text.setAttribute("x", xy[0])
+          text.setAttribute("y", xy[1])
+          text.classList.add("output")
+          $('#ling-sheng-mu-other').appendChild(text)
+        }
+        for (var inputText of schemeOther.lingShengMu.input) {
+          var text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+          var xy = inputText.split(",")
+          text.setAttribute("x", xy[0])
+          text.setAttribute("y", xy[1])
+          text.classList.add("input")
+          $('#ling-sheng-mu-other').appendChild(text)
+        }
+        for (var i = 0; i < Object.keys(schemeOther.lingShengMu.text).length; i++) {
+          var lingShengMuOutput = document.querySelectorAll(keyboardLingShengMuOther + ">.output")
+          var lingShengMuInput = document.querySelectorAll(keyboardLingShengMuOther + ">.input")
+          lingShengMuOutput[i].innerHTML = Object.keys(schemeOther.lingShengMu.text)[i]
+          lingShengMuInput[i].innerHTML = schemeOther.lingShengMu.text[Object.keys(schemeOther.lingShengMu.text)[i]]
+        }
+      } else {
+        $('#kuang-ling-sheng-mu').style = ""
+        $('#kuang-other').style = ""
+        $('#other').children[0].innerHTML = "零声母"
+        for (var i = 0; i < Object.keys(schemeOther.lingShengMu).length; i++) {
+          var lingShengMuOutput = document.querySelectorAll(keyboardLingShengMu + ">.output")
+          var lingShengMuInput = document.querySelectorAll(keyboardLingShengMu + ">.input")
+          lingShengMuOutput[i].innerHTML = Object.keys(schemeOther.lingShengMu)[i]
+          lingShengMuInput[i].innerHTML = schemeOther.lingShengMu[Object.keys(schemeOther.lingShengMu)[i]]
+        }
+      }
+      // other
+      if (Object.keys(schemeOther.other).length > 0) {
+        for (var i = 0; i < Object.keys(schemeOther.other).length; i++) {
+          if (/_.*$/.test(Object.keys(schemeOther.other)[i])) {
+            var otherKey = Object.keys(schemeOther.other)[i].split("_")
+            var otherValue = schemeOther.other[Object.keys(schemeOther.other)[i]]
+            var yunKey = document.querySelectorAll(keyboardYun + '>.' + otherKey[0])
+            switch (otherKey[1]) {
+              case "0":
+                $(keyboardSheng + '>.' + otherKey[0]).innerHTML = otherValue
+                break
+              case "1":
+                yunKey[0].innerHTML = otherValue
+                break;
+              case "2":
+                yunKey[1].innerHTML = otherValue
+                break
+              case "push":
+                yunKey[1].innerHTML = yunKey[0].innerHTML
+                yunKey[0].innerHTML = otherValue
+                break
+              case "array":
+                yunKey[0].innerHTML = otherValue[0]
+                yunKey[1].innerHTML = otherValue[1]
+                if (otherValue.length == 3) {
+                  $(keyboardSheng + '>.' + otherKey[0]).innerHTML = otherValue[2]
+                }
+                break
+              default:
+                throw "Parameter error"
+            }
+          } else {
+            var otherKey = Object.keys(schemeOther.other)[i]
+            var otherValue = schemeOther.other[otherKey]
+            var yunKey = document.querySelectorAll(keyboardYun + '>.' + otherKey)
+            if (yunKey[0].innerHTML == "") {
+              yunKey[0].innerHTML = otherValue
+            }
+            else if (yunKey[1].innerHTML == "") {
+              yunKey[1].innerHTML = otherValue
+            } else {
+              throw "Already full"
+            }
+          }
+        }
+      }
+    }
   }
 }
 

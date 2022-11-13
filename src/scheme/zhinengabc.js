@@ -1,4 +1,4 @@
-/** last changed: 2020.5.3 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.zhinengabc = {
   id: 'zhinengabc',
@@ -80,6 +80,26 @@ Shuang.resource.scheme.zhinengabc = {
       er: 'or',
       o: 'oo',
       ou: 'ob'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'oa',
+      ai: 'ol',
+      an: 'oj',
+      ang: 'oh',
+      ao: 'ok',
+      e: 'oe',
+      ei: 'oq',
+      en: 'of',
+      eng: 'og',
+      er: 'or',
+      o: 'oo',
+      ou: 'ob'
+    },
+    other: {
+      r_push: 'er',
+      v: 've'
     }
   }
 }

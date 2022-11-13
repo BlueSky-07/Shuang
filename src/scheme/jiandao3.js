@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.jiandao3 = {
   id: 'jiandao3',
@@ -85,6 +85,29 @@ Shuang.resource.scheme.jiandao3 = {
       qu: 'ql',
       xu: 'xl',
       yu: 'yl'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'xp',
+      ai: 'xf',
+      an: 'xe',
+      ang: 'xh',
+      ao: 'xz',
+      e: 'xj',
+      ei: 'xw',
+      en: 'xn',
+      eng: 'xt',
+      er: 'xm',
+      o: 'xi',
+      ou: 'xs'
+    },
+    other: {
+      y_push: 'ong',
+      s_push: 'ou',
+      d_push: 'uai',
+      l_1: 'v o',
+      m: 'er'
     }
   }
 }

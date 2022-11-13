@@ -1,4 +1,4 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2022.9.21 */
 
 Shuang.resource.scheme.yunbiaokuaipin = {
   id: 'yunbiaokuaipin',
@@ -80,6 +80,28 @@ Shuang.resource.scheme.yunbiaokuaipin = {
       er: 'er',
       o: 'eo',
       ou: 'el'
+    }
+  },
+  show: {
+    lingShengMu: {
+      a: 'ea',
+      ai: 'ep',
+      an: 'ez',
+      ang: 'em',
+      ao: 'ec',
+      e: 'ee',
+      ei: 'ek',
+      en: 'en',
+      eng: 'et',
+      er: 'er',
+      o: 'eo',
+      ou: 'el'
+    },
+    other: {
+      g_push: 'uang',
+      h_push: 'ong',
+      v_push: 'v',
+      b_1: 'ei',
     }
   }
 }
