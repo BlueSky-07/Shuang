@@ -1,4 +1,4 @@
-/** last changed: 2022.9.29 */
+/** last changed: 2022.11.14 */
 
 :root {
     --back: var(--light-white);
@@ -13,12 +13,12 @@
 
 @font-face {
     font-family: 'ocrasxtended';
-    src: url('/font/ocraextended-min.ttf');
+    src: url('./font/ocraextended-min.ttf');
 }
 
 @font-face {
     font-family: 'setting-button';
-    src: url('/font/setting-button-from-heydings-icons.ttf');
+    src: url('./font/setting-button-from-heydings-icons.ttf');
 }
 
 html,
