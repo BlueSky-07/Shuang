@@ -1,6 +1,6 @@
 {
   "name": "Shuang",
-  "version": "5.18.0",
+  "version": "5.19.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "clear": "node scripts/clear.js",

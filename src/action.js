@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2024.12.26 */
 
 Shuang.app.action = {
   init() {
@@ -129,6 +129,9 @@ Shuang.app.action = {
     const keys = $$('.key')
     const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (let i = 0; i < keys.length; i++) {
+      // IE 不支持实例化 KeyboardEvent
+      if (navigator && navigator.userAgent && /msie/i.test(navigator.userAgent))
+        break
       keys[i].addEventListener('click', () => {
         const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase()})
         event.simulated = true
