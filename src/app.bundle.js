@@ -9,6 +9,8 @@ const Shuang = {
     dict: {},
     schemeList: {},
     scheme: {},
+    keyboardLayoutList: {},
+    keyboardLayout: {},
     emoji: {
       right: '✅', wrong: '❎'
     }
@@ -20,7 +22,8 @@ const Shuang = {
       shengIndex: 0,
       yunIndex: 0
     },
-    history: []
+    history: [],
+    keyboardLayout: {}
   },
   app: {
     setting: {
@@ -30,7 +33,7 @@ const Shuang = {
     importedJS: [],
     modeList: [],
     action: {}
-  }
+  },
 }
 
 const $ = document.querySelector.bind(document)
@@ -50,7 +53,7 @@ function importJS(src = '', onload = () => {}) {
 }
 /******************** EOF entry.js ************************/
 /************************ dict.js ************************/
-/** last changed: 2018.11.10 */
+/** last changed: 2024.12.29 */
 
 /**
  *
@@ -230,7 +233,10 @@ Shuang.resource.dict = {
     u: '主', ua: '爪', uai: '拽', uan: '专', uang: '装', ui: '追', un: '准', uo: '捉'
   }
 }
-Object.entries(Shuang.resource.dict).forEach(([sheng, yunList]) => Shuang.resource.dict[sheng].list = Object.keys(yunList))
+for (let sheng of Object.keys(Shuang.resource.dict)) {
+  const yunList = Shuang.resource.dict[sheng]
+  Shuang.resource.dict[sheng].list = Object.keys(yunList)
+}
 Shuang.resource.dict.list = Object.keys(Shuang.resource.dict)
 /******************** EOF dict.js ************************/
 /************************ scheme-list.js ************************/
@@ -279,6 +285,201 @@ Shuang.app.modeList = {
   }
 }
 /******************** EOF mode-list.js ************************/
+/************************ keyboard-layout-list.js ************************/
+/** last changed: 2024.12.26 */
+
+Shuang.resource.keyboardLayoutList = {
+  qwerty: 'QWERTY',
+  dvorak: 'Dvorak',
+  colemak: 'Colemak',
+  workman: 'Workman',
+  azerty: 'AZERTY',
+  qwertz: 'QWERTZ',
+  qzerty: 'QZERTY',
+}/******************** EOF keyboard-layout-list.js ************************/
+/************************ keyboard-layout.js ************************/
+/** last changed: 2024.12.29 */
+
+Shuang.core.keyboardLayout = class KeyboardLayout {
+  static instance
+  static canvas
+  static context
+  static IMAGE_WIDTH = 1928
+  static IMAGE_HEIGHT = 820
+  static CANVAS_ID ='keyboard-layout-canvas'
+  static CANVAS_WIDTH = 1928
+  static CANVAS_HEIGHT = 820
+  static CANVAS_FILL_STYLE = '#ffffff'
+  static KEYBOARD_AREA_HEIGHT = 600
+  static NAME_AREA_START_X = 1600
+  static NAME_AREA_START_Y = 450
+  static NAME_AREA_WIDTH = 400
+  static NAME_AREA_HEIGHT = 250
+  static KEY_SIZE = 178
+  static KEY_BODY_START_X = 30
+  static KEY_BODY_START_Y = 30
+  static KEY_BODY_WIDTH = 170
+  static KEY_BODY_HEIGHT = 167
+  static KEY_BORDER_START_X = 27
+  static KEY_BORDER_START_Y = 27
+  static KEY_BORDER_WIDTH = 179
+  static KEY_BORDER_HEIGHT = 178
+  static KEY_BORDER_LINE_WIDTH = 3
+  static KEY_BORDER_STROKE_STYLE = '#000000'
+  static KEY_UNDERSCORE_START_X = 28
+  static KEY_UNDERSCORE_START_Y = 48
+  static KEY_UNDERSCORE_WIDTH = 30
+  static KEY_UNDERSCORE_HEIGHT = 6
+  static KEY_UNDERSCORE_FILL_STYLE = '#000000'
+
+  static initCanvas(width = KeyboardLayout.CANVAS_WIDTH, height = KeyboardLayout.CANVAS_HEIGHT) {
+    if (!KeyboardLayout.canvas) {
+      KeyboardLayout.canvas = document.createElement('canvas')
+      KeyboardLayout.canvas.setAttribute('id', KeyboardLayout.CANVAS_ID)
+    }
+    KeyboardLayout.canvas.setAttribute('width', width)
+    KeyboardLayout.canvas.setAttribute('height', height)
+    KeyboardLayout.context = KeyboardLayout.canvas.getContext('2d', { alpha: false })
+  }
+
+  static show() {
+    if (!document.getElementById(KeyboardLayout.CANVAS_ID)) {
+      document.body.appendChild(KeyboardLayout.canvas)
+    }
+  }
+
+  static getUrl(callback = (url = '') => {}) {
+    if (KeyboardLayout.canvas.toBlob) {
+      KeyboardLayout.canvas.toBlob((blob) => {
+        callback(URL.createObjectURL(blob))
+      })
+    } else {
+      callback(KeyboardLayout.canvas.toDataURL())
+    }
+  }
+
+  static init(imgSrc = '', keyboardLayout = {}, callback = (url = '') => {}) {
+    KeyboardLayout.instance = new KeyboardLayout(imgSrc, keyboardLayout, callback)
+  }
+
+  constructor(imgSrc = '', keyboardLayout = {}, callback = (url = '') => {}) {
+    this.keyboardLayout = keyboardLayout
+    this.computeKeyboardStyle()
+    KeyboardLayout.initCanvas(KeyboardLayout.CANVAS_WIDTH, KeyboardLayout.CANVAS_HEIGHT)
+    KeyboardLayout.context.fillStyle = KeyboardLayout.CANVAS_FILL_STYLE
+    KeyboardLayout.context.fillRect(0, 0, KeyboardLayout.CANVAS_WIDTH, KeyboardLayout.CANVAS_HEIGHT)
+    this.loadImage(imgSrc, () => {
+      this.onImageLoad()
+      KeyboardLayout.getUrl(callback)
+    })
+  }
+
+  computeKeyboardStyle() {
+    const fixKeyStart = this.keyboardLayout.row3.length > 8
+    const fixUnderscore = this.keyboardLayout.row2[3] !== 'f' || this.keyboardLayout.row2[6] !== 'j'
+    const fixName = this.keyboardLayout.row3.length > 7
+
+    this.keyboardStyle = {
+      fixKeyStart,
+      fixUnderscore,
+      fixName,
+    }
+  }
+
+  loadImage(imgSrc = '', onload = () => {}) {
+    this.img = new Image(KeyboardLayout.IMAGE_WIDTH, KeyboardLayout.IMAGE_HEIGHT)
+    this.img.setAttribute('crossOrigin', 'Anonymous')
+    this.img.setAttribute('src', imgSrc)
+    this.img.onload = onload
+  }
+
+  onImageLoad() {
+    // KeyboardLayout.context.drawImage(this.img, 0, 0)
+    this.drawRow(0, this.keyboardLayout.row1)
+    this.drawRow(1, this.keyboardLayout.row2)
+    this.drawRow(2, this.keyboardLayout.row3)
+    this.drawTable()
+    this.drawName()
+  }
+
+  drawRow(targetRow = 0, keyboardLayoutRow = []) {
+    for (let targetCol = 0; targetCol < keyboardLayoutRow.length; targetCol ++) {
+      const key = keyboardLayoutRow[targetCol]
+      if (!key) continue
+      const sourceRow0Col = 'qwertyuiop'.split('').findIndex(c => c === key)
+      if (sourceRow0Col !== -1) {
+        this.drawKey(key, 0, sourceRow0Col, targetRow, targetCol)
+        continue
+      }
+      const sourceRow1Col = 'asdfghjkl;'.split('').findIndex(c => c === key)
+      if (sourceRow1Col !== -1) {
+        this.drawKey(key, 1, sourceRow1Col, targetRow, targetCol)
+        continue
+      }
+      const sourceRow2Col = 'zxcvbnm'.split('').findIndex(c => c === key)
+      if (sourceRow2Col !== -1) {
+        this.drawKey(key, 2, sourceRow2Col, targetRow, targetCol)
+        continue
+      }
+    }
+  }
+
+  drawKey(key = '', sourceRow = 0, sourceCol = 0, targetRow = 0, targetCol = 0) {
+    const sourceBodyStartX = KeyboardLayout.KEY_BODY_START_X + KeyboardLayout.KEY_SIZE / 2 * sourceRow + KeyboardLayout.KEY_SIZE * sourceCol
+    const sourceBodyStartY = KeyboardLayout.KEY_BODY_START_Y + KeyboardLayout.KEY_SIZE * sourceRow
+    const targetBodyStartX = KeyboardLayout.KEY_BODY_START_X + KeyboardLayout.KEY_SIZE / 2 * targetRow + KeyboardLayout.KEY_SIZE * targetCol + (this.keyboardStyle.fixKeyStart ? -KeyboardLayout.KEY_SIZE / 2 : 0)
+    const targetBodyStartY = KeyboardLayout.KEY_BODY_START_Y + KeyboardLayout.KEY_SIZE * targetRow
+    const targetBorderStartX = KeyboardLayout.KEY_BORDER_START_X + KeyboardLayout.KEY_SIZE / 2 * targetRow + KeyboardLayout.KEY_SIZE * targetCol + (this.keyboardStyle.fixKeyStart ? -KeyboardLayout.KEY_SIZE / 2 : 0)
+    const targetBorderStartY = KeyboardLayout.KEY_BORDER_START_Y + KeyboardLayout.KEY_SIZE * targetRow
+
+    KeyboardLayout.context.fillStyle = KeyboardLayout.CANVAS_FILL_STYLE
+    KeyboardLayout.context.fillRect(targetBodyStartX, targetBodyStartY, KeyboardLayout.KEY_BODY_WIDTH, KeyboardLayout.KEY_BODY_HEIGHT)
+
+    KeyboardLayout.context.drawImage(this.img,
+      sourceBodyStartX, sourceBodyStartY, KeyboardLayout.KEY_BODY_WIDTH, KeyboardLayout.KEY_BODY_HEIGHT,
+      targetBodyStartX, targetBodyStartY, KeyboardLayout.KEY_BODY_WIDTH, KeyboardLayout.KEY_BODY_HEIGHT
+    )
+
+    KeyboardLayout.context.beginPath()
+    KeyboardLayout.context.rect(targetBorderStartX, targetBorderStartY, KeyboardLayout.KEY_BORDER_WIDTH, KeyboardLayout.KEY_BORDER_HEIGHT)
+    KeyboardLayout.context.closePath()
+    KeyboardLayout.context.lineWidth = KeyboardLayout.KEY_BORDER_LINE_WIDTH
+    KeyboardLayout.context.strokeStyle = KeyboardLayout.KEY_BORDER_STROKE_STYLE
+    KeyboardLayout.context.stroke()
+
+    if (this.keyboardStyle.fixUnderscore) {
+      if ('fj'.split('').includes(key)) {
+        this.drawUnderscore(targetRow, targetCol, KeyboardLayout.CANVAS_FILL_STYLE)
+      }
+      if (targetRow === 1 && [3, 6].includes(targetCol)) {
+        this.drawUnderscore(targetRow, targetCol, KeyboardLayout.KEY_UNDERSCORE_FILL_STYLE)
+      }
+    }
+  }
+
+  drawUnderscore(targetRow = 0, targetCol = 0, fillStyle = '') {
+    const underscoreStartX = KeyboardLayout.KEY_BODY_START_X + KeyboardLayout.KEY_SIZE / 2 * targetRow + KeyboardLayout.KEY_SIZE * targetCol + KeyboardLayout.KEY_UNDERSCORE_START_X + (this.keyboardStyle.fixKeyStart ? -KeyboardLayout.KEY_SIZE / 2 : 0)
+    const underscoreStartY = KeyboardLayout.KEY_BODY_START_Y + KeyboardLayout.KEY_SIZE * targetRow + KeyboardLayout.KEY_UNDERSCORE_START_Y
+
+    KeyboardLayout.context.fillStyle = fillStyle
+    KeyboardLayout.context.fillRect(underscoreStartX, underscoreStartY, KeyboardLayout.KEY_UNDERSCORE_WIDTH, KeyboardLayout.KEY_UNDERSCORE_HEIGHT)
+  }
+
+  drawTable() {
+    KeyboardLayout.context.drawImage(this.img,
+      0, KeyboardLayout.KEYBOARD_AREA_HEIGHT, KeyboardLayout.IMAGE_WIDTH, KeyboardLayout.IMAGE_HEIGHT - KeyboardLayout.KEYBOARD_AREA_HEIGHT,
+      0, KeyboardLayout.KEYBOARD_AREA_HEIGHT, KeyboardLayout.IMAGE_WIDTH, KeyboardLayout.IMAGE_HEIGHT - KeyboardLayout.KEYBOARD_AREA_HEIGHT
+    )
+  }
+
+  drawName() {
+    const targetY = this.keyboardStyle.fixName ? KeyboardLayout.KEYBOARD_AREA_HEIGHT : KeyboardLayout.NAME_AREA_START_Y
+    KeyboardLayout.context.drawImage(this.img,
+      KeyboardLayout.NAME_AREA_START_X, KeyboardLayout.NAME_AREA_START_Y, KeyboardLayout.NAME_AREA_WIDTH, KeyboardLayout.NAME_AREA_HEIGHT,
+      KeyboardLayout.NAME_AREA_START_X, targetY, KeyboardLayout.NAME_AREA_WIDTH, KeyboardLayout.NAME_AREA_HEIGHT
+    )
+  }
+}/******************** EOF keyboard-layout.js ************************/
 /************************ core.js ************************/
 /** last changed: 2019.8.23 */
 
@@ -366,7 +567,7 @@ Shuang.core.model = class Model {
 }
 /******************** EOF core.js ************************/
 /************************ setting.js ************************/
-/** last changed: 2022.3.6 */
+/** last changed: 2024.12.30 */
 
 Shuang.app.setting = {
   config: {},
@@ -375,6 +576,7 @@ Shuang.app.setting = {
     this.config = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
+      keyboardLayout: readStorage('keyboardLayout') || 'qwerty',
       showPic: readStorage('showPic') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
@@ -384,11 +586,12 @@ Shuang.app.setting = {
       disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
+    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
+    $('#keyboard-layout-select')[Object.keys(Shuang.resource.keyboardLayoutList).indexOf(keyboardLayout)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
@@ -397,6 +600,7 @@ Shuang.app.setting = {
     $('#show-pressed-key').checked = showPressedKey === 'true'
     $('#disable-mobile-keyboard').checked = disableMobileKeyboard === 'true'
     /** Applying Settings :: Invoking Actions  **/
+    this.setKeyboardLayout(Shuang.resource.keyboardLayoutList[keyboardLayout])
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
@@ -415,6 +619,7 @@ Shuang.app.setting = {
     importJS('scheme/' + this.config.scheme, () => {
       if (next) Shuang.app.action.next()
       Shuang.core.current.beforeJudge()
+      this.updateKeyboardLayout()
       this.updateKeysHint()
       this.updateTips()
     })
@@ -440,10 +645,8 @@ Shuang.app.setting = {
     this.config.showPic = bool.toString()
     if (this.config.showPic === 'false') {
       $('#keyboard').style.display = 'none'
-      $('#pic-placeholder').style.display = 'none'
     } else if (this.config.showPic === 'true') {
       $('#keyboard').style.display = 'block'
-      $('#pic-placeholder').style.display = 'block'
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
@@ -484,15 +687,22 @@ Shuang.app.setting = {
     writeStorage('disableMobileKeyboard', this.config.disableMobileKeyboard)
   },
   updateKeysHint() {
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    this.updateSimulateKeyboard()
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('answer')
     }
     if (this.config.showKeys === 'false') return
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    const answerKeys = new Set()
     for (const [sheng, yun] of Shuang.core.current.scheme) {
-      keys[qwerty.indexOf(sheng)].classList.add('answer')
-      keys[qwerty.indexOf(yun)].classList.add('answer')
+      answerKeys.add(sheng)
+      answerKeys.add(yun)
+    }
+    for (const key of keys) {
+      if (answerKeys.has(key.getAttribute('key').toLowerCase())) {
+        key.classList.add('answer')
+      }
     }
     this.updateKeysHintLayoutRatio()
   },
@@ -500,44 +710,25 @@ Shuang.app.setting = {
     if ($('body').scrollWidth < 700) {
       const width = $('body').scrollWidth === 310 ? 310 : $('#pic').scrollWidth
       const ratio = 1874 / 1928 * width / 680
-      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
-        // Firefox 不支持 zoom
-        $('#keys').style.transform = `scale(${ratio})`
-        $('#keys').style.transformOrigin = `left top`
-        $('#keys').style.margin = `${ratio * 10}px`
-        $('#pic-placeholder').style.height = `${width / 680 * 300}px`
-      } else {
-        $('#keys').style.marginLeft = '10px'
+      if (ratio < 1) {
         $('#keys').style.zoom = ratio
-        $('#pic-placeholder').style.zoom = ratio
-      }
-    } else {
-      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
-        // Firefox 不支持 zoom
-        $('#keys').style.transform = 'unset'
-        $('#keys').style.transformOrigin = 'unset'
-        $('#pic-placeholder').style.height = '300px'
-        $('#keys').style.margin = `10px auto`
-      } else {
-        $('#keys').style.marginLeft = 'auto'
-        $('#keys').style.zoom = 'unset'
-        $('#pic-placeholder').style.zoom = 'unset'
+        return
       }
     }
+    $('#keys').style.zoom = 'unset'
   },
   updatePressedKeyHint(k) {
     if (this.config.showPressedKey === 'false' || !k) return
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('pressed')
+      if (key.getAttribute('key').toLowerCase() === k) {
+        key.classList.add('pressed')
+        setTimeout(() => {
+          key.classList.remove('pressed')
+        }, 250)
+      }
     }
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
-    const index = qwerty.indexOf(k.toLowerCase())
-    if (index === -1) return
-    keys[index].classList.add('pressed')
-    setTimeout(() => {
-      keys[index].classList.remove('pressed')
-    }, 250)
   },
   updateTips() {
     const tips = $('#tips')
@@ -552,8 +743,63 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+  },
+  setKeyboardLayout(keyboardLayoutName) {
+    this.config.keyboardLayout = Object.keys(Shuang.resource.keyboardLayoutList)[
+      Object.values(Shuang.resource.keyboardLayoutList)
+        .findIndex(name => keyboardLayoutName === name)
+    ]
+    importJS('keyboard-layout/' + this.config.keyboardLayout, () => {
+      this.updateKeyboardLayout()
+    })
+    writeStorage('keyboardLayout', this.config.keyboardLayout)
+  },
+  updateKeyboardLayout() {
+    if (this.config.keyboardLayout === 'qwerty') {
+      $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+      $('#keys').classList.remove('fix-left')
+      this.updateSimulateKeyboard()
+      this.updateKeysHint()
+      return
+    }
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    Shuang.core.keyboardLayout.init(
+      `img/${this.config.scheme}.png`, // svg 在 IE 浏览器下有 Security Error
+      Shuang.resource.keyboardLayout[this.config.keyboardLayout],
+      (url) => {
+        const imgSrc = $('#pic').getAttribute('src')
+        if (imgSrc && imgSrc.startsWith('blob:')) {
+          URL.revokeObjectURL(imgSrc)
+        }
+        if (Shuang.core.keyboardLayout.instance.keyboardStyle.fixKeyStart) {
+          $('#keys').classList.add('fix-left')
+        } else {
+          $('#keys').classList.remove('fix-left')
+        }
+        $('#pic').setAttribute('src', url)
+        this.updateSimulateKeyboard()
+        this.updateKeysHint()
+      }
+    )
+    // Shuang.core.keyboardLayout.show()
+  },
+  updateSimulateKeyboard() {
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    const row1keys = $$('#keys .row-1 .key')
+    for (let i = 0; i < row1keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row1[i]
+      row1keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
+    const row2keys = $$('#keys .row-2 .key')
+    for (let i = 0; i < row2keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row2[i]
+      row2keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
+    const row3keys = $$('#keys .row-3 .key')
+    for (let i = 0; i < row3keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row3[i]
+      row3keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
   }
 }
 
@@ -571,7 +817,7 @@ function readStorage(key = '') { return localStorage.getItem(key) }
 function writeStorage(key = '', value = '') { localStorage.setItem(key, value) }
 /******************** EOF setting.js ************************/
 /************************ action.js ************************/
-/** last changed: 2024.12.26 */
+/** last changed: 2024.12.30 */
 
 Shuang.app.action = {
   init() {
@@ -612,13 +858,16 @@ Shuang.app.action = {
       { disabled: true, text: '爱好者' },
       ...schemes.rare,
     ]
-
     renderSelect($('#scheme-select'), schemeOptions, value => {
       Shuang.app.setting.setScheme(value)
     })
     renderSelect($('#mode-select'), Object.values(Shuang.app.modeList).map(mode => mode.name), value => {
       Shuang.app.setting.setMode(value)
       this.next()
+    })
+    const keyboardLayoutOptions = Object.values(Shuang.resource.keyboardLayoutList)
+    renderSelect($('#keyboard-layout-select'), keyboardLayoutOptions, (value) => {
+      Shuang.app.setting.setKeyboardLayout(value)
     })
 
     /** Setting First Question **/
@@ -700,13 +949,14 @@ Shuang.app.action = {
 
     /** Simulate Keyboard */
     const keys = $$('.key')
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (let i = 0; i < keys.length; i++) {
       // IE 不支持实例化 KeyboardEvent
-      if (navigator && navigator.userAgent && /msie/i.test(navigator.userAgent))
+      if (navigator && navigator.userAgent && /msie|trident/i.test(navigator.userAgent))
         break
-      keys[i].addEventListener('click', () => {
-        const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase()})
+      keys[i].addEventListener('click', (e) => {
+        const key = e.target.getAttribute('key')
+        if (!key) return
+        const event = new KeyboardEvent('keyup', { key: key.toLowerCase() })
         event.simulated = true
         document.dispatchEvent(event)
       })
@@ -810,6 +1060,28 @@ Shuang.app.action = {
   }
 }
 /******************** EOF action.js ************************/
-/************************ - ************************/
-Shuang.app.action.init()
-/******************** EOF - ************************/
+/************************ bootstrap.js ************************/
+/** last changed: 2024.12.29 */
+
+const polyfills = [
+  'https://cdn.jsdelivr.net/npm/@babel/polyfill@7.12.1/dist/polyfill.min.js',
+  'https://cdn.jsdelivr.net/npm/classlist.js@1.1.20150312/classList.min.js'
+]
+
+if (navigator && navigator.userAgent && /msie|trident/i.test(navigator.userAgent)) {
+  let imported = 0
+  for (const polyfill of polyfills) {
+    const script = document.createElement('script')
+    script.setAttribute('src', polyfill)
+    script.onload = () => {
+      imported ++
+      if (imported === polyfills.length) {
+        Shuang.app.action.init()
+      }
+    }
+    document.head.appendChild(script)
+  }
+} else {
+  Shuang.app.action.init()
+}
+/******************** EOF bootstrap.js ************************/

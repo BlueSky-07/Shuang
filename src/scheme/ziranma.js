@@ -1,8 +1,11 @@
-/** last changed: 2020.6.25 */
+/** last changed: 2024.12.30 */
 
 Shuang.resource.scheme.ziranma = {
   id: 'ziranma',
   name: '自然码',
+  tips: [
+    'iOS (>= 16) 自带方案'
+  ],
   detail: {
     sheng: {
       b: 'b',

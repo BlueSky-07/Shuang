@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2024.12.30 */
 
 Shuang.app.setting = {
   config: {},
@@ -7,6 +7,7 @@ Shuang.app.setting = {
     this.config = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
+      keyboardLayout: readStorage('keyboardLayout') || 'qwerty',
       showPic: readStorage('showPic') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
@@ -16,11 +17,12 @@ Shuang.app.setting = {
       disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
+    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
     $('#mode-select')[Object.keys(Shuang.app.modeList).indexOf(mode)].selected = true
+    $('#keyboard-layout-select')[Object.keys(Shuang.resource.keyboardLayoutList).indexOf(keyboardLayout)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
@@ -29,6 +31,7 @@ Shuang.app.setting = {
     $('#show-pressed-key').checked = showPressedKey === 'true'
     $('#disable-mobile-keyboard').checked = disableMobileKeyboard === 'true'
     /** Applying Settings :: Invoking Actions  **/
+    this.setKeyboardLayout(Shuang.resource.keyboardLayoutList[keyboardLayout])
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
@@ -47,6 +50,7 @@ Shuang.app.setting = {
     importJS('scheme/' + this.config.scheme, () => {
       if (next) Shuang.app.action.next()
       Shuang.core.current.beforeJudge()
+      this.updateKeyboardLayout()
       this.updateKeysHint()
       this.updateTips()
     })
@@ -72,10 +76,8 @@ Shuang.app.setting = {
     this.config.showPic = bool.toString()
     if (this.config.showPic === 'false') {
       $('#keyboard').style.display = 'none'
-      $('#pic-placeholder').style.display = 'none'
     } else if (this.config.showPic === 'true') {
       $('#keyboard').style.display = 'block'
-      $('#pic-placeholder').style.display = 'block'
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
@@ -116,15 +118,22 @@ Shuang.app.setting = {
     writeStorage('disableMobileKeyboard', this.config.disableMobileKeyboard)
   },
   updateKeysHint() {
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    this.updateSimulateKeyboard()
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('answer')
     }
     if (this.config.showKeys === 'false') return
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
+    const answerKeys = new Set()
     for (const [sheng, yun] of Shuang.core.current.scheme) {
-      keys[qwerty.indexOf(sheng)].classList.add('answer')
-      keys[qwerty.indexOf(yun)].classList.add('answer')
+      answerKeys.add(sheng)
+      answerKeys.add(yun)
+    }
+    for (const key of keys) {
+      if (answerKeys.has(key.getAttribute('key').toLowerCase())) {
+        key.classList.add('answer')
+      }
     }
     this.updateKeysHintLayoutRatio()
   },
@@ -132,44 +141,25 @@ Shuang.app.setting = {
     if ($('body').scrollWidth < 700) {
       const width = $('body').scrollWidth === 310 ? 310 : $('#pic').scrollWidth
       const ratio = 1874 / 1928 * width / 680
-      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
-        // Firefox 不支持 zoom
-        $('#keys').style.transform = `scale(${ratio})`
-        $('#keys').style.transformOrigin = `left top`
-        $('#keys').style.margin = `${ratio * 10}px`
-        $('#pic-placeholder').style.height = `${width / 680 * 300}px`
-      } else {
-        $('#keys').style.marginLeft = '10px'
+      if (ratio < 1) {
         $('#keys').style.zoom = ratio
-        $('#pic-placeholder').style.zoom = ratio
-      }
-    } else {
-      if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
-        // Firefox 不支持 zoom
-        $('#keys').style.transform = 'unset'
-        $('#keys').style.transformOrigin = 'unset'
-        $('#pic-placeholder').style.height = '300px'
-        $('#keys').style.margin = `10px auto`
-      } else {
-        $('#keys').style.marginLeft = 'auto'
-        $('#keys').style.zoom = 'unset'
-        $('#pic-placeholder').style.zoom = 'unset'
+        return
       }
     }
+    $('#keys').style.zoom = 'unset'
   },
   updatePressedKeyHint(k) {
     if (this.config.showPressedKey === 'false' || !k) return
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('pressed')
+      if (key.getAttribute('key').toLowerCase() === k) {
+        key.classList.add('pressed')
+        setTimeout(() => {
+          key.classList.remove('pressed')
+        }, 250)
+      }
     }
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
-    const index = qwerty.indexOf(k.toLowerCase())
-    if (index === -1) return
-    keys[index].classList.add('pressed')
-    setTimeout(() => {
-      keys[index].classList.remove('pressed')
-    }, 250)
   },
   updateTips() {
     const tips = $('#tips')
@@ -184,8 +174,63 @@ Shuang.app.setting = {
         tips.appendChild(newLine)
       }
     }
-    // $('#pic').setAttribute('src', `img/${this.config.scheme}.png`)
-    $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+  },
+  setKeyboardLayout(keyboardLayoutName) {
+    this.config.keyboardLayout = Object.keys(Shuang.resource.keyboardLayoutList)[
+      Object.values(Shuang.resource.keyboardLayoutList)
+        .findIndex(name => keyboardLayoutName === name)
+    ]
+    importJS('keyboard-layout/' + this.config.keyboardLayout, () => {
+      this.updateKeyboardLayout()
+    })
+    writeStorage('keyboardLayout', this.config.keyboardLayout)
+  },
+  updateKeyboardLayout() {
+    if (this.config.keyboardLayout === 'qwerty') {
+      $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+      $('#keys').classList.remove('fix-left')
+      this.updateSimulateKeyboard()
+      this.updateKeysHint()
+      return
+    }
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    Shuang.core.keyboardLayout.init(
+      `img/${this.config.scheme}.png`, // svg 在 IE 浏览器下有 Security Error
+      Shuang.resource.keyboardLayout[this.config.keyboardLayout],
+      (url) => {
+        const imgSrc = $('#pic').getAttribute('src')
+        if (imgSrc && imgSrc.startsWith('blob:')) {
+          URL.revokeObjectURL(imgSrc)
+        }
+        if (Shuang.core.keyboardLayout.instance.keyboardStyle.fixKeyStart) {
+          $('#keys').classList.add('fix-left')
+        } else {
+          $('#keys').classList.remove('fix-left')
+        }
+        $('#pic').setAttribute('src', url)
+        this.updateSimulateKeyboard()
+        this.updateKeysHint()
+      }
+    )
+    // Shuang.core.keyboardLayout.show()
+  },
+  updateSimulateKeyboard() {
+    if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
+    const row1keys = $$('#keys .row-1 .key')
+    for (let i = 0; i < row1keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row1[i]
+      row1keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
+    const row2keys = $$('#keys .row-2 .key')
+    for (let i = 0; i < row2keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row2[i]
+      row2keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
+    const row3keys = $$('#keys .row-3 .key')
+    for (let i = 0; i < row3keys.length; i++) {
+      const key = Shuang.resource.keyboardLayout[this.config.keyboardLayout].row3[i]
+      row3keys[i].setAttribute('key', key ? key.toUpperCase() : '')
+    }
   }
 }
 

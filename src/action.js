@@ -1,4 +1,4 @@
-/** last changed: 2024.12.26 */
+/** last changed: 2024.12.30 */
 
 Shuang.app.action = {
   init() {
@@ -39,13 +39,16 @@ Shuang.app.action = {
       { disabled: true, text: '爱好者' },
       ...schemes.rare,
     ]
-
     renderSelect($('#scheme-select'), schemeOptions, value => {
       Shuang.app.setting.setScheme(value)
     })
     renderSelect($('#mode-select'), Object.values(Shuang.app.modeList).map(mode => mode.name), value => {
       Shuang.app.setting.setMode(value)
       this.next()
+    })
+    const keyboardLayoutOptions = Object.values(Shuang.resource.keyboardLayoutList)
+    renderSelect($('#keyboard-layout-select'), keyboardLayoutOptions, (value) => {
+      Shuang.app.setting.setKeyboardLayout(value)
     })
 
     /** Setting First Question **/
@@ -127,13 +130,14 @@ Shuang.app.action = {
 
     /** Simulate Keyboard */
     const keys = $$('.key')
-    const qwerty = 'qwertyuiopasdfghjkl;zxcvbnm'
     for (let i = 0; i < keys.length; i++) {
       // IE 不支持实例化 KeyboardEvent
-      if (navigator && navigator.userAgent && /msie/i.test(navigator.userAgent))
+      if (navigator && navigator.userAgent && /msie|trident/i.test(navigator.userAgent))
         break
-      keys[i].addEventListener('click', () => {
-        const event = new KeyboardEvent('keyup', { key: qwerty[i].toUpperCase()})
+      keys[i].addEventListener('click', (e) => {
+        const key = e.target.getAttribute('key')
+        if (!key) return
+        const event = new KeyboardEvent('keyup', { key: key.toLowerCase() })
         event.simulated = true
         document.dispatchEvent(event)
       })

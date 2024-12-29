@@ -6,6 +6,8 @@ const Shuang = {
     dict: {},
     schemeList: {},
     scheme: {},
+    keyboardLayoutList: {},
+    keyboardLayout: {},
     emoji: {
       right: '✅', wrong: '❎'
     }
@@ -17,7 +19,8 @@ const Shuang = {
       shengIndex: 0,
       yunIndex: 0
     },
-    history: []
+    history: [],
+    keyboardLayout: {}
   },
   app: {
     setting: {
@@ -27,7 +30,7 @@ const Shuang = {
     importedJS: [],
     modeList: [],
     action: {}
-  }
+  },
 }
 
 const $ = document.querySelector.bind(document)

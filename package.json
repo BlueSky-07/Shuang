@@ -1,6 +1,6 @@
 {
   "name": "Shuang",
-  "version": "5.19.0",
+  "version": "5.20.0",
   "description": "帮助你快速上手双拼输入法",
   "scripts": {
     "clear": "node scripts/clear.js",
@@ -8,7 +8,7 @@
     "rename": "node scripts/rename.js",
     "build": "npm run clear && npm run build:src && npm run rename",
     "build:src": "npm run bundle && npm run build:js && npm run build:css && npm run build:html",
-    "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme",
+    "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme && npx babel src/keyboard-layout -d build/keyboard-layout",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",
     "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
     "debug": "npm run clear && npm run debug:src && npm run rename",

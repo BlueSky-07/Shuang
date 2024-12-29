@@ -32,10 +32,12 @@ append({ filename: 'entry.js' })
 append({ filename: 'dict.js' })
 append({ filename: 'scheme-list.js' })
 append({ filename: 'mode-list.js' })
+append({ filename: 'keyboard-layout-list.js' })
+append({ filename: 'keyboard-layout.js' })
 append({ filename: 'core.js' })
 append({ filename: 'setting.js' })
 append({ filename: 'action.js' })
-append({ content: 'Shuang.app.action.init()\n' })
+append({ filename: 'bootstrap.js' })
 
 BUNDLE_FILE_WRITE_STREAM.end()
 

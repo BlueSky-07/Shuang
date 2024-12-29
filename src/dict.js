@@ -1,4 +1,4 @@
-/** last changed: 2018.11.10 */
+/** last changed: 2024.12.29 */
 
 /**
  *
@@ -178,5 +178,8 @@ Shuang.resource.dict = {
     u: '主', ua: '爪', uai: '拽', uan: '专', uang: '装', ui: '追', un: '准', uo: '捉'
   }
 }
-Object.entries(Shuang.resource.dict).forEach(([sheng, yunList]) => Shuang.resource.dict[sheng].list = Object.keys(yunList))
+for (let sheng of Object.keys(Shuang.resource.dict)) {
+  const yunList = Shuang.resource.dict[sheng]
+  Shuang.resource.dict[sheng].list = Object.keys(yunList)
+}
 Shuang.resource.dict.list = Object.keys(Shuang.resource.dict)

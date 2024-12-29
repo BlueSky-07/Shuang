@@ -1,4 +1,4 @@
-/** last changed: 2022.3.6 */
+/** last changed: 2024.12.30 */
 
 body {
   margin: 0 auto;
@@ -8,6 +8,7 @@ body {
   user-select: none;
   cursor: default;
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 /* header */
@@ -71,6 +72,7 @@ body {
 
 .workspace .col .dict {
   font-size: 96px;
+  cursor: pointer;
 }
 
 .workspace .col .row {
@@ -84,6 +86,7 @@ body {
 .workspace .col .row .btn {
   display: inline-block;
   font-size: 32px;
+  cursor: pointer;
 }
 
 .workspace .col .row input {
@@ -111,13 +114,25 @@ body {
 
 .keyboard .keys {
   /** 1874 / 1928 * 700 */
-  margin: 10px auto;
+  margin: auto;
+  padding: 10px;
   width: 680px;
   position: absolute;
   left: 0px;
   right: 0px;
   z-index: 2;
   opacity: 0.2;
+}
+
+.keyboard .keys.fix-left {
+  width: 710px;
+  left: -34px;
+}
+
+.keyboard .keys .row-1,
+.keyboard .keys .row-2,
+.keyboard .keys .row-3 {
+  float: left;
 }
 
 .keyboard .keys .row-2 {
@@ -136,6 +151,11 @@ body {
   /** 180 / 1928 * 700 */
   height: 64.5px;
   float: left;
+  cursor: pointer;
+}
+
+.keyboard .keys .key[key=""] {
+  visibility: hidden;
 }
 
 .keyboard .keys .key.answer {
@@ -150,23 +170,8 @@ body {
   width: 100%;
   min-width: 310px;
   max-width: 700px;
-  z-index: 1;
   filter: invert(0.07);
   margin: auto;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
-
-.keyboard .pic-placeholder {
-  height: 300px;
-}
-
-@media screen and (min-width: 0\0) and (min-resolution: +72dpi) {
-  /* IE */
-  .keyboard .pic {
-    filter: none;
-  }
 }
 
 .keyboard .tips {
@@ -240,12 +245,19 @@ body {
 
 /* copyright */
 .copyright {
-  min-width: 250px;
+  min-width: 180px;
   position: relative;
   float: left;
   left: 25px;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.copyright svg {
+  width: 12px;
+  height: 12px;
+  margin-right: 2px;
+  fill: #24292f;
 }
 
 .copyright span {
@@ -254,6 +266,11 @@ body {
 }
 
 .copyright a {
+  text-decoration: none;
+  color: #777;
+}
+
+.copyright .link {
   font-size: 12px;
   color: #888888;
   font-style: italic;
@@ -318,4 +335,24 @@ body {
 
 .dark-mode .keyboard .keys .key.pressed {
   background-color: #ffec02 !important;
+}
+
+.dark-mode .copyright svg {
+  fill: #fff;
+}
+
+@media screen and (min-width: 0\0) and (min-resolution: +72dpi) {
+  /* IE */
+  .keyboard .pic {
+    filter: none;
+  }
+
+  .keyboard .keys .key {
+    cursor: default;
+  }
+
+  .dark-mode .keyboard .keys,
+  .dark-mode .keyboard .keys * {
+    background-color: transparent !important;
+  }
 }
