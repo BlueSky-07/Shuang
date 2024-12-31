@@ -6,11 +6,12 @@
     "clear": "node scripts/clear.js",
     "bundle": "node scripts/bundle.js",
     "rename": "node scripts/rename.js",
-    "build": "npm run clear && npm run build:src && npm run rename",
+    "build": "npm run clear && npm run build:src && npm run rename && npm run build:svg",
     "build:src": "npm run bundle && npm run build:js && npm run build:css && npm run build:html",
     "build:js": "npx babel src/app.bundle.js -d build && npx babel src/scheme -d build/scheme && npx babel src/keyboard-layout -d build/keyboard-layout",
     "build:css": "npx cleancss src/style.css -o build/style.min.css",
     "build:html": "npx html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true index.src.html -o index.html",
+    "build:svg": "npx svgo -f img",
     "debug": "npm run clear && npm run debug:src && npm run rename",
     "debug:src": "npm run bundle && npm run debug:js && npm run debug:css && npm run debug:html",
     "debug:js": "node scripts/copy.js src build",
@@ -42,7 +43,8 @@
     "html-minifier": "latest",
     "fs-extra": "latest",
     "serve": "latest",
-    "archiver": "latest"
+    "archiver": "latest",
+    "svgo": "latest"
   },
   "dependencies": {}
 }
