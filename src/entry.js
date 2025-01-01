@@ -1,9 +1,11 @@
-/** last changed: 2024.12.26 */
+/** last changed: 2025.1.1 */
 
 /** States **/
 const Shuang = {
   resource: {
     dict: {},
+    dictHant: {},
+    bopomofo: {},
     schemeList: {},
     scheme: {},
     keyboardLayoutList: {},
