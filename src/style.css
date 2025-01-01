@@ -1,4 +1,4 @@
-/** last changed: 2024.12.30 */
+/** last changed: 2025.1.1 */
 
 body {
   margin: 0 auto;
@@ -327,6 +327,7 @@ body {
 
 .dark-mode .keyboard .pic {
   filter: invert(0.8);
+  background-color: unset !important;
 }
 
 .dark-mode .keyboard .keys .key.answer {
