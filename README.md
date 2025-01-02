@@ -135,3 +135,9 @@ v5.20 2024.12.30 更新
 外接键盘下同样生效：
 
 ![iOS原生自然码+外接键盘](assets/iOS-ziranma.gif)
+
+### 字体来源
+
+- 方正仿宋：https://www.foundertype.com/index.php/FontInfo/index/id/128
+
+- Inter：https://github.com/rsms/inter

@@ -44,7 +44,9 @@
     "fs-extra": "latest",
     "serve": "latest",
     "archiver": "latest",
-    "svgo": "latest"
+    "svgo": "latest",
+    "opentype.js": "latest",
+    "lodash": "latest"
   },
   "dependencies": {}
 }
