@@ -1,0 +1,63 @@
+module.exports = {
+  name: 'zhinengabc',
+  name1: '智能',
+  name2: 'ABC',
+  tableName: '零声母',
+  row1: [
+    { alphabet: 'Q', yun1: 'ei' },
+    { alphabet: 'W', yun1: 'ian' },
+    { alphabet: 'E', sheng: 'ch', yun1: 'e' },
+    { alphabet: 'R', yun1: 'er', yun2: 'iu' },
+    { alphabet: 'T', yun1: 'iang', yun2: 'uang' },
+    { alphabet: 'Y', yun1: 'ing' },
+    { alphabet: 'U', yun1: 'u' },
+    { alphabet: 'I', yun1: 'i' },
+    { alphabet: 'O', yun1: 'o', yun2: 'uo' },
+    { alphabet: 'P', yun1: 'uan' },
+  ],
+  row2: [
+    { alphabet: 'A', sheng: 'zh', yun1: 'a' },
+    { alphabet: 'S', yun1: 'iong', yun2: 'ong' },
+    { alphabet: 'D', yun1: 'ia', yun2: 'ua' },
+    { alphabet: 'F', yun1: 'en' },
+    { alphabet: 'G', yun1: 'eng' },
+    { alphabet: 'H', yun1: 'ang' },
+    { alphabet: 'J', yun1: 'an' },
+    { alphabet: 'K', yun1: 'ao' },
+    { alphabet: 'L', yun1: 'ai' },
+    { alphabet: ';' },
+  ],
+  row3: [
+    { alphabet: 'Z', yun1: 'iao' },
+    { alphabet: 'X', yun1: 'ie' },
+    { alphabet: 'C', yun1: 'in', yun2: 'uai' },
+    { alphabet: 'V', sheng: 'sh', yun1: 'v', yun2: 've' },
+    { alphabet: 'B', yun1: 'ou' },
+    { alphabet: 'N', yun1: 'un' },
+    { alphabet: 'M', yun1: 'ue', yun2: 'ui' },
+  ],
+  table1: [
+    { yun: 'a', bianma: 'oa' },
+    { yun: 'ai', bianma: 'ol' },
+    { yun: 'an', bianma: 'oj' },
+    { yun: 'ang', bianma: 'oh' },
+    { yun: 'ao', bianma: 'ok' },
+  ],
+  table2: [
+    { yun: 'e', bianma: 'oe' },
+    { yun: 'ei', bianma: 'oq' },
+    { yun: 'en', bianma: 'of' },
+    { yun: 'eng', bianma: 'og' },
+    { yun: 'er', bianma: 'or' },
+  ],
+  table3: [
+    { yun: 'o', bianma: 'oo' },
+    { yun: 'ou', bianma: 'ob' },
+  ],
+  const: {
+    name2StartX: 1672,
+  },
+  hant: {
+    tableName: '零聲母',
+  }
+}

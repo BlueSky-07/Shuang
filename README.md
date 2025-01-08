@@ -1,7 +1,7 @@
 Shuang | 双拼练习
 ----
 
-v5.20 2024.12.30 更新
+v6.0 2025.01.08 更新
 
 ### 许可
 
@@ -35,7 +35,7 @@ v5.20 2024.12.30 更新
 
 3. 按键 & 界面按钮说明：
 
-    > 空格键【Space】 / 回车键【Enter / Return】/ 对错按钮：正确时切换下一个 / 错误时清空输入
+    > 空格键【Space】 / 回车键【Enter / Return】/ 对错符号：正确时切换下一个 / 错误时清空输入
     >
     > 退出键【Esc】：清空输入
     >
@@ -47,7 +47,7 @@ v5.20 2024.12.30 更新
 
     > 手机上使用：请切换至系统自带英文键盘以获得最佳输入体验，竖屏操作以获得最佳友好界面，支持键盘模拟
     >
-    > 电脑上使用：推荐使用 [Chrome 浏览器](https://www.google.cn/chrome)，支持较高版本的 IE （不保证后续更新仍支持）
+    > 电脑上使用：推荐使用 [Chrome 浏览器](https://www.google.cn/chrome)，支持 IE 9/10/11 （不保证后续更新仍支持）
 
 6. 其他：
 
@@ -60,33 +60,42 @@ v5.20 2024.12.30 更新
     > 支持显示实时按键
     >
     > 支持键盘模拟
+    >
+    > 支持修改键盘布局
+    >
+    > 支持切换繁体
+    >
+    > 支持显示注音符号
 
 ### 添加自定义双拼方案
 
-参见其他已有方案自行增加、修改文件即可
+1. 在 [keyboard/scheme](keyboard/scheme/) 下新增一套键位图配置
+2. 运行 `npm run build:svg` 渲染出 svg/png 图片，导出到 [img/](img) 下
+3. 在 [src/scheme](src/scheme) 下新增一套拼音映射方案配置
+4. 修改 [src/scheme-list.js](src/scheme-list.js)，添加新方案的名称
+5. 运行 `npm run debug` 来调试开发
+6. 运行 `npm run build` 来构建产物
+7. 提交代码
 
 ### 开发流程
 
-1. 修改 [src/*.js](src) 下的源码，如果有键位图的更新记得更新 [键位图](resources/双拼键位图.xlsx)，并导出到 [img/](img) 下
-2. 运行 `npm run debug` 来调试
-3. 运行 `npm run build` 来打包
+1. 修改 [src/*.js](src) 下的源码
+2. 运行 `npm run debug` 来调试开发
+3. 运行 `npm run build` 来构建产物
 4. 提交代码
+
+### 修改键位图
+
+1. 修改 [keyboard/scheme/*.js](keyboard/scheme/) 键位图配置
+2. 运行 `npm run build:svg` 渲染出 svg/png 图片，导出到 [img/](img) 下
+
+*Web 版键位图如果不能正常显示（如内容排版错乱或重叠），请尝试更新使用最新版 [Chrome 浏览器](https://www.google.cn/chrome)，或换用更高分辨率的屏幕*
 
 ### 联系
 
 如果有疑问 / 建议，或发现了错误，请在 Issues 中留言，也可与我邮件联系：[admin@ihint.me](mailto:admin@ihint.me)
 
 更多介绍：[https://sspai.com/post/40185](https://sspai.com/post/40185)
-
-### 键位图
-
-1. [resources/双拼键位图.xlsx](resources/双拼键位图.xlsx) ：可编辑的 Excel 键位图表格
-
-2. [img/*.png](img)：从上述表格中导出的 png 图片
-
-3. 也可在此查看包含 Dvorak 键盘布局的键位图：[https://api.ihint.me/keyboard](https://api.ihint.me/keyboard)
-
-*Web 版键位图如果不能正常显示（如内容排版错乱或重叠），请尝试更新使用最新版 [Chrome 浏览器](https://www.google.cn/chrome)，或换用更高分辨率的屏幕*
 
 ### 微信小程序版
 
@@ -135,3 +144,9 @@ v5.20 2024.12.30 更新
 外接键盘下同样生效：
 
 ![iOS原生自然码+外接键盘](assets/iOS-ziranma.gif)
+
+### 键位图字体来源
+
+- 方正仿宋：https://www.foundertype.com/index.php/FontInfo/index/id/128
+
+- Inter：https://github.com/rsms/inter

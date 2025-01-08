@@ -1,0 +1,63 @@
+module.exports = {
+  name: 'ziranma',
+  name1: '自然码',
+  tableName: '零声母',
+  row1: [
+    { alphabet: 'Q', yun1: 'iu' },
+    { alphabet: 'W', yun1: 'ia', yun2: 'ua' },
+    { alphabet: 'E', yun1: 'e' },
+    { alphabet: 'R', yun1: 'uan' },
+    { alphabet: 'T', yun1: 'ue', yun2: 've' },
+    { alphabet: 'Y', yun1: 'ing', yun2: 'uai' },
+    { alphabet: 'U', sheng: 'sh', yun1: 'u' },
+    { alphabet: 'I', sheng: 'ch', yun1: 'i' },
+    { alphabet: 'O', yun1: 'o', yun2: 'uo' },
+    { alphabet: 'P', yun1: 'un' },
+  ],
+  row2: [
+    { alphabet: 'A', yun1: 'a' },
+    { alphabet: 'S', yun1: 'iong', yun2: 'ong' },
+    { alphabet: 'D', yun1: 'iang', yun2: 'uang' },
+    { alphabet: 'F', yun1: 'en' },
+    { alphabet: 'G', yun1: 'eng' },
+    { alphabet: 'H', yun1: 'ang' },
+    { alphabet: 'J', yun1: 'an' },
+    { alphabet: 'K', yun1: 'ao' },
+    { alphabet: 'L', yun1: 'ai' },
+    { alphabet: ';' },
+  ],
+  row3: [
+    { alphabet: 'Z', yun1: 'ei' },
+    { alphabet: 'X', yun1: 'ie' },
+    { alphabet: 'C', yun1: 'iao' },
+    { alphabet: 'V', sheng: 'zh', yun1: 'ui', yun2: 'v' },
+    { alphabet: 'B', yun1: 'ou' },
+    { alphabet: 'N', yun1: 'in' },
+    { alphabet: 'M', yun1: 'ian' },
+  ],
+  table1: [
+    { yun: 'a', bianma: 'aa' },
+    { yun: 'ai', bianma: 'ai' },
+    { yun: 'an', bianma: 'an' },
+    { yun: 'ang', bianma: 'ah' },
+    { yun: 'ao', bianma: 'ao' },
+  ],
+  table2: [
+    { yun: 'e', bianma: 'ee' },
+    { yun: 'ei', bianma: 'ei' },
+    { yun: 'en', bianma: 'en' },
+    { yun: 'eng', bianma: 'eg' },
+    { yun: 'er', bianma: 'er' },
+  ],
+  table3: [
+    { yun: 'o', bianma: 'oo' },
+    { yun: 'ou', bianma: 'ou' },
+  ],
+  const: {
+    name1StartX: 1622,
+  },
+  hant: {
+    name1: '自然碼',
+    tableName: '零聲母',
+  }
+}

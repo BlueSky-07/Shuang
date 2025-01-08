@@ -4,11 +4,11 @@ Shuang.core.keyboardLayout = class KeyboardLayout {
   static instance
   static canvas
   static context
-  static IMAGE_WIDTH = 1928
-  static IMAGE_HEIGHT = 820
+  static IMAGE_WIDTH = 1936
+  static IMAGE_HEIGHT = 828
   static CANVAS_ID ='keyboard-layout-canvas'
-  static CANVAS_WIDTH = 1928
-  static CANVAS_HEIGHT = 820
+  static CANVAS_WIDTH = 1936
+  static CANVAS_HEIGHT = 828
   static CANVAS_FILL_STYLE = '#ffffff'
   static KEYBOARD_AREA_HEIGHT = 600
   static NAME_AREA_START_X = 1600
@@ -16,19 +16,19 @@ Shuang.core.keyboardLayout = class KeyboardLayout {
   static NAME_AREA_WIDTH = 400
   static NAME_AREA_HEIGHT = 250
   static KEY_SIZE = 178
-  static KEY_BODY_START_X = 30
-  static KEY_BODY_START_Y = 30
-  static KEY_BODY_WIDTH = 170
-  static KEY_BODY_HEIGHT = 167
-  static KEY_BORDER_START_X = 27
-  static KEY_BORDER_START_Y = 27
-  static KEY_BORDER_WIDTH = 179
-  static KEY_BORDER_HEIGHT = 178
-  static KEY_BORDER_LINE_WIDTH = 3
+  static KEY_BODY_START_X = 35
+  static KEY_BODY_START_Y = 32
+  static KEY_BODY_WIDTH = 172
+  static KEY_BODY_HEIGHT = 172
+  static KEY_BORDER_START_X = 32
+  static KEY_BORDER_START_Y = 29
+  static KEY_BORDER_WIDTH = 178
+  static KEY_BORDER_HEIGHT = 177
+  static KEY_BORDER_STROKE_WIDTH = 3
   static KEY_BORDER_STROKE_STYLE = '#000000'
-  static KEY_UNDERSCORE_START_X = 28
-  static KEY_UNDERSCORE_START_Y = 48
-  static KEY_UNDERSCORE_WIDTH = 30
+  static KEY_UNDERSCORE_START_X = 24
+  static KEY_UNDERSCORE_START_Y = 52
+  static KEY_UNDERSCORE_WIDTH = 36
   static KEY_UNDERSCORE_HEIGHT = 6
   static KEY_UNDERSCORE_FILL_STYLE = '#000000'
 
@@ -140,29 +140,35 @@ Shuang.core.keyboardLayout = class KeyboardLayout {
       targetBodyStartX, targetBodyStartY, KeyboardLayout.KEY_BODY_WIDTH, KeyboardLayout.KEY_BODY_HEIGHT
     )
 
-    KeyboardLayout.context.beginPath()
-    KeyboardLayout.context.rect(targetBorderStartX, targetBorderStartY, KeyboardLayout.KEY_BORDER_WIDTH, KeyboardLayout.KEY_BORDER_HEIGHT)
-    KeyboardLayout.context.closePath()
-    KeyboardLayout.context.lineWidth = KeyboardLayout.KEY_BORDER_LINE_WIDTH
+    KeyboardLayout.context.lineWidth = KeyboardLayout.KEY_BORDER_STROKE_WIDTH
     KeyboardLayout.context.strokeStyle = KeyboardLayout.KEY_BORDER_STROKE_STYLE
-    KeyboardLayout.context.stroke()
+    KeyboardLayout.context.strokeRect(targetBorderStartX, targetBorderStartY, KeyboardLayout.KEY_BORDER_WIDTH, KeyboardLayout.KEY_BORDER_HEIGHT)
+    // debug
+    // KeyboardLayout.context.fillStyle = 'rgba(0, 0, 123, 0.3)'
+    // KeyboardLayout.context.fillRect(targetBodyStartX, targetBodyStartY, KeyboardLayout.KEY_BODY_WIDTH, KeyboardLayout.KEY_BODY_HEIGHT)
+
 
     if (this.keyboardStyle.fixUnderscore) {
       if ('fj'.split('').includes(key)) {
         this.drawUnderscore(targetRow, targetCol, KeyboardLayout.CANVAS_FILL_STYLE)
       }
       if (targetRow === 1 && [3, 6].includes(targetCol)) {
-        this.drawUnderscore(targetRow, targetCol, KeyboardLayout.KEY_UNDERSCORE_FILL_STYLE)
+        this.drawUnderscore(targetRow, targetCol, KeyboardLayout.KEY_UNDERSCORE_FILL_STYLE, key === 't' ? -3 : 0)
       }
     }
   }
 
-  drawUnderscore(targetRow = 0, targetCol = 0, fillStyle = '') {
+  drawUnderscore(targetRow = 0, targetCol = 0, fillStyle = '', widthDiff = 0) {
     const underscoreStartX = KeyboardLayout.KEY_BODY_START_X + KeyboardLayout.KEY_SIZE / 2 * targetRow + KeyboardLayout.KEY_SIZE * targetCol + KeyboardLayout.KEY_UNDERSCORE_START_X + (this.keyboardStyle.fixKeyStart ? -KeyboardLayout.KEY_SIZE / 2 : 0)
     const underscoreStartY = KeyboardLayout.KEY_BODY_START_Y + KeyboardLayout.KEY_SIZE * targetRow + KeyboardLayout.KEY_UNDERSCORE_START_Y
 
     KeyboardLayout.context.fillStyle = fillStyle
-    KeyboardLayout.context.fillRect(underscoreStartX, underscoreStartY, KeyboardLayout.KEY_UNDERSCORE_WIDTH, KeyboardLayout.KEY_UNDERSCORE_HEIGHT)
+    KeyboardLayout.context.fillRect(
+      underscoreStartX,
+      underscoreStartY,
+      KeyboardLayout.KEY_UNDERSCORE_WIDTH + widthDiff,
+      KeyboardLayout.KEY_UNDERSCORE_HEIGHT
+    )
   }
 
   drawTable() {
