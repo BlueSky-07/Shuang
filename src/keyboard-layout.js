@@ -1,4 +1,4 @@
-/** last changed: 2024.12.29 */
+/** last changed: 2024.1.8 */
 
 Shuang.core.keyboardLayout = class KeyboardLayout {
   static instance

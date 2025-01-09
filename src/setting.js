@@ -1,4 +1,4 @@
-/** last changed: 2024.12.30 */
+/** last changed: 2024.1.9 */
 
 Shuang.app.setting = {
   config: {},
@@ -15,9 +15,10 @@ Shuang.app.setting = {
       showKeys: readStorage("showKeys") || "true",
       showPressedKey: readStorage("showPressedKey") || "true",
       disableMobileKeyboard: readStorage("disableMobileKeyboard") || "false",
+      bopomofo: readStorage("bopomofo") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard } = this.config
+    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard, bopomofo } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -30,6 +31,7 @@ Shuang.app.setting = {
     $('#show-keys').checked = showKeys === 'true'
     $('#show-pressed-key').checked = showPressedKey === 'true'
     $('#disable-mobile-keyboard').checked = disableMobileKeyboard === 'true'
+    $('#bopomofo-switcher').checked = bopomofo === 'true'
     /** Applying Settings :: Invoking Actions  **/
     this.setKeyboardLayout(Shuang.resource.keyboardLayoutList[keyboardLayout])
     this.setScheme(Shuang.resource.schemeList[scheme], false)
@@ -41,6 +43,7 @@ Shuang.app.setting = {
     this.setShowKeys(showKeys)
     this.setShowPressedKey(showPressedKey)
     this.setDisableMobileKeyboard(disableMobileKeyboard)
+    this.setBopomofo(bopomofo)
   },
   setScheme(schemeName, next = true) {
     this.config.scheme = Object.keys(Shuang.resource.schemeList)[
@@ -117,9 +120,25 @@ Shuang.app.setting = {
     }
     writeStorage('disableMobileKeyboard', this.config.disableMobileKeyboard)
   },
+  setBopomofo(bool) {
+    this.config.bopomofo = bool.toString()
+    this.updateQAndDict()
+    this.updateKeyboardLayout()
+    this.updateKeysHint()
+    writeStorage('bopomofo', this.config.bopomofo)
+  },
+  updateQAndDict() {
+    $('#q').innerText = this.config.bopomofo === 'false'
+      ? Shuang.core.current.view.sheng + Shuang.core.current.view.yun
+      : Shuang.resource.bopomofo[Shuang.core.current.view.sheng.toLowerCase()][Shuang.core.current.view.yun]
+    $('#dict').innerText = this.config.bopomofo === 'false'
+      ? Shuang.core.current.dict
+      : Shuang.resource.dictHant[Shuang.core.current.view.sheng.toLowerCase()][Shuang.core.current.view.yun]
+  },
   updateKeysHint() {
     if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
     this.updateSimulateKeyboard()
+    this.updateKeysHintLayoutRatio()
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('answer')
@@ -135,25 +154,36 @@ Shuang.app.setting = {
         key.classList.add('answer')
       }
     }
-    this.updateKeysHintLayoutRatio()
   },
   updateKeysHintLayoutRatio() {
     if ($('body').scrollWidth < 700) {
       const width = $('body').scrollWidth === 310 ? 310 : $('#pic').scrollWidth
       const ratio = 1874 / 1928 * width / 680
       if (ratio < 1) {
-        $('#keys').style.zoom = ratio
+        if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
+          // Firefox 不支持 zoom
+          $('#keys').style.transform = `scale(${ratio})`
+          $('#keys').style.transformOrigin = `left top`
+        } else {
+          $('#keys').style.zoom = ratio
+        }
         return
       }
     }
-    $('#keys').style.zoom = 'unset'
+    if (navigator && navigator.userAgent && /firefox/i.test(navigator.userAgent)) {
+      $('#keys').style.transform = 'unset'
+      $('#keys').style.transformOrigin = 'unset'
+    } else {
+      $('#keys').style.zoom = 'unset'
+    }
   },
   updatePressedKeyHint(k) {
     if (this.config.showPressedKey === 'false' || !k) return
+    this.updateKeysHintLayoutRatio()
     const keys = $$('.key')
     for (const key of keys) {
       key.classList.remove('pressed')
-      if (key.getAttribute('key').toLowerCase() === k) {
+      if (key.getAttribute('key') && key.getAttribute('key').toLowerCase() === k) {
         key.classList.add('pressed')
         setTimeout(() => {
           key.classList.remove('pressed')
@@ -187,7 +217,7 @@ Shuang.app.setting = {
   },
   updateKeyboardLayout() {
     if (this.config.keyboardLayout === 'qwerty') {
-      $('#pic').setAttribute('src', `img/${this.config.scheme}.svg`)
+      $('#pic').setAttribute('src', `img/${this.config.scheme}${this.config.bopomofo === 'true' ? '.bopomofo' : ''}.svg`)
       $('#keys').classList.remove('fix-left')
       this.updateSimulateKeyboard()
       this.updateKeysHint()
@@ -195,7 +225,7 @@ Shuang.app.setting = {
     }
     if (!Shuang.resource.keyboardLayout[this.config.keyboardLayout]) return
     Shuang.core.keyboardLayout.init(
-      `img/${this.config.scheme}.png`, // svg 在 IE 浏览器下有 Security Error
+      `img/${this.config.scheme}${this.config.bopomofo === 'true' ? '.bopomofo' : ''}.png`, // svg 在 IE 浏览器下有 Security Error
       Shuang.resource.keyboardLayout[this.config.keyboardLayout],
       (url) => {
         const imgSrc = $('#pic').getAttribute('src')

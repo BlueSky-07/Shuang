@@ -1,7 +1,7 @@
 Shuang | 双拼练习
 ----
 
-v6.0 2025.01.08 更新
+v6.0 2025.01.09 更新
 
 ### 许可
 
@@ -63,19 +63,18 @@ v6.0 2025.01.08 更新
     >
     > 支持修改键盘布局
     >
-    > 支持切换繁体
-    >
-    > 支持显示注音符号
+    > 支持显示注音符号+繁体汉字
 
 ### 添加自定义双拼方案
 
 1. 在 [keyboard/scheme](keyboard/scheme/) 下新增一套键位图配置
-2. 运行 `npm run build:svg` 渲染出 svg/png 图片，导出到 [img/](img) 下
-3. 在 [src/scheme](src/scheme) 下新增一套拼音映射方案配置
-4. 修改 [src/scheme-list.js](src/scheme-list.js)，添加新方案的名称
-5. 运行 `npm run debug` 来调试开发
-6. 运行 `npm run build` 来构建产物
-7. 提交代码
+2. 修改 [keyboard/scheme.js](keyboard/scheme.js)，添加新方案的名称
+3. 运行 `npm run build:svg` 渲染出 svg/png 图片，导出到 [img/](img) 下
+4. 在 [src/scheme](src/scheme) 下新增一套拼音映射方案配置
+5. 修改 [src/scheme-list.js](src/scheme-list.js)，添加新方案的名称
+6. 运行 `npm run debug` 来调试开发
+7. 运行 `npm run build` 来构建产物
+8. 提交代码
 
 ### 开发流程
 

@@ -1,4 +1,4 @@
-/** last changed: 2025.1.1 */
+/** last changed: 2025.1.9 */
 
 body {
   margin: 0 auto;
@@ -27,7 +27,20 @@ body {
 
 .header .menu {
   padding: 5px 10px;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header #more-settings-switcher {
+  cursor: pointer;
+  color: #444;
+  font-weight: 500;
+}
+
+.header #more-settings-switcher:hover {
+  color: #000;
+  text-decoration: underline dashed;
 }
 
 .menu .title {

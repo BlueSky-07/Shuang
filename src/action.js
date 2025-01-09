@@ -1,4 +1,4 @@
-/** last changed: 2024.12.30 */
+/** last changed: 2025.1.9 */
 
 Shuang.app.action = {
   init() {
@@ -53,8 +53,6 @@ Shuang.app.action = {
 
     /** Setting First Question **/
     Shuang.core.current = new Shuang.core.model('sh', 'uang')
-    $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
-    $('#dict').innerText = Shuang.core.current.dict
 
     /** Reset Configs **/
     Shuang.app.setting.reload()
@@ -75,8 +73,14 @@ Shuang.app.action = {
     $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
     })
+    $('#show-keys').addEventListener('change', e => {
+      Shuang.app.setting.setShowKeys(e.target.checked)
+    })
     $('#dark-mode-switcher').addEventListener('change', e => {
       Shuang.app.setting.setDarkMode(e.target.checked)
+    })
+    $('#more-settings-switcher').addEventListener('click', e => {
+      Shuang.app.action.toggleMoreSettingsVisible()
     })
     $('#auto-next-switcher').addEventListener('change', e => {
       Shuang.app.setting.setAutoNext(e.target.checked)
@@ -84,14 +88,14 @@ Shuang.app.action = {
     $('#auto-clear-switcher').addEventListener('change', e => {
       Shuang.app.setting.setAutoClear(e.target.checked)
     })
-    $('#show-keys').addEventListener('change', e => {
-      Shuang.app.setting.setShowKeys(e.target.checked)
-    })
     $('#show-pressed-key').addEventListener('change', e => {
       Shuang.app.setting.setShowPressedKey(e.target.checked)
     })
     $('#disable-mobile-keyboard').addEventListener('change', e => {
       Shuang.app.setting.setDisableMobileKeyboard(e.target.checked)
+    })
+    $('#bopomofo-switcher').addEventListener('change', e => {
+      Shuang.app.setting.setBopomofo(e.target.checked)
     })
     $('.pay-name#alipay').addEventListener('mouseover', () => {
       Shuang.app.action.qrShow('alipay-qr')
@@ -144,6 +148,7 @@ Shuang.app.action = {
     }
 
     /** All Done **/
+    Shuang.app.setting.updateQAndDict()
     this.redo()
   },
   keyPressed(e) {
@@ -226,10 +231,9 @@ Shuang.app.action = {
     }
     if (Shuang.core.history.includes(Shuang.core.current.sheng + Shuang.core.current.yun)) this.next()
     else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
-    $('#q').innerText = Shuang.core.current.view.sheng + Shuang.core.current.view.yun
-    $('#dict').innerText = Shuang.core.current.dict
 
     // Update Keys Hint
+    Shuang.app.setting.updateQAndDict()
     Shuang.core.current.beforeJudge()
     Shuang.app.setting.updateKeysHint()
   },
@@ -238,5 +242,9 @@ Shuang.app.action = {
   },
   qrHide(target) {
     target.style.display = 'none'
+  },
+  toggleMoreSettingsVisible() {
+    $('#more-settings').style.display = $('#more-settings').style.display === 'block' ? 'none' : 'block'
+    $('#more-settings-switcher') .innerText = $('#more-settings').style.display === 'block' ? '收起更多' : '展开更多'
   }
 }
