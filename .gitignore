@@ -9,3 +9,4 @@ package-lock.json
 
 # Release
 dist
+build/
