@@ -102,6 +102,28 @@ body {
   cursor: pointer;
 }
 
+/* favorite */
+#favorite-toggle {
+  margin-left: 10px;
+}
+
+#favorite-panel .menu button {
+  height: 26px;
+  cursor: pointer;
+}
+
+#favorite-list .fav-item {
+  display: inline-block;
+  border: dashed #999 1px;
+  padding: 2px 6px;
+  margin: 2px 4px;
+  cursor: pointer;
+}
+
+#favorite-panel input[type="file"] {
+  height: 22px;
+}
+
 .workspace .col .row input {
   width: 75px;
   font-size: 36px;

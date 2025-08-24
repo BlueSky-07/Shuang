@@ -7,8 +7,10 @@ Shuang.app.setting = {
     this.config = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
+      lastNormalMode: readStorage('lastNormalMode') || 'all-random',
       keyboardLayout: readStorage('keyboardLayout') || 'qwerty',
       showPic: readStorage('showPic') || 'true',
+      showPinyin: readStorage('showPinyin') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
@@ -18,7 +20,7 @@ Shuang.app.setting = {
       bopomofo: readStorage("bopomofo") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard, bopomofo } = this.config
+    const { scheme, mode, keyboardLayout, showPic, showPinyin, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard, bopomofo } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -26,6 +28,7 @@ Shuang.app.setting = {
     $('#keyboard-layout-select')[Object.keys(Shuang.resource.keyboardLayoutList).indexOf(keyboardLayout)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
+    $('#show-pinyin').checked = showPinyin === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
     $('#show-keys').checked = showKeys === 'true'
@@ -37,6 +40,7 @@ Shuang.app.setting = {
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
+    this.setShowPinyin(showPinyin)
     this.setDarkMode(darkMode)
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
@@ -70,10 +74,19 @@ Shuang.app.setting = {
         } else {
           $('#q').style.display = 'block'
         }
+        // 记录最近一次的“正常模式”（非收藏练习）
+        if (mode !== 'favorites') {
+          this.config.lastNormalMode = mode
+          writeStorage('lastNormalMode', this.config.lastNormalMode)
+        }
         break
       }
     }
     writeStorage('mode', this.config.mode)
+    // 切换模式时刷新收藏指示
+    if (Shuang.app && Shuang.app.action && Shuang.app.action.updateFavoriteIndicator) {
+      Shuang.app.action.updateFavoriteIndicator()
+    }
   },
   setPicVisible(bool) {
     this.config.showPic = bool.toString()
@@ -84,6 +97,16 @@ Shuang.app.setting = {
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
+  },
+  setShowPinyin(bool) {
+    this.config.showPinyin = bool.toString()
+    const q = $('#q')
+    if (this.config.showPinyin === 'true') {
+      q.style.visibility = 'visible'
+    } else {
+      q.style.visibility = 'hidden'
+    }
+    writeStorage('showPinyin', this.config.showPinyin)
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()

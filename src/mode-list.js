@@ -12,5 +12,8 @@ Shuang.app.modeList = {
   },
   'hard-random-without-pinyin': {
     name: '无拼音', desc: '无拼音提示'
+  },
+  'favorites': {
+    name: '收藏练习', desc: '只练已收藏内容'
   }
 }
