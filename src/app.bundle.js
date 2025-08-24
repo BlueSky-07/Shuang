@@ -34,7 +34,98 @@ const Shuang = {
     },
     importedJS: [],
     modeList: [],
-    action: {}
+    action: {},
+    favorites: {
+      storageKey: 'favorites',
+      list: [],
+      practiceIndex: 0,
+      load() {
+        try {
+          const raw = localStorage.getItem(this.storageKey)
+          this.list = Array.isArray(JSON.parse(raw)) ? JSON.parse(raw) : []
+        } catch (e) {
+          this.list = []
+        }
+      },
+      save() {
+        try { localStorage.setItem(this.storageKey, JSON.stringify(this.list)) } catch (e) {}
+      },
+      getModelByCode(code = '') {
+        if (!code || typeof code !== 'string') return null
+        const dictList = Shuang.resource.dict
+        if (!dictList || !dictList.list) return null
+        for (const s of dictList.list) {
+          if (code.startsWith(s)) {
+            const y = code.slice(s.length)
+            if (dictList[s] && dictList[s][y]) {
+              return new Shuang.core.model(s, y)
+            }
+          }
+        }
+        return null
+      },
+      validate(code = '') { return !!this.getModelByCode(code) },
+      has(code = '') { return this.list.includes(code) },
+      add(code = '') {
+        if (!code) return
+        if (!this.has(code)) {
+          this.list.push(code)
+          this.save()
+        }
+      },
+      merge(codes = []) {
+        if (!Array.isArray(codes)) return
+        const exists = new Set(this.list)
+        for (let c of codes) {
+          if (!c || typeof c !== 'string') continue
+          c = c.toLowerCase()
+          if (this.validate(c) && !exists.has(c)) {
+            exists.add(c)
+            this.list.push(c)
+          }
+        }
+        this.save()
+      },
+      replace(codes = []) {
+        if (!Array.isArray(codes)) return
+        const next = []
+        const seen = new Set()
+        for (let c of codes) {
+          if (!c || typeof c !== 'string') continue
+          c = c.toLowerCase()
+          if (this.validate(c) && !seen.has(c)) {
+            seen.add(c)
+            next.push(c)
+          }
+        }
+        this.list = next
+        this.save()
+      },
+      resetPractice() { this.practiceIndex = 0 },
+      exportJson() { return JSON.stringify(this.list) },
+      importFromJson(json = '[]') {
+        try {
+          const data = JSON.parse(json)
+          if (Array.isArray(data)) this.merge(data)
+        } catch (e) {}
+      },
+      importFromText(text = '') {
+        if (!text) return
+        const arr = text.toLowerCase().split(/[^a-z]+/).filter(Boolean)
+        this.merge(arr)
+      },
+      remove(code = '') {
+        if (!code) return
+        const i = this.list.indexOf(code)
+        if (i >= 0) {
+          this.list.splice(i, 1)
+          this.save()
+          if (this.practiceIndex >= this.list.length) this.practiceIndex = 0
+        }
+      },
+      toggle(code = '') { this.has(code) ? this.remove(code) : this.add(code) },
+      clear() { this.list = []; this.practiceIndex = 0; this.save() },
+    }
   },
 }
 
@@ -643,6 +734,9 @@ Shuang.app.modeList = {
   },
   'hard-random-without-pinyin': {
     name: '无拼音', desc: '无拼音提示'
+  },
+  'favorites': {
+    name: '收藏练习', desc: '只练已收藏内容'
   }
 }
 /******************** EOF mode-list.js ************************/
@@ -943,8 +1037,10 @@ Shuang.app.setting = {
     this.config = {
       scheme: readStorage('scheme') || 'ziranma',
       mode: readStorage('mode') || 'all-random',
+      lastNormalMode: readStorage('lastNormalMode') || 'all-random',
       keyboardLayout: readStorage('keyboardLayout') || 'qwerty',
       showPic: readStorage('showPic') || 'true',
+      showPinyin: readStorage('showPinyin') || 'true',
       darkMode: readStorage('darkMode') || detectDarkMode().toString(),
       autoNext: readStorage('autoNext') || 'true',
       autoClear: readStorage('autoClear') || 'true',
@@ -954,7 +1050,7 @@ Shuang.app.setting = {
       bopomofo: readStorage("bopomofo") || "false",
     }
     /** Applying Settings :: Changing UI **/
-    const { scheme, mode, keyboardLayout, showPic, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard, bopomofo } = this.config
+    const { scheme, mode, keyboardLayout, showPic, showPinyin, darkMode, autoNext, autoClear, showKeys, showPressedKey, disableMobileKeyboard, bopomofo } = this.config
     Array.prototype.find.call($('#scheme-select').children,
       schemeOption => Shuang.resource.schemeList[scheme].startsWith(schemeOption.innerText)
     ).selected = true
@@ -962,6 +1058,7 @@ Shuang.app.setting = {
     $('#keyboard-layout-select')[Object.keys(Shuang.resource.keyboardLayoutList).indexOf(keyboardLayout)].selected = true
     $('#pic-switcher').checked = showPic === 'true'
     $('#dark-mode-switcher').checked = darkMode === 'true'
+    $('#show-pinyin').checked = showPinyin === 'true'
     $('#auto-next-switcher').checked = autoNext === 'true'
     $('#auto-clear-switcher').checked = autoClear === 'true'
     $('#show-keys').checked = showKeys === 'true'
@@ -973,6 +1070,7 @@ Shuang.app.setting = {
     this.setScheme(Shuang.resource.schemeList[scheme], false)
     this.setMode(Shuang.app.modeList[mode].name)
     this.setPicVisible(showPic)
+    this.setShowPinyin(showPinyin)
     this.setDarkMode(darkMode)
     this.setAutoNext(autoNext)
     this.setAutoClear(autoClear)
@@ -1006,10 +1104,19 @@ Shuang.app.setting = {
         } else {
           $('#q').style.display = 'block'
         }
+        // 记录最近一次的“正常模式”（非收藏练习）
+        if (mode !== 'favorites') {
+          this.config.lastNormalMode = mode
+          writeStorage('lastNormalMode', this.config.lastNormalMode)
+        }
         break
       }
     }
     writeStorage('mode', this.config.mode)
+    // 切换模式时刷新收藏指示
+    if (Shuang.app && Shuang.app.action && Shuang.app.action.updateFavoriteIndicator) {
+      Shuang.app.action.updateFavoriteIndicator()
+    }
   },
   setPicVisible(bool) {
     this.config.showPic = bool.toString()
@@ -1020,6 +1127,16 @@ Shuang.app.setting = {
     }
     writeStorage('showPic', this.config.showPic)
     this.updateKeysHintLayoutRatio()
+  },
+  setShowPinyin(bool) {
+    this.config.showPinyin = bool.toString()
+    const q = $('#q')
+    if (this.config.showPinyin === 'true') {
+      q.style.visibility = 'visible'
+    } else {
+      q.style.visibility = 'hidden'
+    }
+    writeStorage('showPinyin', this.config.showPinyin)
   },
   setDarkMode(bool) {
     this.config.darkMode = bool.toString()
@@ -1267,6 +1384,9 @@ Shuang.app.action = {
       Shuang.app.setting.setKeyboardLayout(value)
     })
 
+    /** Favorites **/
+    Shuang.app.favorites.load()
+
     /** Setting First Question **/
     Shuang.core.current = new Shuang.core.model('sh', 'uang')
 
@@ -1286,6 +1406,15 @@ Shuang.app.action = {
     document.addEventListener('keyup', e => {
       this.keyPressed(e)
     })
+    // Favorite toggle: Ctrl/Cmd + D
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault()
+        const code = Shuang.core.current.sheng + Shuang.core.current.yun
+        Shuang.app.favorites.toggle(code)
+        this.updateFavoriteIndicator()
+      }
+    })
     $('#pic-switcher').addEventListener('change', e => {
       Shuang.app.setting.setPicVisible(e.target.checked)
     })
@@ -1294,6 +1423,9 @@ Shuang.app.action = {
     })
     $('#dark-mode-switcher').addEventListener('change', e => {
       Shuang.app.setting.setDarkMode(e.target.checked)
+    })
+    $('#show-pinyin').addEventListener('change', e => {
+      Shuang.app.setting.setShowPinyin(e.target.checked)
     })
     $('#more-settings-switcher').addEventListener('click', e => {
       Shuang.app.action.toggleMoreSettingsVisible()
@@ -1343,8 +1475,10 @@ Shuang.app.action = {
     $('#dict').addEventListener('click', () => {
       Shuang.core.current.beforeJudge()
       $('#a').value = Shuang.core.current.scheme.values().next().value
-      this.judge()
+      this.judge(false)
     })
+    const favOpenBtn = $('#favorite-open')
+    if (favOpenBtn) favOpenBtn.addEventListener('click', () => this.toggleFavoritePanel())
     window.addEventListener('resize', Shuang.app.setting.updateKeysHintLayoutRatio)
     window.resizeTo(window.outerWidth, window.outerHeight)
 
@@ -1366,6 +1500,9 @@ Shuang.app.action = {
     /** All Done **/
     Shuang.app.setting.updateQAndDict()
     this.redo()
+    this.ensureFavoriteUI()
+    this.updateFavoriteIndicator()
+    this.ensureFavoritePanel()
   },
   keyPressed(e) {
     switch (e.key) {
@@ -1375,11 +1512,11 @@ Shuang.app.action = {
       case 'Tab':
         Shuang.core.current.beforeJudge()
         $('#a').value = Shuang.core.current.scheme.values().next().value
-        this.judge()
+        this.judge(false)
         break
       case 'Enter':
       case ' ':
-        if (this.judge()) {
+        if (this.judge(true)) {
           this.next()
         } else {
           this.redo()
@@ -1397,7 +1534,7 @@ Shuang.app.action = {
           .join('')
         Shuang.app.setting.updatePressedKeyHint(e.key)
         const canAuto = $('#a').value.length === 2
-        const isRight = this.judge()
+        const isRight = this.judge(false)
         if (canAuto) {
           if (isRight && Shuang.app.setting.config.autoNext === 'true') {
             this.next(e.simulated)
@@ -1407,7 +1544,7 @@ Shuang.app.action = {
         }
     }
   },
-  judge() {
+  judge(onSubmit = false) {
     const input = $('#a')
     const btn = $('#btn')
     const [sheng, yun] = input.value
@@ -1418,6 +1555,7 @@ Shuang.app.action = {
     } else {
       btn.onclick = () => this.redo(true)
       btn.innerText = Shuang.resource.emoji.wrong
+      // 不再自动加入收藏，仅手动（Ctrl/Cmd + D 或点击 ☆）
       return false
     }
   },
@@ -1444,14 +1582,74 @@ Shuang.app.action = {
           Shuang.core.current = Shuang.core.model.getHardRandom()
         } while (Array.isArray(Shuang.core.current.dict))
         break
+      case 'favorites': {
+        const list = Shuang.app.favorites.list
+        if (!list.length) {
+          const fallback = Shuang.app.setting.config.lastNormalMode || 'all-random'
+          Shuang.app.setting.setMode(Shuang.app.modeList[fallback].name)
+          Shuang.core.current = Shuang.core.model.getRandom()
+          break
+        }
+        const idx = Shuang.app.favorites.practiceIndex || 0
+        const code = list[Math.min(idx, list.length - 1)]
+        if (idx >= list.length - 1) {
+          alert('收藏练习已完成，将从头开始。')
+          Shuang.app.favorites.practiceIndex = 0
+        } else {
+          Shuang.app.favorites.practiceIndex = idx + 1
+        }
+        const picked = Shuang.app.favorites.getModelByCode(code)
+        Shuang.core.current = picked || Shuang.core.model.getRandom()
+        break
+      }
     }
-    if (Shuang.core.history.includes(Shuang.core.current.sheng + Shuang.core.current.yun)) this.next()
-    else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
+    // 收藏练习不参与历史去重
+    if (Shuang.app.setting.config.mode !== 'favorites') {
+      if (Shuang.core.history.includes(Shuang.core.current.sheng + Shuang.core.current.yun)) this.next()
+      else Shuang.core.history = [...Shuang.core.history, Shuang.core.current.sheng + Shuang.core.current.yun].slice(-100)
+    }
 
     // Update Keys Hint
     Shuang.app.setting.updateQAndDict()
     Shuang.core.current.beforeJudge()
     Shuang.app.setting.updateKeysHint()
+    this.updateFavoriteIndicator()
+  },
+  ensureFavoriteUI() {
+    if ($('#favorite-toggle')) return
+    const row = document.createElement('div')
+    row.classList.add('row')
+    const btn = document.createElement('span')
+    btn.setAttribute('id', 'favorite-toggle')
+    btn.classList.add('btn')
+    btn.title = '收藏/取消收藏（Ctrl/Cmd + D）'
+    btn.innerText = '☆'
+    btn.onclick = () => {
+      const code = Shuang.core.current.sheng + Shuang.core.current.yun
+      Shuang.app.favorites.toggle(code)
+      this.updateFavoriteIndicator()
+    }
+    const counter = document.createElement('span')
+    counter.setAttribute('id', 'favorite-counter')
+    counter.style.marginLeft = '6px'
+    counter.style.fontSize = '14px'
+    counter.style.color = '#777'
+    row.appendChild(btn)
+    row.appendChild(counter)
+    // 插入到输入框那一列下面
+    const cols = $$('.workspace .col')
+    if (cols && cols.length > 1) {
+      cols[1].appendChild(row)
+    }
+  },
+  updateFavoriteIndicator() {
+    const btn = $('#favorite-toggle')
+    const counter = $('#favorite-counter')
+    if (!btn || !counter) return
+    const code = Shuang.core.current.sheng + Shuang.core.current.yun
+    const isFav = Shuang.app.favorites.has(code)
+    btn.innerText = isFav ? '★' : '☆'
+    counter.innerText = `已收藏 ${Shuang.app.favorites.list.length}`
   },
   qrShow(targetId) {
     $('#' + targetId).style.display = 'block'
@@ -1462,6 +1660,110 @@ Shuang.app.action = {
   toggleMoreSettingsVisible() {
     $('#more-settings').style.display = $('#more-settings').style.display === 'block' ? 'none' : 'block'
     $('#more-settings-switcher') .innerText = $('#more-settings').style.display === 'block' ? '收起更多' : '展开更多'
+  }
+  ,
+  ensureFavoritePanel() {
+    if ($('#favorite-panel')) return
+    const panel = document.createElement('div')
+    panel.setAttribute('id', 'favorite-panel')
+    panel.classList.add('header')
+    panel.style.display = 'none'
+    panel.innerHTML = `
+      <div class="menu"><span class="title">收藏：</span></div>
+      <div class="menu"><button id="favorite-practice">开始收藏练习</button></div>
+      <div class="menu"><button id="favorite-clear">清空</button></div>
+      <div class="menu"><button id="favorite-export">导出</button></div>
+      <div class="menu"><label for="favorite-import" class="title">导入：</label><input id="favorite-import" type="file" accept=".json,.txt"></div>
+      <div class="menu"><span id="favorite-list"></span></div>
+    `
+    document.body.insertBefore(panel, document.querySelector('.workspace'))
+    // 事件
+    $('#favorite-practice').onclick = () => {
+      Shuang.app.favorites.resetPractice()
+      Shuang.app.setting.setMode(Shuang.app.modeList['favorites'].name)
+      this.next()
+      this.toggleFavoritePanel(false)
+    }
+    $('#favorite-clear').onclick = () => {
+      if (confirm('确定清空收藏？')) {
+        Shuang.app.favorites.clear()
+        this.updateFavoriteIndicator()
+        this.renderFavoriteList()
+      }
+    }
+    $('#favorite-export').onclick = () => {
+      const content = Shuang.app.favorites.exportJson()
+      const blob = new Blob([content], { type: 'application/json;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'favorites.json'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    }
+    $('#favorite-import').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0]
+      if (!file) return
+      const reader = new FileReader()
+      reader.onload = (ev) => {
+        const text = (ev.target && ev.target.result) || ''
+        if (file.name && file.name.toLowerCase().endsWith('.json')) {
+          Shuang.app.favorites.importFromJson(String(text))
+        } else {
+          Shuang.app.favorites.importFromText(String(text))
+        }
+        this.updateFavoriteIndicator()
+        this.renderFavoriteList()
+      }
+      reader.readAsText(file)
+      // 重置 input 以便连续导入同名文件
+      e.target.value = ''
+    })
+    // 键：Ctrl/Cmd + Shift + D 打开/关闭
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'd' || e.key === 'D')) {
+        e.preventDefault()
+        this.toggleFavoritePanel()
+      }
+    })
+  }
+  ,
+  toggleFavoritePanel(force) {
+    const panel = $('#favorite-panel')
+    if (!panel) return
+    if (typeof force === 'boolean') {
+      panel.style.display = force ? 'block' : 'none'
+    } else {
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block'
+    }
+    if (panel.style.display === 'block') this.renderFavoriteList()
+  }
+  ,
+  renderFavoriteList() {
+    const list = Shuang.app.favorites.list
+    const holder = $('#favorite-list')
+    if (!holder) return
+    holder.innerHTML = ''
+    if (!list.length) {
+      holder.innerText = '（空）'
+      return
+    }
+    const frag = document.createDocumentFragment()
+    for (const code of list) {
+      const item = document.createElement('span')
+      item.classList.add('fav-item')
+      item.innerText = code
+      item.title = '点击从收藏移除'
+      item.onclick = () => {
+        Shuang.app.favorites.remove(code)
+        this.renderFavoriteList()
+        this.updateFavoriteIndicator()
+      }
+      frag.appendChild(item)
+    }
+    holder.appendChild(frag)
   }
 }
 /******************** EOF action.js ************************/

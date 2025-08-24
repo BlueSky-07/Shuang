@@ -9,3 +9,5 @@ package-lock.json
 
 # Release
 dist
+build/
+.DS_Store
